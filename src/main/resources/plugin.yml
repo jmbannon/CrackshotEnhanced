@@ -1,0 +1,14 @@
+name: CrackShotEnhanced
+main: net.projectzombie.crackshot_enhanced.main.Main
+version: 1.0
+depend: [CrackShot]
+commands:
+  bw:
+    description: Memory used storing blocks.
+    usage: "Usage: /bw lore"
+  gunsmith:
+    description: Access the gunsmith at spawn to modify weapons.
+    usage: "/gunsmith"
+  gs:
+    description: Access the gunsmith at spawn to modify weapons.
+    usage: "/gs"
