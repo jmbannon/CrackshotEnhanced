@@ -20,11 +20,20 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>spigot-repo</id>
+            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
-            <groupId>Crackshot</groupId>
-            <artifactId>Crackshot</artifactId>
-          <version>1.0</version>
+            <groupId>com.shampaggon</groupId>
+            <artifactId>crackshot</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../dependencies/Crackshot.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -36,14 +45,9 @@
         <dependency>
             <groupId>net.projectzombie</groupId>
             <artifactId>BlockBuffer</artifactId>
-          <version>1.0-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.8.3-R0.1-SNAPSHOT</version>
-            <type>jar</type>
-            <scope>provided</scope>
+            <version>1.0-SNAPSHOT</version>
+            <scope>system</scope>
+            <systemPath>${basedir}/../BlockBuffer/target/BlockBuffer-1.0-SNAPSHOT.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
