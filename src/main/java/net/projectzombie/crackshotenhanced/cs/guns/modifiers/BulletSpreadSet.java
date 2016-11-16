@@ -24,7 +24,7 @@ public class BulletSpreadSet extends GunModifierSet<BulletSpreadAttributes>
     public BulletSpreadSet(final GunModifier[] gunMods,
                            final double skeletonBulletSpread)
     {
-        super("Bullet Spread");
+        super("Bullet Spread", BulletSpreadAttributes.class);
         this.bulletSpreadMultiplier = getBulletSpreadMultiplier(gunMods);
         this.totalBulletSpread = Math.max(MIN_BULLET_SPREAD, bulletSpreadMultiplier * skeletonBulletSpread);
         this.skeletonBulletSpread = skeletonBulletSpread;

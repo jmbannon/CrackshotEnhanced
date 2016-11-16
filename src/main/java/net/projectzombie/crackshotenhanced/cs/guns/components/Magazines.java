@@ -28,7 +28,7 @@ public class Magazines extends ModifierConfig<Magazine>
     }
 
     static private final ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);

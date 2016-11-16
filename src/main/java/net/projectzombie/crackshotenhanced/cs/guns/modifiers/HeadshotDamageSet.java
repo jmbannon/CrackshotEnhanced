@@ -21,7 +21,8 @@ public class HeadshotDamageSet extends DamageOnHit<HeadshotAttributes>
     {
         super("Headshot Damage",
               headshotDamageValueSum(modifiers),
-              headshotDamageMultiplierSum(modifiers));
+              headshotDamageMultiplierSum(modifiers),
+                HeadshotAttributes.class);
     }
     
     public HeadshotDamageSet(final GunModifier mod)

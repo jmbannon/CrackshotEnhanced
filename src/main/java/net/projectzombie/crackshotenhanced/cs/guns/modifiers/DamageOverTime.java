@@ -25,9 +25,10 @@ public abstract class DamageOverTime<T extends Modifier> extends GunModifierSet<
     public DamageOverTime(final String name,
                           final double totalDPS,
                           final double durationValue,
-                          final double durationMultiplier)
+                          final double durationMultiplier,
+                          final Class<T> t)
     {
-        super(name);
+        super(name, t);
         this.totalDPS = totalDPS;
         this.totalDuration = Math.max(0, durationValue * durationMultiplier);
         

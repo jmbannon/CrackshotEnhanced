@@ -181,6 +181,9 @@ public class HiddenGunInfo extends HiddenLoreInfo
      */
     public boolean isPreShot()
     {
+        System.out.println("IS VALID: " + this.isValid());
+        System.out.println("DUR CHECK: " + (this.getDurability() == PRESHOT_VER_DUR));
+        System.out.println("BUILD: " + this.getBuild().equals(PRESHOT_VER_BUILD));
         return this.isValid()
             && this.getDurability() == PRESHOT_VER_DUR
             && this.getBuild().equals(PRESHOT_VER_BUILD);

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
 import net.projectzombie.crackshotenhanced.cs.guns.components.ModifierLoreBuilder;
+import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.FireModeAttributes;
 
 /**
  *
@@ -21,7 +22,8 @@ public class FireDamageSet extends DamageOnHit<FireDamageAttributes>
     {
         super("Fire Damage",
               fireDamageValueSum(modifiers),
-              fireDamageMultiplierSum(modifiers));
+              fireDamageMultiplierSum(modifiers),
+                FireDamageAttributes.class);
     }
     
     public FireDamageSet(GunModifier mod)

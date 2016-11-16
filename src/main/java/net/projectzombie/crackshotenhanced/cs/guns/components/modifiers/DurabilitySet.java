@@ -28,7 +28,7 @@ public class DurabilitySet extends GunModifierSet<DurabilityAttributes>
     public DurabilitySet(final GunModifier[] gunMods,
                          final int skeletonMaxDurability)
     {
-        super("Durability");
+        super("Durability", DurabilityAttributes.class);
         this.durabilityMultiplier = getDurabilityMultiplier(gunMods);
         this.extraDurability = getDurabilityModifier(gunMods);
         this.skeletonDurability = skeletonMaxDurability;

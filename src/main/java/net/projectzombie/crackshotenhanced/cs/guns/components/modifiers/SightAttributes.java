@@ -21,9 +21,8 @@ package net.projectzombie.crackshotenhanced.cs.guns.components.modifiers;
  *
  * @author jesse
  */
-public interface ScopeAttributes extends SkeletonAttributes
+public interface SightAttributes extends SkeletonAttributes
 {
-
-    public int getZoomAmount();
-    public double getZoomBulletSpreadMultiplier();
+    int getZoomAmount();
+    double getZoomBulletSpreadMultiplier();
 }

@@ -23,9 +23,9 @@ public abstract class HiddenLoreInfo
      */
     public HiddenLoreInfo(final String[] info)
     {
-        this.info = new String[info.length];
+        this.info = new String[info.length + 1];
         this.info[0] = VERIFY;
-        System.arraycopy(info, 1, this.info, 1, info.length - 1);
+        System.arraycopy(info, 0, this.info, 1, info.length);
         this.isHiddenLore = true;
     }
     

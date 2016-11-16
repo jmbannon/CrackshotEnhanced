@@ -14,14 +14,15 @@ import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
  *
  * @author jb
  */
-public class ShrapnelDamageSet extends DamageOnHit
+public class ShrapnelDamageSet extends DamageOnHit<ShrapnelDamageAttributes>
 {
     
     public ShrapnelDamageSet(GunModifier[] modifiers)
     {
         super("Shrapnel Damage",
               getShrapnelDamageValue(modifiers),
-              getShrapnelDamageMultiplier(modifiers));
+              getShrapnelDamageMultiplier(modifiers),
+                ShrapnelDamageAttributes.class);
     }
     
     public ShrapnelDamageSet(GunModifier mod)

@@ -5,14 +5,12 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ScopeAttributes;
+import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Sights.Sight;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
-
-import java.util.HashMap;
 
 /**
  *
@@ -29,14 +27,14 @@ public class Sights extends ModifierConfig<Sight>
     }
 
     static private final ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Crackshot Zoom Amount", 0);
         defaultValues.put("Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Zoom Bulletspread Multiplier", 0.0);
+        defaultValues.put("Bullet spread Zoom Multiplier", 0.0);
         return defaultValues;
     }
 
@@ -58,7 +56,7 @@ public class Sights extends ModifierConfig<Sight>
                     values.getString("Color"),
                     values.getInt("Crackshot Zoom Amount"),
                     values.getDouble("Bullet Spread Multiplier"),
-                    values.getDouble("Zoom Bulletspread Multiplier")
+                    values.getDouble("Bullet spread Zoom Multiplier")
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add sight " + values.getString("Display Name"));
@@ -74,7 +72,7 @@ public class Sights extends ModifierConfig<Sight>
     }
     
     static public class Sight extends GunModifier implements BulletSpreadAttributes,
-            ScopeAttributes
+            SightAttributes
     {
         private final int zoomAmount;
         private final double bulletSpreadModifier;

@@ -29,21 +29,24 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
         return singleton;
     }
 
-    static private final ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
-        defaultValues.put("Projectile Amount ", 1);
+    static private ModifierMap buildDefaultValues() {
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
+        defaultValues.put("Projectile Amount", 1);
         defaultValues.put("Projectile Speed", 100);
         defaultValues.put("Projectile Range", 100);
         defaultValues.put("Inventory Control", null);
+        defaultValues.put("Firearm Action Name", null);
         return defaultValues;
     }
 
     static private final String YML_NAME = "WeaponTypes.yml";
     static private final String MODULE_NAME = "WeaponTypes";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Firearm Action Name", "Ammo Name", "Ammo ID", "Ammo Data"};
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Ammo Name", "Ammo ID", "Ammo Data"};
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private SkeletonTypes() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
+
+    @Override public SkeletonType getNullValue() { return null; }
 
     public SkeletonType buildModule(final int uniqueID, final ModifierMap values) {
         try {
@@ -60,7 +63,8 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
                     values.getString("Inventory Control")
             );
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add WeaponType " + values.getString("Display Name"));
+            Main.getPlugin().getLogger().warning("Cannot add WeaponType " + values.getString("Display Name") + ": " + e.toString());
+            e.printStackTrace();
             return null;
         }
     }

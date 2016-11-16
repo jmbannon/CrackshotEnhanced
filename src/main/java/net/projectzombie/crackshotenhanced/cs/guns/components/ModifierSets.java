@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 import net.projectzombie.crackshotenhanced.cs.guns.components.Magazines.Magazine;
 import net.projectzombie.crackshotenhanced.cs.guns.components.ModifierSets.ModifierSet;
+import net.projectzombie.crackshotenhanced.cs.guns.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -30,7 +31,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
     }
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Attachments", ProjectileAttachments.getInstance().getNullValue().getName());
         defaultValues.put("Barrels", Barrels.getInstance().getNullValue().getName());
         defaultValues.put("Bolts", Bolts.getInstance().getNullValue().getName());
@@ -48,6 +49,8 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
 
     private ModifierSets() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
+    @Override public ModifierSet getNullValue() { return null; }
+
     public ModifierSet buildModule(final int uniqueID, final ModifierMap values) {
         try {
             return new ModifierSet(
@@ -56,14 +59,14 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
                     ProjectileAttachments.getInstance().get(values.getStringList("Attachments"), true),
                     Barrels.getInstance().get(values.getStringList("Barrels"), true),
                     Bolts.getInstance().get(values.getStringList("Bolts"), true),
-                    FireModes.getInstance().get(values.getStringList("FireModes"), false),
-                    Magazines.getInstance().get(values.getStringList("FireModes"), false),
-                    Sights.getInstance().get(values.getStringList("FireModes"), false),
-                    Stocks.getInstance().get(values.getStringList("FireModes"), false)
+                    FireModes.getInstance().get(values.getStringList("FireModes"), true),
+                    Magazines.getInstance().get(values.getStringList("FireModes"), true),
+                    Sights.getInstance().get(values.getStringList("FireModes"), true),
+                    Stocks.getInstance().get(values.getStringList("FireModes"), true)
             );
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add bolt " + values.getString("Display Name"));
-            return null;
+            Main.getPlugin().getLogger().warning("Cannot add modifier set " + values.getString("Set Name"));
+            throw e;
         }
     }
     
@@ -99,14 +102,14 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
             this.modifiers = constructGunModifierArray();
         }
 
-        public ArrayList<ProjectileAttachments.ProjectileAttachment>  getAttachments()       { return attachments; }
-        public ArrayList<Barrels.Barrel>      getBarrels()           { return barrels;      }
-        public ArrayList<Bolts.Bolt>        getBolts()             { return bolts;        }
-        public ArrayList<FireModes.FireMode>    getFireModes()         { return fireModes;    }
-        public ArrayList<Magazine>    getMagazines()         { return magazines;    }
-        public ArrayList<Sights.Sight> getSights()            { return sights;       }
-        public ArrayList<Stocks.Stock>       getStocks()            { return stocks;       }
-        public GunModifier[]          getModifiers()         { return modifiers;    }
+        public ArrayList<ProjectileAttachments.ProjectileAttachment> getAttachments() { return attachments; }
+        public ArrayList<Barrels.Barrel>      getBarrels()                            { return barrels;      }
+        public ArrayList<Bolts.Bolt>        getBolts()                                { return bolts;        }
+        public ArrayList<FireModes.FireMode>    getFireModes()                        { return fireModes;    }
+        public ArrayList<Magazine>    getMagazines()                                  { return magazines;    }
+        public ArrayList<Sights.Sight> getSights()                                    { return sights;       }
+        public ArrayList<Stocks.Stock>       getStocks()                              { return stocks;       }
+        public GunModifier[]          getModifiers()                                  { return modifiers;    }
 
         public int getCSCombinationCount()
         {

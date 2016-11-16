@@ -23,7 +23,8 @@ public class CritSet extends Chance<CritAttributes>
                     final double baseDamage)
     {
         super("Crit",
-              getCritChance(mods));
+              getCritChance(mods),
+                CritAttributes.class);
         
         this.critStrikeMultiplier = getCritMultiplier(mods);
         this.critStrikeDamage = critStrikeMultiplier * baseDamage;

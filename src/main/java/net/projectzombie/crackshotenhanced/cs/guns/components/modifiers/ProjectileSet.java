@@ -32,13 +32,14 @@ public class ProjectileSet extends GunModifierSet<ProjectileAttributes>
                        final int skeletonProjectileSpeed,
                        final int skeletonProjectileAmount)
     {
-        super("Projectile");
+        super("Projectile", ProjectileAttributes.class);
+        final ArrayList<ProjectileAttributes> attributes = super.getModifiers(gunMods);
         this.skeletonProjectileRange = skeletonProjectileRange;
         this.skeletonProjectileSpeed = skeletonProjectileSpeed;
         this.skeletonProjectileAmount = skeletonProjectileAmount;
-        this.totalProjectileRange = getTotalProjectileRange(gunMods, skeletonProjectileRange);
-        this.totalProjectileSpeed = getTotalProjectileSpeed(gunMods, skeletonProjectileSpeed);
-        this.totalProjectileAmount = getTotalProjectileAmount(gunMods, skeletonProjectileAmount);
+        this.totalProjectileRange = getTotalProjectileRange(attributes, skeletonProjectileRange);
+        this.totalProjectileSpeed = getTotalProjectileSpeed(attributes, skeletonProjectileSpeed);
+        this.totalProjectileAmount = getTotalProjectileAmount(attributes, skeletonProjectileAmount);
     }
     
     public ProjectileSet(final GunModifier mod)
@@ -90,11 +91,11 @@ public class ProjectileSet extends GunModifierSet<ProjectileAttributes>
     }
     
     static
-    private int getTotalProjectileSpeed(final GunModifier[] gunMods,
+    private int getTotalProjectileSpeed(final ArrayList<ProjectileAttributes> gunMods,
                                    final int skeletonProjectileSpeed)
     {
         double projectileSpeedMultiplier = 1.0;
-        for (ProjectileAttributes mod : getProjectileModifiers(gunMods))
+        for (ProjectileAttributes mod : gunMods)
         {
             projectileSpeedMultiplier += mod.getProjectileSpeedMultiplier();
         }
@@ -102,11 +103,11 @@ public class ProjectileSet extends GunModifierSet<ProjectileAttributes>
     }
     
     static
-    private int getTotalProjectileRange(final GunModifier[] gunMods,
+    private int getTotalProjectileRange(final ArrayList<ProjectileAttributes> gunMods,
                                    int projectileRangeValue)
     {
         double projectileRangeMultiplier = 1.0;
-        for (ProjectileAttributes mod : getProjectileModifiers(gunMods))
+        for (ProjectileAttributes mod : gunMods)
         {
             projectileRangeMultiplier += mod.getProjectileRangeMultiplier();
             projectileRangeValue += mod.getProjectileRangeValue();
@@ -115,26 +116,13 @@ public class ProjectileSet extends GunModifierSet<ProjectileAttributes>
     }
     
     static
-    private int getTotalProjectileAmount(final GunModifier[] gunMods,
+    private int getTotalProjectileAmount(final ArrayList<ProjectileAttributes> gunMods,
                                          int skeletonProjectileAmount)
     {
-        for (ProjectileAttributes mod : getProjectileModifiers(gunMods))
+        for (ProjectileAttributes mod : gunMods)
         {
             skeletonProjectileAmount += mod.getProjectileAmount();
         }
         return Math.max(0, skeletonProjectileAmount);
     }
-    
-    static
-    private ArrayList<ProjectileAttributes> getProjectileModifiers(final GunModifier[] gunMods)
-    {
-        final ArrayList<ProjectileAttributes> mods = new ArrayList<>();
-        for (GunModifier mod : gunMods)
-        {
-            if (mod instanceof MagazineAttributes)
-                mods.add((ProjectileAttributes)mod);
-        }
-        return mods;
-    }
-
 }

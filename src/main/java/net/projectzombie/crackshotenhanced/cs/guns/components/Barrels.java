@@ -34,7 +34,7 @@ public class Barrels extends ModifierConfig<Barrel>
     }
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
@@ -49,7 +49,7 @@ public class Barrels extends ModifierConfig<Barrel>
         defaultValues.put("Fire Damage Multiplier", 0.0);
         defaultValues.put("Headshot Modifier", 0.0);
         defaultValues.put("Headshot Multiplier", 0.0);
-        defaultValues.put("Additional Projectiles", 0);
+        defaultValues.put("Projectile Additional Per Shot", 0);
         defaultValues.put("Projectile Speed Multiplier", 0.0);
         defaultValues.put("Projectile Range Modifier", 0);
         defaultValues.put("Projectile Range Multiplier", 0.0);
@@ -82,7 +82,7 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getDouble("Fire Damage Multiplier"),
                     values.getDouble("Headshot Modifier"),
                     values.getDouble("Headshot Multiplier"),
-                    values.getInt("Additional Projectiles"),
+                    values.getInt("Projectile Additional Per Shot"),
                     values.getDouble("Projectile Speed Multiplier"),
                     values.getInt("Projectile Range Modifier"),
                     values.getDouble("Projectile Range Multiplier")
@@ -102,7 +102,7 @@ public class Barrels extends ModifierConfig<Barrel>
     static public class Barrel extends GunModifier implements BulletSpreadAttributes,
                                                               BaseDamageAttributes,
                                                               HeadshotAttributes,
-            ProjectileAttributes,
+                                                              ProjectileAttributes,
                                                               SilencerAttributes,
                                                               FireDamageAttributes,
                                                               ShrapnelDamageAttributes

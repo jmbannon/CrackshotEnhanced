@@ -5,8 +5,6 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.skeleton;
 
-import java.util.HashMap;
-
 import net.projectzombie.crackshotenhanced.cs.guns.weps.Guns;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -40,32 +38,34 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
     }
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Initial Bullet Spread", 1.5);
         defaultValues.put("Delay Between Shots", 4);
-        defaultValues.put("Max Durability", 100);
+        defaultValues.put("Durability Max", 100);
         defaultValues.put("Damage", 10.0);
         defaultValues.put("Reload Amount", 30);
         defaultValues.put("Reload Duration", 40);
         defaultValues.put("Reload Bullets Individually", false);
         defaultValues.put("Recoil Amount", 0);
-        defaultValues.put("Running Speed Multiplier", 0.0);
-        defaultValues.put("Sprinting Speed Multiplier", 0.0);
-        defaultValues.put("Crouching Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Standing Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Running Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Sprinting Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Silenced Sound", "NULL");
+        defaultValues.put("Speed Running Multiplier", 0.0);
+        defaultValues.put("Speed Sprinting Multiplier", 0.0);
+        defaultValues.put("Bullet Spread Crouching Multiplier", 0.0);
+        defaultValues.put("Bullet Spread Standing Multiplier", 0.0);
+        defaultValues.put("Bullet Spread Running Multiplier", 0.0);
+        defaultValues.put("Bullet Spread Sprinting Multiplier", 0.0);
+        defaultValues.put("Sound Silenced", "NULL");
         defaultValues.put("Particle Shoot", "NULL");
         return defaultValues;
     }
 
     static private final String YML_NAME = "GunSkeletons.yml";
     static private final String MODULE_NAME = "GunSkeletons";
-    static private final String[] NECESSARY_VALUES = new String[] { "Name", "Weapon Type", "Modifier Set", "Material ID", "Material Data", "Shoot Sound", "Reload Sound" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Weapon Type", "Modifier Set", "Material ID", "Material Data", "Sound Shoot", "Sound Reload" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private GunSkeletons() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
+
+    @Override public GunSkeleton getNullValue() { return null; }
 
     public GunSkeleton buildModule(final int uniqueID, final ModifierMap values) {
         try {
@@ -78,25 +78,26 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     values.getInt("Material Data"),
                     values.getDouble("Initial Bullet Spread"),
                     values.getInt("Delay Between Shots"),
-                    values.getInt("Max Durability"),
+                    values.getInt("Durability Max"),
                     values.getDouble("Damage"),
                     values.getInt("Reload Amount"),
                     values.getInt("Reload Duration"),
                     values.getBoolean("Reload Bullets Individually"),
                     values.getInt("Recoil Amount"),
-                    values.getDouble("Running Speed Multiplier"),
-                    values.getDouble("Sprinting Speed Multiplier"),
-                    values.getDouble("Crouching Bullet Spread Multiplier"),
-                    values.getDouble("Standing Bullet Spread Multiplier"),
-                    values.getDouble("Running Bullet Spread Multiplier"),
-                    values.getDouble("Sprinting Bullet Spread Multiplier"),
-                    values.getString("Shoot Sound"),
-                    values.getString("Silenced Sound"),
+                    values.getDouble("Speed Running Multiplier"),
+                    values.getDouble("Speed Sprinting Multiplier"),
+                    values.getDouble("Bullet Spread Crouching Multiplier"),
+                    values.getDouble("Bullet Spread Standing Multiplier"),
+                    values.getDouble("Bullet Spread Standing Multiplier"),
+                    values.getDouble("Bullet Spread Sprinting Multiplier"),
+                    values.getString("Sound Shoot"),
+                    values.getString("Sound Silenced"),
                     values.getString("Particle Shoot"),
-                    values.getString("Reload Sound")
+                    values.getString("Sound Reload")
             );
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add skeleton " + values.getString("Display Name"));
+            Main.getPlugin().getLogger().warning("Cannot add skeleton " + values.getString("Display Name") + e.toString());
+            e.printStackTrace();
             return null;
         }
     }
@@ -186,7 +187,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         {
             super(skele.getIndex(), skele.getName());
             this.weaponType = skele.weaponType;
-            this.itemID = skele.itemData;
+            this.itemID = skele.itemID;
             this.itemData = skele.itemData;
             this.shootDelay = skele.shootDelay;
             this.maxDurability = skele.maxDurability;

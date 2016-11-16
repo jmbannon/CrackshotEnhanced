@@ -26,7 +26,8 @@ public class BleedoutSet extends DamageOverTime<BleedoutAttributes>
         super("Bleedout Damage",
               getTotalDPS(modSet, totalShrapnelDamage),
               getBleedoutDurationValue(modSet),
-              getBleedoutDurationMultiplier(modSet));
+              getBleedoutDurationMultiplier(modSet),
+                BleedoutAttributes.class);
         
         this.shrapnelMultiplier = getBleedoutShrapnelMultiplier(modSet);
         this.bleedoutDPSValue = getBleedoutDPSValue(modSet);

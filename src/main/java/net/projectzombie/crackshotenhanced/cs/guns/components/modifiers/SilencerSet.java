@@ -20,7 +20,7 @@ public class SilencerSet extends GunModifierSet<SilencerAttributes>
     
     public SilencerSet(final GunModifier[] gunMods)
     {
-        super("Silencer");
+        super("Silencer", SilencerAttributes.class);
         this.isSilenced = isSilenced(gunMods);
     }
     

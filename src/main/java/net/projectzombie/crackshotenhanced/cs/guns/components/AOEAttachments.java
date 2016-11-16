@@ -42,7 +42,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
 
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
@@ -53,7 +53,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
         defaultValues.put("Electric AOE Duration Multiplier", 0.0);
         defaultValues.put("Electric AOE DPS Value", 0.0);
         defaultValues.put("Electric AOE DPS Multiplier", 0.0);
-        defaultValues.put("Concurrent Electricity Count", 0.0);
+        defaultValues.put("Electricity Concurrent Count", 0.0);
         defaultValues.put("Shock Chance", 0.0);
         defaultValues.put("Shock Damage Value", 0.0);
         defaultValues.put("Shock Damage Multiplier From Electricity", 0.0);
@@ -84,7 +84,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
         defaultValues.put("Explosive AOE Duration Multiplier", 0.0);
         defaultValues.put("Explosive AOE DPS Value", 0.0);
         defaultValues.put("Explosive AOE DPS Multiplier", 0.0);
-        return new ModifierMap(defaultValues);
+        return defaultValues;
     }
 
     static private final String YML_NAME = "AOEAttachments.yml";
@@ -109,7 +109,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
                     values.getDouble("Electric AOE Duration Multiplier"),
                     values.getDouble("Electric AOE DPS Value"),
                     values.getDouble("Electric AOE DPS Multiplier"),
-                    values.getInt("Concurrent Electricity Count"),
+                    values.getInt("Electricity Concurrent Count"),
                     values.getDouble("Shock Chance"),
                     values.getDouble("Shock Damage Value"),
                     values.getDouble("Shock Damage Multiplier From Electricity"),

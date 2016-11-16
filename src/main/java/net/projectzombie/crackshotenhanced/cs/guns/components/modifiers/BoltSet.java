@@ -25,8 +25,8 @@ public class BoltSet extends GunModifierSet<BoltAttributes>
     public BoltSet(final GunModifier[] gunMods,
                    final int skeletonBoltActionDurationInTicks)
     {
-        super("Bolt Action");
-        this.boltDurationMultiplier = getBoltDurationMultiplier(gunMods);
+        super("Bolt Action", BoltAttributes.class);
+        this.boltDurationMultiplier = getBoltDurationMultiplier(super.getModifiers(gunMods));
         this.skeletonBoltActionDurationInTicks = skeletonBoltActionDurationInTicks;
     }
     
@@ -67,10 +67,10 @@ public class BoltSet extends GunModifierSet<BoltAttributes>
     }
     
     static
-    private double getBoltDurationMultiplier(final GunModifier[] gunMods)
+    private double getBoltDurationMultiplier(final ArrayList<BoltAttributes> gunMods)
     {
         double boltDurationMultiplier = 1.0;
-        for (BoltAttributes mod : getBoltModifiers(gunMods))
+        for (BoltAttributes mod : gunMods)
         {
             boltDurationMultiplier += mod.getBoltDurationMultiplier();
         }

@@ -23,5 +23,5 @@ package net.projectzombie.crackshotenhanced.cs.guns.components.modifiers;
  */
 public interface SilencerAttributes extends SkeletonAttributes
 {
-    public boolean isSilencer();
+    boolean isSilencer();
 }

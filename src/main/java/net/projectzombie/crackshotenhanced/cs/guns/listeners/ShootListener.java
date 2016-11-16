@@ -161,18 +161,22 @@ public class ShootListener implements Listener
 
         if (csItem.isPreShot())
         {
+            System.out.println("IS PRE SHOT");
             csItem.toPostShotLore();
             csItem.decrementDurability();
             gunMeta.setLore(csItem.getLore());
         }
         else if (csItem.isPostShot())
         {
+            System.out.println("IS POST SHOT");
             csItem.decrementDurability();
             gunMeta.setLore(csItem.getLore());
         }
-        else
+        else {
+            System.out.println("IS ERROR");
             return ERROR;
-        
+        }
+
         item.setItemMeta(gunMeta);
         return csItem.getEventBulletSpread(eventBulletSpread);
     }

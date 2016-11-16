@@ -60,13 +60,16 @@ public class ModifierMap {
     }
 
     private final HashMap<String, ModifierMapValue> values;
+    private final String modifierMapName;
 
-    public ModifierMap() {
+    public ModifierMap(final String modifierMapName) {
         this.values = new HashMap<>();
+        this.modifierMapName = modifierMapName;
     }
 
     public ModifierMap(final ModifierMap map) {
         this.values = new HashMap<>(map.values);
+        this.modifierMapName = map.modifierMapName;
     }
 
     public Set<String> getKeySet() { return this.values.keySet(); }
@@ -93,9 +96,18 @@ public class ModifierMap {
         }
     }
 
+    private ModifierMapValue get(final String key) {
+        if (!this.values.containsKey(key)) {
+            Main.getPlugin().getLogger().severe("Module " + modifierMapName + ": Invalid key '" + key + '\'');
+            return null;
+        } else {
+            return this.values.get(key);
+        }
+    }
+
     public int getInt(final String key) {
         try {
-            return Integer.valueOf(this.values.get(key).value.replace("\"", ""));
+            return Integer.valueOf(this.get(key).value.replace("\"", ""));
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning(key + " must be an integer");
             throw e;
@@ -104,7 +116,7 @@ public class ModifierMap {
 
     public double getDouble(final String key) {
         try {
-            return Double.valueOf(this.values.get(key).value.replace("\"", ""));
+            return Double.valueOf(this.get(key).value.replace("\"", ""));
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning(key + " must be a double");
             throw e;
@@ -113,7 +125,7 @@ public class ModifierMap {
 
     public boolean getBoolean(final String key) {
         try {
-            return Boolean.valueOf(this.values.get(key).value.replace("\"", ""));
+            return Boolean.valueOf(this.get(key).value.replace("\"", ""));
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning(key + " must be true or false");
             throw e;
@@ -121,10 +133,17 @@ public class ModifierMap {
     }
 
     public String getString(final String key) {
-        return this.values.get(key).value;
+        return this.get(key).value;
     }
 
-    public List<String> getStringList(final String key) { return Arrays.asList(this.values.get(key).value.split(SEP)); }
+    public List<String> getStringList(final String key) {
+        ModifierMapValue tmp = this.get(key);
+        if (tmp != null && tmp.value != null) {
+            return Arrays.asList(tmp.value.split(SEP));
+        } else {
+            return new ArrayList<>(0);
+        }
+    }
 
     public boolean contains(final String key) {
         return this.values.containsKey(key);

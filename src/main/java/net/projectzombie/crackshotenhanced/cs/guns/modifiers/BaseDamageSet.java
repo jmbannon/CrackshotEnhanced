@@ -23,7 +23,8 @@ public class BaseDamageSet extends DamageOnHit<BaseDamageAttributes>
     {
         super("Base Damage",
               baseDamageValueSum(modifiers, skeletonBaseDamage),
-              baseDamageMultiplierSum(modifiers));
+              baseDamageMultiplierSum(modifiers),
+                BaseDamageAttributes.class);
         this.skeleBaseDamage = skeletonBaseDamage;
     }
     

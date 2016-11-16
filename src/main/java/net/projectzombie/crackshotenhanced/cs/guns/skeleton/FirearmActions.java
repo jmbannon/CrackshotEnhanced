@@ -31,7 +31,7 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
     }
 
     static private final ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Sound Open", "NULL");
         defaultValues.put("Sound Close", "NULL");
         return defaultValues;
@@ -39,7 +39,7 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
 
     static private final String YML_NAME = "FirearmActions.yml";
     static private final String MODULE_NAME = "FirearmActions";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "CS Firearm Action Type", "Open Duration", "Close Duration", "Close Shoot Delay"};
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "CS Firearm Action Type", "Duration Open Ticks", "Duration Close Ticks", "Duration Close Shoot Delay Ticks"};
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private FirearmActions() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -52,14 +52,19 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
                     values.getString("CS Firearm Action Type"),
                     values.getString("Sound Open"),
                     values.getString("Sound Close"),
-                    values.getInt("Open Duration"),
-                    values.getInt("Close Duration"),
-                    values.getInt("Close Shoot Delay")
+                    values.getInt("Duration Open Ticks"),
+                    values.getInt("Duration Close Ticks"),
+                    values.getInt("Duration Close Shoot Delay Ticks")
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add firearm action " + values.getString("Display Name"));
             return null;
         }
+    }
+
+    @Override
+    public FirearmAction getNullValue() {
+        return new FirearmAction();
     }
 
     static public class FirearmAction extends ModifierValue
@@ -90,23 +95,27 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
             this.closeShootDelay = closeShootDelay;
         }
 
+        private FirearmAction()
+        {
+            this(0, null, null, null, null, 0, 0, 0);
+        }
+
         public String  getSoundOpen()         { return soundOpen;         } 
         public String  getSoundClose()        { return soundClose;        }
         public int     getOpenDuration()      { return openDuration;      }
         public int     getCloseDuration()     { return closeDuration;     }
         public int     getCloseShootDelay()   { return closeShootDelay;   }
-        @Override public String toString()    { return type;              }
+        public String  getType()              { return type;              }
         
-        public int getBoltActionDurationInTicks()
+        public int getActionDurationInTicks()
         {
-            if (type.equalsIgnoreCase("pump")
+            if (type == null) {
+                return 0;
+            } else if (type.equalsIgnoreCase("pump")
                     || type.equalsIgnoreCase("bolt")
-                    || type.equalsIgnoreCase("lever"))
-            {
+                    || type.equalsIgnoreCase("lever")) {
                 return openDuration + closeDuration + closeShootDelay;
-            }
-            else
-            {
+            } else {
                 return 0;
             }
         }

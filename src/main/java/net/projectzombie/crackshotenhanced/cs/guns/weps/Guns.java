@@ -36,7 +36,7 @@ import net.projectzombie.crackshotenhanced.cs.guns.modifiers.StunSet;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.BoltSet;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionSet;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ScopeSet;
+import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightSet;
 import net.projectzombie.crackshotenhanced.cs.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.cs.guns.qualities.Build;
 
@@ -134,7 +134,7 @@ public class Guns
         private final StunSet stun;
         private final DurabilitySet durability;
         private final MotionSet motion;
-        private final ScopeSet scopeSet;
+        private final SightSet scopeSet;
         
 
         public CrackshotGun(final GunSkeleton skeleton,
@@ -188,7 +188,7 @@ public class Guns
             this.bleedout = new BleedoutSet(modifiers, this.shrapnel.getTotal());
             this.crit = new CritSet(modifiers, this.baseDamage.getTotal());
             this.mag = new MagazineSet(modifiers, super.getSkeletonReloadAmount(), super.getSkeletonReloadDuration());
-            this.boltSet = new BoltSet(modifiers, super.getWeaponType().getAction().getBoltActionDurationInTicks());
+            this.boltSet = new BoltSet(modifiers, super.getWeaponType().getAction().getActionDurationInTicks());
             this.projectile = new ProjectileSet(modifiers, 
                     skeleton.getWeaponType().getProjectileRange(), 
                     skeleton.getWeaponType().getProjectileSpeed(), 
@@ -202,7 +202,7 @@ public class Guns
                     super.getSkeletonStandingBulletSpreadMultiplier(),
                     super.getSkeletonRunningBulletSpreadMultiplier(),
                     super.getSkeletonSprintingBulletSpreadMultiplier());
-            this.scopeSet = new ScopeSet(modifiers);
+            this.scopeSet = new SightSet(modifiers);
         }
         
         public CrackshotGun(final CrackshotGun gun)

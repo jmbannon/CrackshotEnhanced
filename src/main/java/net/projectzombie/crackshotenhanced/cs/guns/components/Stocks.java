@@ -29,18 +29,18 @@ public class Stocks extends ModifierConfig<Stock>
     }
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Running Speed Multiplier", 0.0);
-        defaultValues.put("Sprinting Speed Multiplier", 0.0);
-        defaultValues.put("Crouching Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Standing Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Running Bullet Spread Multiplier", 0.0);
-        defaultValues.put("Sprinting Bullet Spread Multiplier", 0.0);
+        defaultValues.put("Speed Running Multiplier", 0.0);
+        defaultValues.put("Speed Sprinting Multiplier", 0.0);
+        defaultValues.put("Bullet Spread Multiplier Crouching", 0.0);
+        defaultValues.put("Bullet Spread Multiplier Standing", 0.0);
+        defaultValues.put("Bullet Spread Multiplier Running", 0.0);
+        defaultValues.put("Bullet Spread Multiplier Sprinting", 0.0);
         return defaultValues;
     }
 
@@ -61,12 +61,12 @@ public class Stocks extends ModifierConfig<Stock>
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getDouble("Bullet Spread Multiplier"),
-                    values.getDouble("Running Speed Multiplier"),
-                    values.getDouble("Sprinting Speed Multiplier"),
-                    values.getDouble("Crouching Bullet Spread Multiplier"),
-                    values.getDouble("Standing Bullet Spread Multiplier"),
-                    values.getDouble("Running Bullet Spread Multiplier"),
-                    values.getDouble("Sprinting Bullet Spread Multiplier")
+                    values.getDouble("Speed Running Multiplier"),
+                    values.getDouble("Speed Sprinting Multiplier"),
+                    values.getDouble("Bullet Spread Multiplier Crouching"),
+                    values.getDouble("Bullet Spread Multiplier Standing"),
+                    values.getDouble("Bullet Spread Multiplier Running"),
+                    values.getDouble("Bullet Spread Multiplier Sprinting")
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add stock " + values.getString("Display Name"));

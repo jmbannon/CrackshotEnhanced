@@ -15,10 +15,12 @@ import java.util.ArrayList;
 public abstract class GunModifierSet<T extends Modifier>
 {
     private final String name;
+    private final Class<T> t;
     
-    public GunModifierSet(final String name)
+    public GunModifierSet(final String name, Class<T> t)
     {
         this.name = name;
+        this.t = t;
     }
     
     public String getName()
@@ -29,5 +31,16 @@ public abstract class GunModifierSet<T extends Modifier>
     abstract public ArrayList<String> getStat();
     abstract public ArrayList<String> getStats();
     abstract public boolean hasStats();
+
+    public final ArrayList<T> getModifiers(final GunModifier[] gunMods)
+    {
+        final ArrayList<T> mods = new ArrayList<>();
+        for (GunModifier mod : gunMods)
+        {
+            if (mod != null && t.isInstance(mod))
+                mods.add((T)mod);
+        }
+        return mods;
+    }
     
 }

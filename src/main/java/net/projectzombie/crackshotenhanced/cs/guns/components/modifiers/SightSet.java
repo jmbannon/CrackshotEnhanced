@@ -15,27 +15,27 @@ import net.projectzombie.crackshotenhanced.cs.guns.components.ModifierLoreBuilde
  *
  * @author jb
  */
-public class ScopeSet extends GunModifierSet<ScopeAttributes>
+public class SightSet extends GunModifierSet<SightAttributes>
 {
     
     private final int zoomAmount;
     private final double zoomBulletSpreadModifier;
     
-    public ScopeSet(final GunModifier[] gunMods)
+    public SightSet(final GunModifier[] gunMods)
     {
-        super("Sight");
+        super("Sight", SightAttributes.class);
         this.zoomAmount = getZoomAmount(gunMods);
         this.zoomBulletSpreadModifier = getZoomBulletSpreadMultiplier(gunMods);
     }
     
-    public ScopeSet(final GunModifier mod)
+    public SightSet(final GunModifier mod)
     {
         this(new GunModifier[] { mod });
     }
     
-    public ScopeSet(final ScopeAttributes mod)
+    public SightSet(final SightAttributes mod)
     {
-        super("Sight");
+        super("Sight", SightAttributes.class);
         this.zoomAmount = mod.getZoomAmount();
         this.zoomBulletSpreadModifier = mod.getZoomBulletSpreadMultiplier();
     }
@@ -68,7 +68,7 @@ public class ScopeSet extends GunModifierSet<ScopeAttributes>
     private double getZoomBulletSpreadMultiplier(final GunModifier[] gunMods)
     {
         double zoomBulletSpreadMultiplier = 1.0;
-        for (ScopeAttributes mod : getScopeModifiers(gunMods))
+        for (SightAttributes mod : getScopeModifiers(gunMods))
         {
             zoomBulletSpreadMultiplier += mod.getZoomBulletSpreadMultiplier();
         }
@@ -79,7 +79,7 @@ public class ScopeSet extends GunModifierSet<ScopeAttributes>
     private int getZoomAmount(final GunModifier[] gunMods)
     {
         int zoomAmount = 0;
-        for (ScopeAttributes mod : getScopeModifiers(gunMods))
+        for (SightAttributes mod : getScopeModifiers(gunMods))
         {
             zoomAmount += mod.getZoomAmount();
         }
@@ -87,13 +87,13 @@ public class ScopeSet extends GunModifierSet<ScopeAttributes>
     }
     
     static
-    private ArrayList<ScopeAttributes> getScopeModifiers(final GunModifier[] gunMods)
+    private ArrayList<SightAttributes> getScopeModifiers(final GunModifier[] gunMods)
     {
-        final ArrayList<ScopeAttributes> mods = new ArrayList<>();
+        final ArrayList<SightAttributes> mods = new ArrayList<>();
         for (GunModifier mod : gunMods)
         {
-            if (mod instanceof ScopeAttributes)
-                mods.add((ScopeAttributes)mod);
+            if (mod instanceof SightAttributes)
+                mods.add((SightAttributes)mod);
         }
         return mods;
     }

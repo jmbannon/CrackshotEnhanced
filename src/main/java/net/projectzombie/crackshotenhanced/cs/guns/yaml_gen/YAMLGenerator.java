@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.FirearmActions.FirearmAction;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons.GunSkeleton;
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -34,10 +35,10 @@ public class YAMLGenerator extends GunGenerator
     }
     
     static
-    public void generateDefaultWeapons(final Plugin plugin)
+    public void generateDefaultWeapons()
     {
         int gunsWritten = 0;
-        loadCrackshotWeaponFile(plugin);
+        loadCrackshotWeaponFile();
         
         for (GunSkeleton skele : GunSkeletons.getInstance().getAll())
         {
@@ -46,7 +47,7 @@ public class YAMLGenerator extends GunGenerator
                 writeWeapon(gun);
         }
         
-        System.out.println("Wrote " + gunsWritten + " Crackshot guns.");
+        Main.getPlugin().getLogger().info("Wrote " + gunsWritten + " Crackshot guns.");
         saveWeapons();
     }
     
@@ -67,9 +68,9 @@ public class YAMLGenerator extends GunGenerator
     }
     
     static
-    private void loadCrackshotWeaponFile(final Plugin plugin)
+    private void loadCrackshotWeaponFile()
     {
-        final String defaultWeaponsPath = plugin.getDataFolder().getParent() + "/CrackShot/weapons/";
+        final String defaultWeaponsPath = Main.getPlugin().getDataFolder().getParent() + "/CrackShot/weapons/";
         
         if (weps == null)
             weps = new File(defaultWeaponsPath, "defaultWeapons.yml");
@@ -157,7 +158,7 @@ public class YAMLGenerator extends GunGenerator
         final String path = super.getCSWeaponName() + ".Burstfire.";
         
         wepsYAML.set(path + "Enable",                       true);
-        wepsYAML.set(path + "Shots_Per_Burst",              3);
+        wepsYAML.set(path + "Shots_Per_Burst",              super.getFireModeMod().getShotsPerBurst());
         wepsYAML.set(path + "Delay_Between_Shots_In_Burst", 3);
     }
     
@@ -189,7 +190,7 @@ public class YAMLGenerator extends GunGenerator
         final FirearmAction action = super.getWeaponType().getAction();
         final String path = super.getCSWeaponName() + ".Firearm_Action.";
         
-        if (action == null) return;
+        if (action == null || action.toString() == null) return;
 
         wepsYAML.set(path + "Type",              action.toString());
         wepsYAML.set(path + "Open_Duration",     super.getOpenDuration());

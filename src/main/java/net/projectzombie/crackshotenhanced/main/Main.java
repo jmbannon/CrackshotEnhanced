@@ -39,7 +39,7 @@ public class Main extends JavaPlugin {
             return;
         
         this.windowListener = new BlockBreakListener();
-        this.OPexec = new OPCommandExec(this);
+        this.OPexec = new OPCommandExec();
         this.getCommand("bw").setExecutor(OPexec);
         this.getServer().getPluginManager().registerEvents(windowListener, this);
 
@@ -70,34 +70,32 @@ public class Main extends JavaPlugin {
     
     private boolean initializeGuns()
     {
-        boolean initialized = true;
-        if (!isInitialized("Attachments", ProjectileAttachments.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Barrels", Barrels.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Bolts", Bolts.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("FireModes", FireModes.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Magazines", Magazines.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Sights", Sights.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Stocks", Stocks.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Modifier Sets", ModifierSets.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Firearm Action", FirearmActions.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Weapon Types", SkeletonTypes.getInstance().initialize()))
-            initialized = false;
-        if (!isInitialized("Gun Skeletons", GunSkeletons.getInstance().initialize()))
-            initialized = false;
+        if (!isInitialized("Attachments", ProjectileAttachments.getInstance().size()))
+            return false;
+        if (!isInitialized("Barrels", Barrels.getInstance().size()))
+            return false;
+        if (!isInitialized("Bolts", Bolts.getInstance().size()))
+            return false;
+        if (!isInitialized("FireModes", FireModes.getInstance().size()))
+            return false;
+        if (!isInitialized("Magazines", Magazines.getInstance().size()))
+            return false;
+        if (!isInitialized("Sights", Sights.getInstance().size()))
+            return false;
+        if (!isInitialized("Stocks", Stocks.getInstance().size()))
+            return false;
+        if (!isInitialized("Modifier Sets", ModifierSets.getInstance().size()))
+            return false;
+        if (!isInitialized("Firearm Action", FirearmActions.getInstance().size()))
+            return false;
+        if (!isInitialized("Weapon Types", SkeletonTypes.getInstance().size()))
+            return false;
+        if (!isInitialized("Gun Skeletons", GunSkeletons.getInstance().size()))
+            return false;
         
-        if (!isInitialized("Guns", Guns.initialize())) {
-            initialized = false;
-        }
-        return initialized;
+        if (!isInitialized("Guns", Guns.initialize()))
+            return false;
+        return true;
     }
     
     private boolean isInitialized(final String toInitialize,
@@ -110,7 +108,7 @@ public class Main extends JavaPlugin {
         }
         else
         {
-            System.out.println("[Crackshot Enhanced] FATAL: Could not initialize " + toInitialize + ". Disabling plugin.");
+            System.out.println("[Crackshot Enhanced] FATAL: Could not size " + toInitialize + ". Disabling plugin.");
             return false;
         }
     }

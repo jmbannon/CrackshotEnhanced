@@ -28,7 +28,7 @@ public class MagazineSet extends GunModifierSet<MagazineAttributes>
                        final int skeletonMagSize,
                        final double skeletonReloadDuration)
     {
-        super("Magazine");
+        super("Magazine", MagazineAttributes.class);
         this.skeletonMagSize = skeletonMagSize;
         this.extraMagSize = getMagazineSize(gunMods, skeletonMagSize);
         this.reloadSpeed = getReloadSpeed(gunMods, skeletonReloadDuration);

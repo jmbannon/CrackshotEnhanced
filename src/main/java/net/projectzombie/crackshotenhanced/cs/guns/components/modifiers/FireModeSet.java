@@ -23,7 +23,7 @@ public class FireModeSet extends GunModifierSet<FireModeAttributes>
     
     public FireModeSet(final GunModifier[] gunMods)
     {
-        super("Fire Mode");
+        super("Fire Mode", FireModeAttributes.class);
         this.isAuto = isAutomatic(gunMods);
         this.isBurst = isAuto ? false : isBurst(gunMods);
         this.shotsPerBurst = isBurst ? getShotsPerBurst(gunMods) : 0;

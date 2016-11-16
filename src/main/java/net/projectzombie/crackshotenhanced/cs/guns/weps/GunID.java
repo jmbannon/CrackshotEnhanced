@@ -206,16 +206,16 @@ public class GunID
         for (int i = 0; i < attInfo.length; i++)
             attIDXs[i] = Integer.valueOf(attInfo[i]);
         
-        return csIDXs[0] < GunSkeletons.getInstance().initialize()
-                && csIDXs[1] < Barrels.getInstance().initialize()
-                && csIDXs[2] < Bolts.getInstance().initialize()
-                && csIDXs[3] < FireModes.getInstance().initialize()
-                && csIDXs[4] < Magazines.getInstance().initialize()
-                && csIDXs[5] < Sights.getInstance().initialize()
-                && attIDXs[0] < ProjectileAttachments.getInstance().initialize()
-                && attIDXs[1] < ProjectileAttachments.getInstance().initialize()
-                && attIDXs[2] < ProjectileAttachments.getInstance().initialize()
-                && attIDXs[3] < Stocks.getInstance().initialize();
+        return csIDXs[0] < GunSkeletons.getInstance().size()
+                && csIDXs[1] < Barrels.getInstance().size()
+                && csIDXs[2] < Bolts.getInstance().size()
+                && csIDXs[3] < FireModes.getInstance().size()
+                && csIDXs[4] < Magazines.getInstance().size()
+                && csIDXs[5] < Sights.getInstance().size()
+                && attIDXs[0] < ProjectileAttachments.getInstance().size()
+                && attIDXs[1] < ProjectileAttachments.getInstance().size()
+                && attIDXs[2] < ProjectileAttachments.getInstance().size()
+                && attIDXs[3] < Stocks.getInstance().size();
     }
     
     private static int getGunModifierID(final GunModifier mod)

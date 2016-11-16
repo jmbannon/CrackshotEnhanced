@@ -19,9 +19,10 @@ public abstract class Chance<T extends Modifier> extends GunModifierSet
     private final double chance;
     
     public Chance(final String name,
-                  final double chance)
+                  final double chance,
+                  final Class<T> t)
     {
-        super(name);
+        super(name, t);
         this.chance = Math.max(0, chance);
     }
     

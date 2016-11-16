@@ -11,12 +11,10 @@ import org.bukkit.plugin.Plugin;
 
 public class OPCommandExec implements CommandExecutor
 {
-    final Plugin plugin;
     final BlockBreakListener blockBreak;
     
-    public OPCommandExec(final Plugin plugin)
+    public OPCommandExec()
     {
-        this.plugin = plugin;
         this.blockBreak = new BlockBreakListener();
     }
 	
@@ -34,8 +32,8 @@ public class OPCommandExec implements CommandExecutor
         if (cmd.getName().equalsIgnoreCase("bw") && args.length > 0)
         {
             Bukkit.broadcastMessage(args[0]);
-            if (args[0].equalsIgnoreCase("net/projectzombie/yaml"))
-                YAMLGenerator.generateDefaultWeapons(plugin);
+            if (args[0].equalsIgnoreCase("yaml"))
+                YAMLGenerator.generateDefaultWeapons();
             else
                 this.commandList(sender);
         }
@@ -47,6 +45,6 @@ public class OPCommandExec implements CommandExecutor
     
     public void commandList(Player sender)
     {
-        sender.sendMessage("/bw net.projectzombie.yaml");
+        sender.sendMessage("/bw yaml");
     }
 }

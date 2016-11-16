@@ -46,7 +46,7 @@ public class MotionSet extends GunModifierSet<MotionAttributes>
                     final double skeletonRunningBulletSpreadMultiplier,
                     final double skeletonSprintingBulletSpreadMultiplier)
     {
-        super("Motion");
+        super("Motion", MotionAttributes.class);
         
         this.skeletonRunningSpeedMultiplier = skeletonRunningSpeedMultiplier;
         this.skeletonSprintingSpeedMultiplier = skeletonSprintingSpeedMultiplier;

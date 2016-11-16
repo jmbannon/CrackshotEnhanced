@@ -23,7 +23,8 @@ public class StunSet extends Chance<StunAttributes>
     public StunSet(final GunModifier[] mods)
     {
         super("Stun",
-              getStunChance(mods));
+              getStunChance(mods),
+                StunAttributes.class);
         
         this.durationInSeconds = getStunDurationInSeconds(mods);
         this.durationInTicks = getStunDurationInTicks(mods);

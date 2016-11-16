@@ -29,13 +29,13 @@ public class FireModes extends ModifierConfig<FireMode>
     }
 
     static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap();
+        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Burst Fire", false);
-        defaultValues.put("Shots Per Burst", 0);
+        defaultValues.put("Burst Shots Per Fire", 0);
         defaultValues.put("Automatic", false);
         return defaultValues;
     }
@@ -57,7 +57,7 @@ public class FireModes extends ModifierConfig<FireMode>
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getBoolean("Burst Fire"),
-                    values.getInt("Shots Per Burst"),
+                    values.getInt("Burst Shots Per Fire"),
                     values.getBoolean("Automatic")
             );
         } catch (Exception e) {

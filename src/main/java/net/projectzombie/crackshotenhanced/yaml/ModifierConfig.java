@@ -19,7 +19,6 @@ abstract public class ModifierConfig<T extends ModifierValue> {
     private final String ymlName;
     private final ModifierMap defaultValues;
     private final Set<String> items;
-    private final ConfigurationSection moduleItems;
     private final ArrayList<T> readValues;
     private final String[] necessaryValues;
     private final String moduleName;
@@ -33,20 +32,19 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         this.file = new File(Main.getPlugin().getDataFolder(), ymlName);
         this.yml = YamlConfiguration.loadConfiguration(this.file);
         this.moduleName = moduleName;
-        this.moduleItems = this.yml.getConfigurationSection(moduleName);
         this.necessaryValues = necessaryValues;
         writeExampleYml();
-        this.items = new TreeSet<String>();
-        this.readValues = new ArrayList<T>();
-//        this.items = moduleItems.getKeys(false);
-//        this.readValues = getModules();
+//        this.items = new TreeSet<String>();
+//        this.readValues = new ArrayList<T>();
+        this.items = this.yml.getKeys(false);
+        this.readValues = getModules();
     }
 
     private void writeExampleYml() {
         try {
-            final File exampleFile = new File(Main.getPlugin().getDataFolder(), ymlName + ".example.yml");
+            final File exampleFile = new File(Main.getPlugin().getDataFolder(), "example." + ymlName);
             final YamlConfiguration exampleYml = YamlConfiguration.loadConfiguration(exampleFile);
-            final String fieldPath = moduleName + ".test_module";
+            final String fieldPath = "test_module";
 
             for (String necessaryValue: necessaryValues) {
                 exampleYml.set(fieldPath + "." + necessaryValue, "REQUIRED");
@@ -61,7 +59,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         }
     }
 
-    private boolean isValidKey(final String key) {
+    private boolean isValidKey(final String entry, final String key) {
         for (String str: necessaryValues) {
             if (key.equals(str)) {
                 return true;
@@ -70,7 +68,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         if (defaultValues.contains(key)) {
             return true;
         } else {
-            Main.getPlugin().getLogger().warning("Unknown value " + key);
+            Main.getPlugin().getLogger().warning("Module " + this.moduleName + ": Entry " + entry + " unknown value '" + key + '\'');
         }
         return false;
     }
@@ -87,16 +85,19 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         return stb.toString();
     }
 
-    public ArrayList<T> getModules() {
+    private ArrayList<T> getModules() {
         final ArrayList<T> toRet = new ArrayList<>();
-        toRet.add(getNullValue());
-        int uniqueID = 1;
+        int uniqueID = 0;
+        if (getNullValue() != null) {
+            toRet.add(getNullValue());
+            ++uniqueID;
+        }
         for (String module: items) {
-            final ConfigurationSection moduleConfig = this.moduleItems.getConfigurationSection(module);
+            final ConfigurationSection moduleConfig = this.yml.getConfigurationSection(module);
             final Set<String> values = moduleConfig.getKeys(false);
             final ModifierMap moduleValues = new ModifierMap(defaultValues);
             for (String key: values) {
-                if (isValidKey(key)) {
+                if (isValidKey(module, key)) {
                     if (moduleConfig.isList(key)) {
                         moduleValues.put(key, separateStringList(moduleConfig.getStringList(key)));
                     } else {
@@ -138,10 +139,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
      * @return Returns the null value of the ModifierValue. More-so for gun modifiers to represent the empty
      * element in the set.
      */
-    public T getNullValue()
-    {
-        return null;
-    }
+    public abstract T getNullValue();
 
     /**
      * @param uniqueID ID or index of the element.
@@ -161,9 +159,12 @@ abstract public class ModifierConfig<T extends ModifierValue> {
      */
     public T get(final String name)
     {
+        if (name == null) {
+            return getNullValue();
+        }
         for (T temp : readValues)
         {
-            if (temp.getName().equalsIgnoreCase(name))
+            if (name.equalsIgnoreCase(temp.getName()))
             {
                 return temp;
             }
@@ -179,40 +180,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
     public ArrayList<T> get(final String[] names,
                             final boolean includeNull)
     {
-        final ArrayList<T> matchValues = new ArrayList<>();
-        String tempName;
-
-        if (includeNull)
-            matchValues.add(getNullValue());
-
-        if (names == null || names.length == 0)
-            return matchValues;
-
-        for (String name : names)
-        {
-            for (T temp : readValues)
-            {
-                if (temp == null)
-                {
-                    if (name == null || name.isEmpty() || name.equalsIgnoreCase("null"))
-                    {
-                        matchValues.add(temp);
-                        break;
-                    }
-                }
-                else
-                {
-                    tempName = temp.getName();
-                    if (tempName != null && tempName.equalsIgnoreCase(name))
-                    {
-                        matchValues.add(temp);
-                        break;
-                    }
-                }
-            }
-        }
-
-        return matchValues;
+        return get(Arrays.asList(names), includeNull);
     }
 
     /**
@@ -262,7 +230,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
     /**
      * @return The length of the initialized array of elements. -1 if null.
      */
-    public int initialize()
+    public int size()
     {
         if (readValues == null)
         {

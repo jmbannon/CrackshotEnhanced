@@ -19,8 +19,8 @@ import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionAt
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionSet;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ScopeAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ScopeSet;
+import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightAttributes;
+import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightSet;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SilencerAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SilencerSet;
 import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BaseDamageAttributes;
@@ -93,7 +93,7 @@ public class GunModifierLore extends HiddenGunModifierInfo
         if (this instanceof ShrapnelDamageAttributes) stats.addAll(new ShrapnelDamageSet(mod).getStat());
         if (this instanceof StunAttributes)         stats.addAll(new StunSet(mod).getStat());
         if (this instanceof SilencerAttributes)     stats.addAll(new SilencerSet(mod).getStat());
-        if (this instanceof ScopeAttributes)         stats.addAll(new ScopeSet(mod).getStat());
+        if (this instanceof SightAttributes)         stats.addAll(new SightSet(mod).getStat());
 
         if (!stats.isEmpty())
         {

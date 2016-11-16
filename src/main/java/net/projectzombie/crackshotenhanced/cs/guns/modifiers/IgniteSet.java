@@ -27,7 +27,8 @@ public class IgniteSet extends Chance<IgniteAttributes>
                      final double totalFireDamage)
     {
         super("Ignite Damage",
-              getIgniteChance(mods));
+              getIgniteChance(mods),
+                IgniteAttributes.class);
         
         this.igniteDurationInSeconds = getIgniteDurationInSeconds(mods);
         this.igniteFireDmgMultiplier = getIgniteFireDamageMultiplierSum(mods);

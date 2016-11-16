@@ -21,9 +21,10 @@ public abstract class DamageOnHit<T extends Modifier> extends GunModifierSet<T>
     
     public DamageOnHit(final String name,
                        final double damageValue,
-                       final double damageMultiplier)
+                       final double damageMultiplier,
+                       final Class<T> t)
     {
-        super(name);
+        super(name, t);
         this.damageValue = damageValue;
         this.damageMultiplier = damageMultiplier;
         this.totalDamage = Math.max(0.0, damageValue * damageMultiplier);
