@@ -5,42 +5,11 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.physical.components;
 
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.*;
 import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
-import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.BoltAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.BoltSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.DurabilityAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.DurabilitySet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.FireModeAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.FireModeSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MagazineAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MagazineSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SilencerAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SilencerSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BaseDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BaseDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BleedoutAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BleedoutSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.CritAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.CritSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.FireDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.FireDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.HeadshotAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.HeadshotDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.IgniteAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.IgniteSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.ShrapnelDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.ShrapnelDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.StunAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.StunSet;
+import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -76,24 +45,26 @@ public class GunModifierLore extends HiddenGunModifierInfo
         final ArrayList<String> stats = new ArrayList<>();
         if (!this.isValid() || mod == null || mod.isNull())
             return null;
+
+
         
-        if (this instanceof BleedoutAttributes)     stats.addAll(new BleedoutSet(mod).getStat());
-        if (this instanceof BoltAttributes)         stats.addAll(new BoltSet(mod).getStat());
-        if (this instanceof BulletSpreadAttributes) stats.addAll(new BulletSpreadSet(mod).getStat());
-        if (this instanceof CritAttributes)         stats.addAll(new CritSet(mod).getStat());
-        if (this instanceof BaseDamageAttributes)   stats.addAll(new BaseDamageSet(mod).getStat());
-        if (this instanceof HeadshotAttributes)     stats.addAll(new HeadshotDamageSet(mod).getStat());
-        if (this instanceof DurabilityAttributes)   stats.addAll(new DurabilitySet(mod).getStat());
-        if (this instanceof FireModeAttributes)     stats.addAll(new FireModeSet(mod).getStat());
-        if (this instanceof IgniteAttributes)       stats.addAll(new IgniteSet(mod).getStat());
-        if (this instanceof FireDamageAttributes)   stats.addAll(new FireDamageSet(mod).getStat());
-        if (this instanceof MagazineAttributes)     stats.addAll(new MagazineSet(mod).getStat());
-        if (this instanceof ProjectileAttributes)   stats.addAll(new ProjectileSet(mod).getStat());
-        if (this instanceof MotionAttributes)       stats.addAll(new MotionSet(mod).getStat());
-        if (this instanceof ShrapnelDamageAttributes) stats.addAll(new ShrapnelDamageSet(mod).getStat());
-        if (this instanceof StunAttributes)         stats.addAll(new StunSet(mod).getStat());
-        if (this instanceof SilencerAttributes)     stats.addAll(new SilencerSet(mod).getStat());
-        if (this instanceof SightAttributes)         stats.addAll(new SightSet(mod).getStat());
+        if (this instanceof BleedoutSet.BleedoutAttributes)     stats.addAll(new BleedoutSet(mod).getStat());
+        if (this instanceof BoltSet.BoltAttributes)         stats.addAll(new BoltSet(mod).getStat());
+        if (this instanceof BulletSpreadSet.BulletSpreadAttributes) stats.addAll(new BulletSpreadSet(mod).getStat());
+        if (this instanceof CritSet.CritAttributes)         stats.addAll(new CritSet(mod).getStat());
+        if (this instanceof BaseDamageSet.BaseDamageAttributes)   stats.addAll(new BaseDamageSet(mod).getStat());
+        if (this instanceof HeadshotDamageSet.HeadshotAttributes)     stats.addAll(new HeadshotDamageSet(mod).getStat());
+        if (this instanceof DurabilitySet.DurabilityAttributes)   stats.addAll(new DurabilitySet(mod).getStat());
+        if (this instanceof FireModeSet.FireModeAttributes)     stats.addAll(new FireModeSet(mod).getStat());
+        if (this instanceof IgniteSet.IgniteAttributes)       stats.addAll(new IgniteSet(mod).getStat());
+        if (this instanceof FireDamageSet.FireDamageAttributes)   stats.addAll(new FireDamageSet(mod).getStat());
+        if (this instanceof MagazineSet.MagazineAttributes)     stats.addAll(new MagazineSet(mod).getStat());
+        if (this instanceof ProjectileSet.ProjectileAttributes)   stats.addAll(new ProjectileSet(mod).getStat());
+        if (this instanceof MotionSet.MotionAttributes)       stats.addAll(new MotionSet(mod).getStat());
+        if (this instanceof ShrapnelDamageSet.ShrapnelDamageAttributes) stats.addAll(new ShrapnelDamageSet(mod).getStat());
+        if (this instanceof StunSet.StunAttributes)         stats.addAll(new StunSet(mod).getStat());
+        if (this instanceof SilencerSet.SilencerAttributes)     stats.addAll(new SilencerSet(mod).getStat());
+        if (this instanceof SightSet.SightAttributes)         stats.addAll(new SightSet(mod).getStat());
 
         if (!stats.isEmpty())
         {

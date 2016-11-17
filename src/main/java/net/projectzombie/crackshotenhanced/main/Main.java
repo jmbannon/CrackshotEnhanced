@@ -84,7 +84,7 @@ public class Main extends JavaPlugin {
             return false;
         if (!isInitialized("Stocks", Stocks.getInstance().size()))
             return false;
-        if (!isInitialized("Modifier Sets", ModifierSets.getInstance().size()))
+        if (!isInitialized("ModifierAttributes Sets", ModifierSets.getInstance().size()))
             return false;
         if (!isInitialized("Firearm Action", FirearmActions.getInstance().size()))
             return false;

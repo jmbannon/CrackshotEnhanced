@@ -5,19 +5,13 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Barrels.Barrel;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BaseDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.HeadshotAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.FireDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.ShrapnelDamageAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SilencerAttributes;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.ProjectileSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.SilencerSet;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
-
-import java.util.HashMap;
 
 /**
  *
@@ -40,18 +34,18 @@ public class Barrels extends ModifierConfig<Barrel>
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Silencer", false);
-        defaultValues.put("Bullet Spread Modifier", 0.0);
+        defaultValues.put("Bullet Spread ModifierAttributes", 0.0);
         defaultValues.put("Base Damage Value", 0.0);
         defaultValues.put("Base Damage Multiplier", 0.0);
         defaultValues.put("Shrapnel Damage Value", 0.0);
         defaultValues.put("Shrapnel Damage Multiplier", 0.0);
         defaultValues.put("Fire Damage Value", 0.0);
         defaultValues.put("Fire Damage Multiplier", 0.0);
-        defaultValues.put("Headshot Modifier", 0.0);
+        defaultValues.put("Headshot ModifierAttributes", 0.0);
         defaultValues.put("Headshot Multiplier", 0.0);
         defaultValues.put("Projectile Additional Per Shot", 0);
         defaultValues.put("Projectile Speed Multiplier", 0.0);
-        defaultValues.put("Projectile Range Modifier", 0);
+        defaultValues.put("Projectile Range ModifierAttributes", 0);
         defaultValues.put("Projectile Range Multiplier", 0.0);
         return defaultValues;
     }
@@ -73,18 +67,18 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getBoolean("Silencer"),
-                    values.getDouble("Bullet Spread Modifier"),
+                    values.getDouble("Bullet Spread ModifierAttributes"),
                     values.getDouble("Base Damage Value"),
                     values.getDouble("Base Damage Multiplier"),
                     values.getDouble("Shrapnel Damage Value"),
                     values.getDouble("Shrapnel Damage Multiplier"),
                     values.getDouble("Fire Damage Value"),
                     values.getDouble("Fire Damage Multiplier"),
-                    values.getDouble("Headshot Modifier"),
+                    values.getDouble("Headshot ModifierAttributes"),
                     values.getDouble("Headshot Multiplier"),
                     values.getInt("Projectile Additional Per Shot"),
                     values.getDouble("Projectile Speed Multiplier"),
-                    values.getInt("Projectile Range Modifier"),
+                    values.getInt("Projectile Range ModifierAttributes"),
                     values.getDouble("Projectile Range Multiplier")
             );
         } catch (Exception e) {
@@ -99,13 +93,14 @@ public class Barrels extends ModifierConfig<Barrel>
         return new Barrel();
     }
 
-    static public class Barrel extends GunModifier implements BulletSpreadAttributes,
-                                                              BaseDamageAttributes,
-                                                              HeadshotAttributes,
-                                                              ProjectileAttributes,
-                                                              SilencerAttributes,
-                                                              FireDamageAttributes,
-                                                              ShrapnelDamageAttributes
+    static public class Barrel extends GunModifier implements
+            BulletSpreadSet.BulletSpreadAttributes,
+            BaseDamageSet.BaseDamageAttributes,
+            HeadshotDamageSet.HeadshotAttributes,
+            ProjectileSet.ProjectileAttributes,
+            SilencerSet.SilencerAttributes,
+            FireDamageSet.FireDamageAttributes,
+            ShrapnelDamageSet.ShrapnelDamageAttributes
     {
         private final double bulletSpreadModifier;
         private final double baseDamageValue;

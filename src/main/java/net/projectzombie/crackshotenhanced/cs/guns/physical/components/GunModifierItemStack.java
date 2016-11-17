@@ -6,7 +6,7 @@
 package net.projectzombie.crackshotenhanced.cs.guns.physical.components;
 
 import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
-import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType;
+import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;

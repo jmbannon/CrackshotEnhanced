@@ -86,7 +86,7 @@ public class CrackshotGunLore extends HiddenGunInfo
     /** Index where to set Condition information in lore. */
     private static final int CONDITION_IDX = 4;
     
-    /** Index where to set Modifier line in lore. */
+    /** Index where to set ModifierAttributes line in lore. */
     private static final int MOD_LINE_IDX = 5;
     
     /** Lore to be set in an ItemStack. */
@@ -225,7 +225,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      * Adds a line to the lore specifying info regarding the GunModifier only
      * if the GunModifier is not null.
      * @param title Title of the GunModifier.
-     * @param mod Modifier to display name of.
+     * @param mod ModifierAttributes to display name of.
      */
     private void addGunModifierLine(final String title,
                                     final GunModifier mod)
@@ -261,13 +261,14 @@ public class CrackshotGunLore extends HiddenGunInfo
     
     /**
      * Sets lore with LINE_STATS appended with HiddenInfo.
-     * 
-     * @param hiddenLore Hidden lore containing GunID, etc.
-     * @return String containing LINE_STATS + hiddenLore.
      */
     private void setStatLineHiddenInfo()
     {
-        lore.add(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+        if (STAT_LINE_HIDDENINFO_IDX >= lore.size()) {
+            lore.add(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+        } else {
+            lore.set(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+        }
     }
     
     /**
@@ -316,7 +317,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      */
     private void setConditionLore(final Condition condition)
     {
-        lore.add(CONDITION_IDX, buildLoreString(Condition.getTitle(), condition.name()));
+        lore.add(CONDITION_IDX, buildLoreString(Condition.getTitle(), condition.toString()));
     }
     
     

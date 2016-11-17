@@ -6,14 +6,14 @@
 package net.projectzombie.crackshotenhanced.cs.guns.weps;
 
 import net.projectzombie.crackshotenhanced.cs.guns.components.Sights;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.DurabilitySet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BleedoutSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.ShrapnelDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.FireDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.HeadshotDamageSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.CritSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MagazineSet;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BaseDamageSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.DurabilitySet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.BleedoutSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.ShrapnelDamageSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.FireDamageSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.HeadshotDamageSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.CritSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.MagazineSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.BaseDamageSet;
 import net.projectzombie.crackshotenhanced.cs.guns.qualities.Condition;
 import java.util.Collection;
 import java.util.HashMap;
@@ -27,16 +27,16 @@ import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Magazines.Magazine;
 import static net.projectzombie.crackshotenhanced.cs.guns.components.ModifierLoreBuilder.STAT_TYPE_SEPERATOR;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons.GunSkeleton;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.BulletSpreadSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
 import static net.projectzombie.crackshotenhanced.cs.guns.components.ModifierLoreBuilder.STAT_SEPERATOR;
 import static net.projectzombie.crackshotenhanced.cs.guns.components.ModifierLoreBuilder.toTitle;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.StunSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.BoltSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileSet;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.StunSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.BoltSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.MotionSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.ProjectileSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.SightSet;
 import net.projectzombie.crackshotenhanced.cs.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.cs.guns.qualities.Build;
 
@@ -259,9 +259,9 @@ public class Guns
         public StunSet getGunStun()                   { return stun;          }
         public MotionSet getMotionSet()               { return motion;        }
         public DurabilitySet getDurabilitySet()       { return durability;    }
-        public GunModifierSet[] getSets()
+        public AttributeSet[] getSets()
         {
-            return new GunModifierSet[]
+            return new AttributeSet[]
             {
                 bulletSpread,
                 baseDamage,
@@ -280,10 +280,10 @@ public class Guns
             };
         }
         
-        public HashMap<String, GunModifierSet> getHashedSets()
+        public HashMap<String, AttributeSet> getHashedSets()
         {
-            final HashMap<String, GunModifierSet> hash = new HashMap<>();
-            for (GunModifierSet modSet : getSets())
+            final HashMap<String, AttributeSet> hash = new HashMap<>();
+            for (AttributeSet modSet : getSets())
             {
                 hash.put(modSet.getName(), modSet);
             }
@@ -294,7 +294,11 @@ public class Guns
         
         public double getDamageOnEntityHit(final boolean headshot)
         {
-            return 0;
+            double toReturn = 0.0;
+            if (headshot) {
+                toReturn += this.getHeadshotDamage().getTotal();
+            }
+            return this.getDPS();
         }
         
         public double getDPS()
@@ -353,10 +357,10 @@ public class Guns
         public ArrayList<String> getAllStatInfo()
         {
             final ArrayList<String> stats = new ArrayList<>();
-            final GunModifierSet modSets[] = getSets();
+            final AttributeSet modSets[] = getSets();
             
             stats.add(toTitle(super.getName() + " Stats"));
-            for (GunModifierSet modSet : modSets)
+            for (AttributeSet modSet : modSets)
             {
                 if (modSet.hasStats())
                 {
@@ -383,9 +387,9 @@ public class Guns
             final ArrayList<String> stats = new ArrayList<>();
             final ArrayList<String> unrecognizedNames = new ArrayList();
             
-            final HashMap<String, GunModifierSet> hash = getHashedSets();
+            final HashMap<String, AttributeSet> hash = getHashedSets();
             final String[] modSetNames = args.toLowerCase().replace(" ", "").replaceAll("[^a-z]", ",").split(",");
-            GunModifierSet tmp;
+            AttributeSet tmp;
             
             for (String modSetName : modSetNames)
             {
@@ -420,7 +424,7 @@ public class Guns
             final ArrayList<String> statList = new ArrayList<>();
             
             statList.add(toTitle("Full Stat List"));
-            for (GunModifierSet modSet : getSets())
+            for (AttributeSet modSet : getSets())
             {
                 statList.add(toTitle(modSet.getName()));
             }
@@ -433,7 +437,7 @@ public class Guns
             final ArrayList<String> statList = new ArrayList<>();
             
             statList.add(toTitle("Stat List"));
-            for (GunModifierSet modSet : getSets())
+            for (AttributeSet modSet : getSets())
             {
                 if (modSet.hasStats())
                 {

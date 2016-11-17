@@ -5,13 +5,11 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MagazineAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Magazines.Magazine;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.MagazineSet;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
-
-import java.util.HashMap;
 
 /**
  *
@@ -33,7 +31,7 @@ public class Magazines extends ModifierConfig<Magazine>
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
-        defaultValues.put("Magazine Modifier", 0);
+        defaultValues.put("Magazine ModifierAttributes", 0);
         defaultValues.put("Magazine Multiplier", 0.0);
         defaultValues.put("Reload Speed Multiplier", 0.0);
         return defaultValues;
@@ -55,7 +53,7 @@ public class Magazines extends ModifierConfig<Magazine>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
-                    values.getInt("Magazine Modifier"),
+                    values.getInt("Magazine ModifierAttributes"),
                     values.getDouble("Magazine Multiplier"),
                     values.getDouble("Reload Speed Multiplier")
             );
@@ -71,7 +69,7 @@ public class Magazines extends ModifierConfig<Magazine>
         return new Magazine();
     }
     
-    static public class Magazine extends GunModifier implements MagazineAttributes
+    static public class Magazine extends GunModifier implements MagazineSet.MagazineAttributes
     {
         private final int magazineBoost;
         private final double magazineMultiplier;

@@ -27,7 +27,7 @@ public enum Condition
     
     private final double multiplier;
     private final double ratioDurability;
-    private final String condition;
+    private final String displayName;
 
     /**
      * Creates a weapon tier of the value (higher -> better) and the display
@@ -35,21 +35,22 @@ public enum Condition
      * 
      * @param multiplier Multiplier of the tier (higher is better).
      * @param color Color of the condition string in the lore.
-     * @param condition Condition of the weapon to display in the lore.
+     * @param displayName Condition of the weapon to display in the lore.
      */
      Condition(final double ratioDurability,
               final double multiplier,
               final ChatColor color,
-              final String condition)
+              final String displayName)
     {
         this.ratioDurability = ratioDurability;
         this.multiplier = multiplier;
-        this.condition = color + condition;
+        this.displayName = color + displayName;
     }
     
     public static String getTitle()     { return TITLE;     }
     public double getMultiplier()       { return multiplier; }
-    @Override public String toString()  { return condition; }
+    public String getDisplayName()      { return displayName;  }
+    @Override public String toString()  { return displayName; }
     
     /**
      * Gets the condition based on the ratio between currentDurability

@@ -29,21 +29,21 @@ public enum Build
     private static final String TITLE = "Build: ";
     
     private final double scalar;
-    private final String value;
+    private final String displayName;
     
     Build(final double scalar,
           final ChatColor color,
           final String value)
     {
         this.scalar = scalar;
-        this.value = color + value;
+        this.displayName = color + value;
     }
     
     /** @return Returns the title, "Build: ". */
     public static String getTitle()     { return TITLE;     }
     
     /** @return Display name of the Build. */
-    public String getDisplayName()      { return value;     }
+    public String getDisplayName()      { return displayName;     }
     
     /** @return The bullet-spread scalar of the Build. */
     public double getScalar()           { return scalar;    }

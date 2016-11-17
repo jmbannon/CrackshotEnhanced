@@ -6,7 +6,7 @@
 package net.projectzombie.crackshotenhanced.cs.guns.yaml_gen;
 
 import net.projectzombie.crackshotenhanced.cs.guns.weps.Guns;
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.ProjectileSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.ProjectileSet;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -18,7 +18,6 @@ import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons.GunSkel
 import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.plugin.Plugin;
 
 /**
  *

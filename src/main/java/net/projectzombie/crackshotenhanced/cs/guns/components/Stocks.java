@@ -5,14 +5,13 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.MotionAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Stocks.Stock;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.MotionSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.BulletSpreadSet;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
-import java.util.HashMap;
 
 /**
  *
@@ -80,8 +79,9 @@ public class Stocks extends ModifierConfig<Stock>
         return new Stock();
     }
     
-    static public class Stock extends GunModifier implements BulletSpreadAttributes,
-            MotionAttributes
+    static public class Stock extends GunModifier implements
+            BulletSpreadSet.BulletSpreadAttributes,
+            MotionSet.MotionAttributes
     {
         private final double bulletSpreadMultiplier;
         

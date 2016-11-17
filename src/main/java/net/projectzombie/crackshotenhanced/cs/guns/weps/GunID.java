@@ -18,12 +18,13 @@
 package net.projectzombie.crackshotenhanced.cs.guns.weps;
 
 import net.projectzombie.crackshotenhanced.cs.guns.components.*;
+import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.cs.guns.components.ProjectileAttachments.ProjectileAttachment;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Magazines.Magazine;
 import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons.GunSkeleton;
 
-import static net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType.*;
+import static net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType.*;
 
 /**
  *

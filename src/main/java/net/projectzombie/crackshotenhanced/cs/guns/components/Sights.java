@@ -5,9 +5,9 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.SightAttributes;
-import net.projectzombie.crackshotenhanced.cs.guns.modifiers.BulletSpreadAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.Sights.Sight;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.SightSet;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.BulletSpreadSet;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -71,8 +71,9 @@ public class Sights extends ModifierConfig<Sight>
         return new Sight();
     }
     
-    static public class Sight extends GunModifier implements BulletSpreadAttributes,
-            SightAttributes
+    static public class Sight extends GunModifier implements
+            BulletSpreadSet.BulletSpreadAttributes,
+            SightSet.SightAttributes
     {
         private final int zoomAmount;
         private final double bulletSpreadModifier;

@@ -5,12 +5,10 @@
  */
 package net.projectzombie.crackshotenhanced.cs.guns.components;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.modifiers.FireModeAttributes;
 import net.projectzombie.crackshotenhanced.cs.guns.components.FireModes.FireMode;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.skeleton.FireModeSet;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
-
-import java.util.HashMap;
 
 import static net.projectzombie.crackshotenhanced.main.Main.getPlugin;
 
@@ -73,7 +71,7 @@ public class FireModes extends ModifierConfig<FireMode>
     }
     
     
-    static public class FireMode extends GunModifier implements FireModeAttributes
+    static public class FireMode extends GunModifier implements FireModeSet.FireModeAttributes
     {
         private static final String TITLE = "Fire Mode: ";
 

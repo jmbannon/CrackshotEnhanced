@@ -7,7 +7,7 @@ package net.projectzombie.crackshotenhanced.cs.guns.physical.components;
 
 import net.projectzombie.crackshotenhanced.cs.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifier;
-import net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType;
+import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
 
 /**
  *

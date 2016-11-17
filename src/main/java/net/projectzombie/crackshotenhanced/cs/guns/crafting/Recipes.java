@@ -23,7 +23,7 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-import static net.projectzombie.crackshotenhanced.cs.guns.components.GunModifierType.*;
+import static net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType.*;
 
 /**
  *

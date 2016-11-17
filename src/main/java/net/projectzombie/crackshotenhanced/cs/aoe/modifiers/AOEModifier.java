@@ -17,13 +17,13 @@
  */
 package net.projectzombie.crackshotenhanced.cs.aoe.modifiers;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.Modifier;
+import net.projectzombie.crackshotenhanced.cs.guns.attributes.modifier.ModifierAttributes;
 
 /**
  *
  * @author jesse
  */
-public abstract interface AOEModifier extends Modifier
+public abstract interface AOEModifier extends ModifierAttributes
 {
 
 }
