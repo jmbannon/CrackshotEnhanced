@@ -7,18 +7,16 @@ package net.projectzombie.crackshotenhanced.main;
 
 import java.util.ArrayList;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.*;
-import net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType;
-import net.projectzombie.crackshotenhanced.cs.guns.physical.components.GunModifierItemStack;
-import net.projectzombie.crackshotenhanced.cs.guns.weps.Guns;
-import net.projectzombie.crackshotenhanced.cs.guns.listeners.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
+import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.listeners.ShootListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-
-import static net.projectzombie.crackshotenhanced.cs.guns.crafting.GunModifierType.*;
 
 /**
  *

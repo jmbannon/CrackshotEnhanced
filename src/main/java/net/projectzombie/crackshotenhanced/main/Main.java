@@ -1,14 +1,15 @@
 package net.projectzombie.crackshotenhanced.main;
 
-import net.projectzombie.crackshotenhanced.cs.guns.components.*;
-import net.projectzombie.crackshotenhanced.cs.guns.weps.Guns;
-import net.projectzombie.crackshotenhanced.cs.guns.crafting.Recipes;
-import net.projectzombie.crackshotenhanced.cs.guns.skeleton.FirearmActions;
-import net.projectzombie.crackshotenhanced.cs.guns.skeleton.SkeletonTypes;
-import net.projectzombie.crackshotenhanced.cs.guns.skeleton.GunSkeletons;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.ModifierSets;
+import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.crafting.Recipes;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.windows.BlockBreakListener;
-import net.projectzombie.crackshotenhanced.cs.guns.listeners.ShootListener;
-import net.projectzombie.crackshotenhanced.cs.guns.listeners.ScopeZoomListener;
+import net.projectzombie.crackshotenhanced.guns.listeners.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.listeners.ScopeZoomListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 

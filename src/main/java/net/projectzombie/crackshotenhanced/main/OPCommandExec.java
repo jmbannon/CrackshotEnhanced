@@ -1,13 +1,12 @@
 package net.projectzombie.crackshotenhanced.main;
 
-import net.projectzombie.crackshotenhanced.cs.guns.yaml_gen.YAMLGenerator;
+import net.projectzombie.crackshotenhanced.guns.yaml_gen.YAMLGenerator;
 import net.projectzombie.crackshotenhanced.windows.BlockBreakListener;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public class OPCommandExec implements CommandExecutor
 {
