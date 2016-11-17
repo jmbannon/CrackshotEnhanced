@@ -56,7 +56,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
     static private final String YML_NAME = "GunSkeletons.yml";
     static private final String MODULE_NAME = "GunSkeletons";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Weapon Type", "ModifierAttributes Set", "Material ID", "Material Data", "Sound Shoot", "Sound Reload" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Weapon Type", "Modifier Set", "Material ID", "Material Data", "Sound Shoot", "Sound Reload" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private GunSkeletons() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -69,7 +69,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     uniqueID,
                     values.getString("Display Name"),
                     SkeletonTypes.getInstance().get(values.getString("Weapon Type")),
-                    ModifierSets.getInstance().get(values.getString("ModifierAttributes Set")),
+                    ModifierSets.getInstance().get(values.getString("Modifier Set")),
                     values.getInt("Material ID"),
                     values.getInt("Material Data"),
                     values.getDouble("Initial Bullet Spread"),

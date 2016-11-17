@@ -34,6 +34,8 @@ public class BoltSet extends AttributeSet<BoltSet.BoltAttributes>
         this.boltDurationMultiplier = super.getMultiplierSum(BoltAttributes::getBoltDurationMultiplier);
         this.skeletonBoltActionDurationInTicks = skeletonBoltActionDurationInTicks;
     }
+
+    public double getBoltDurationMultiplier() { return boltDurationMultiplier; }
     
     public BoltSet(final GunModifier mod)
     {

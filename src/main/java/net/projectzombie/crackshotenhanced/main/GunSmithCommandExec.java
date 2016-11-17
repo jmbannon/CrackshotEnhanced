@@ -18,6 +18,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import static net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType.*;
+
 /**
  *
  * @author jbannon

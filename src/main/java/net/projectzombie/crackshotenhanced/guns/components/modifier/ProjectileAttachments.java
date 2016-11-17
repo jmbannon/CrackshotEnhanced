@@ -34,11 +34,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Bulletspread Multiplier", 0.0);
-        defaultValues.put("Damage ModifierAttributes", 0.0);
+        defaultValues.put("Damage Modifier", 0.0);
         defaultValues.put("Damage Multiplier", 0.0);
-        defaultValues.put("Headshot Damage ModifierAttributes", 0.0);
+        defaultValues.put("Headshot Damage Modifier", 0.0);
         defaultValues.put("Headshot Damage Multiplier", 0.0);
-        defaultValues.put("Crit Chance ModifierAttributes", 0.0);
+        defaultValues.put("Crit Chance Modifier", 0.0);
         defaultValues.put("Crit Strike Multiplier", 0.0);
         defaultValues.put("Bleedout Duration Seconds", 0.0);
         defaultValues.put("Bleedout Duration Multiplier", 0.0);
@@ -52,7 +52,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         defaultValues.put("Ignite Duration", 0.0);
         defaultValues.put("Ignite Damage Multiplier From Fire Damage", 0.0);
         defaultValues.put("Ignite Damage Multiplier From Base Damage", 0.0);
-        defaultValues.put("Shrapnel Damage ModifierAttributes", 0.0);
+        defaultValues.put("Shrapnel Damage Modifier", 0.0);
         defaultValues.put("Shrapnel Damage Multiplier", 0.0);
         defaultValues.put("Stun Chance", 0.0);
         defaultValues.put("Stun Duration", 0.0);
@@ -76,11 +76,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getDouble("Bulletspread Multiplier"),
-                    values.getDouble("Damage ModifierAttributes"),
+                    values.getDouble("Damage Modifier"),
                     values.getDouble("Damage Multiplier"),
-                    values.getDouble("Headshot Damage ModifierAttributes"),
+                    values.getDouble("Headshot Damage Modifier"),
                     values.getDouble("Headshot Damage Multiplier"),
-                    values.getDouble("Crit Chance ModifierAttributes"),
+                    values.getDouble("Crit Chance Modifier"),
                     values.getDouble("Crit Strike Multiplier"),
                     values.getDouble("Bleedout Duration Seconds"),
                     values.getDouble("Bleedout Duration Multiplier"),
@@ -94,7 +94,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                     values.getDouble("Ignite Duration"),
                     values.getDouble("Ignite Damage Multiplier From Fire Damage"),
                     values.getDouble("Ignite Damage Multiplier From Base Damage"),
-                    values.getDouble("Shrapnel Damage ModifierAttributes"),
+                    values.getDouble("Shrapnel Damage Modifier"),
                     values.getDouble("Shrapnel Damage Multiplier"),
                     values.getDouble("Stun Chance"),
                     values.getDouble("Stun Duration")

@@ -31,7 +31,7 @@ public class Magazines extends ModifierConfig<Magazine>
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
-        defaultValues.put("Magazine ModifierAttributes", 0);
+        defaultValues.put("Magazine Modifier", 0);
         defaultValues.put("Magazine Multiplier", 0.0);
         defaultValues.put("Reload Speed Multiplier", 0.0);
         return defaultValues;
@@ -53,7 +53,7 @@ public class Magazines extends ModifierConfig<Magazine>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
-                    values.getInt("Magazine ModifierAttributes"),
+                    values.getInt("Magazine Modifier"),
                     values.getDouble("Magazine Multiplier"),
                     values.getDouble("Reload Speed Multiplier")
             );

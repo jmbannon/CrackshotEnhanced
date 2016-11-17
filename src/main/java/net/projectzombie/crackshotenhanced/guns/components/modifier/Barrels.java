@@ -34,18 +34,18 @@ public class Barrels extends ModifierConfig<Barrel>
         defaultValues.put("Price", 0);
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Silencer", false);
-        defaultValues.put("Bullet Spread ModifierAttributes", 0.0);
+        defaultValues.put("Bullet Spread Modifier", 0.0);
         defaultValues.put("Base Damage Value", 0.0);
         defaultValues.put("Base Damage Multiplier", 0.0);
         defaultValues.put("Shrapnel Damage Value", 0.0);
         defaultValues.put("Shrapnel Damage Multiplier", 0.0);
         defaultValues.put("Fire Damage Value", 0.0);
         defaultValues.put("Fire Damage Multiplier", 0.0);
-        defaultValues.put("Headshot ModifierAttributes", 0.0);
+        defaultValues.put("Headshot Modifier", 0.0);
         defaultValues.put("Headshot Multiplier", 0.0);
         defaultValues.put("Projectile Additional Per Shot", 0);
         defaultValues.put("Projectile Speed Multiplier", 0.0);
-        defaultValues.put("Projectile Range ModifierAttributes", 0);
+        defaultValues.put("Projectile Range Modifier", 0);
         defaultValues.put("Projectile Range Multiplier", 0.0);
         return defaultValues;
     }
@@ -67,18 +67,18 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getBoolean("Silencer"),
-                    values.getDouble("Bullet Spread ModifierAttributes"),
+                    values.getDouble("Bullet Spread Modifier"),
                     values.getDouble("Base Damage Value"),
                     values.getDouble("Base Damage Multiplier"),
                     values.getDouble("Shrapnel Damage Value"),
                     values.getDouble("Shrapnel Damage Multiplier"),
                     values.getDouble("Fire Damage Value"),
                     values.getDouble("Fire Damage Multiplier"),
-                    values.getDouble("Headshot ModifierAttributes"),
+                    values.getDouble("Headshot Modifier"),
                     values.getDouble("Headshot Multiplier"),
                     values.getInt("Projectile Additional Per Shot"),
                     values.getDouble("Projectile Speed Multiplier"),
-                    values.getInt("Projectile Range ModifierAttributes"),
+                    values.getInt("Projectile Range Modifier"),
                     values.getDouble("Projectile Range Multiplier")
             );
         } catch (Exception e) {

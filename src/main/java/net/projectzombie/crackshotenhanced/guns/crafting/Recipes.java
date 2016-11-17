@@ -22,6 +22,8 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
+import static net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType.*;
+
 /**
  *
  * @author Jesse Bannon
