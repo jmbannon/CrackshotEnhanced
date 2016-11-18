@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Magazines.Magazine;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MagazineSet;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -39,7 +40,7 @@ public class Magazines extends ModifierConfig<Magazine>
 
     static private final String YML_NAME = "Magazines.yml";
     static private final String MODULE_NAME = "Magazines";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private Magazines() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -53,6 +54,7 @@ public class Magazines extends ModifierConfig<Magazine>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getInt("Magazine Modifier"),
                     values.getDouble("Magazine Multiplier"),
                     values.getDouble("Reload Speed Multiplier")
@@ -69,23 +71,24 @@ public class Magazines extends ModifierConfig<Magazine>
         return new Magazine();
     }
     
-    static public class Magazine extends GunModifier implements MagazineSet.MagazineAttributes
+    static public class Magazine extends QualityGunModifier implements MagazineSet.MagazineAttributes
     {
         private final int magazineBoost;
         private final double magazineMultiplier;
         private final double reloadSpeedMultiplier;
 
         private Magazine(final int uniqueID,
-                        final String displayName,
-                          final String material,
-                          final int materialByte,
-                          final int price,
-                          final String color,
+                         final String displayName,
+                         final String material,
+                         final int materialByte,
+                         final int price,
+                         final String color,
+                         final Qualities.Quality quality,
                           final int magazineBoost,
-                          final double magazineMultiplier,
-                          final double reloadSpeedMultiplier)
+                         final double magazineMultiplier,
+                         final double reloadSpeedMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color);
+            super(uniqueID, displayName, material, materialByte, price, color, quality);
             this.magazineBoost = magazineBoost;
             this.magazineMultiplier = magazineMultiplier;
             this.reloadSpeedMultiplier = reloadSpeedMultiplier;
@@ -93,7 +96,7 @@ public class Magazines extends ModifierConfig<Magazine>
 
         private Magazine()
         {
-            this(0, null, null, 0, 0, null, 0, 0, 0);
+            this(0, null, null, 0, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getMagazineSizeModifier()          { return magazineBoost; }

@@ -6,7 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
-import net.projectzombie.crackshotenhanced.guns.qualities.Build;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.weps.Guns;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
@@ -146,37 +146,28 @@ public class CrackshotGunLore extends HiddenGunInfo
         return decDur;
     }
     
-    @Override
-    public void setBuild(final Build build)
-    {
-        super.setBuild(build);
-        setStatLineHiddenInfo();
-    }
-    
     /**
      * @return PostShot lore with Build value STOCK and an initial durability.
      */
     public CrackshotGunLore toPostShotLore()
     {
-        return this.toPostShotLore(Build.STOCK, this.getGun().getInitialDurability());
+        return this.toPostShotLore(this.getGun().getInitialDurability());
     }
     
     /**
      * Creates an ItemStack lore (List<String>) for a Crackshot gun.
-     * @param build
      * @param durability
      * @return 
      */
-    public CrackshotGunLore toPostShotLore(final Build build,
-                                           final int durability)
+    public CrackshotGunLore toPostShotLore(final int durability)
     {
         final Guns.CrackshotGun gun = super.getGun();
 
         lore.clear();
         this.setStatLineHiddenInfo();
         this.setDPSInfo(gun.getDPS());
-        this.setAccuracyInfo(gun, build, durability);
-        this.setBuildInfo(build);
+        this.setAccuracyInfo(gun, durability);
+        this.setQualityInfo();
         this.setConditionLore(gun.getCondition(durability));
         this.setGunModifierInfo(gun);
         lore.add(LORE_END_INFO);
@@ -301,11 +292,9 @@ public class CrackshotGunLore extends HiddenGunInfo
      * TODO: Sets the accuracy information in the lore.
      * 
      * @param gun CrackshotGun to evaluate accuracy rating.
-     * @param build Current Build of the CrackshotGun.
      * @param durability Current durability of the CrackshotGun.
      */
     private void setAccuracyInfo(final Guns.CrackshotGun gun,
-                                 final Build build,
                                  final int durability)
     {
         lore.add(ACCURACY_IDX, buildLoreString("Accuracy: ", "WIP"));
@@ -322,12 +311,11 @@ public class CrackshotGunLore extends HiddenGunInfo
     
     
     /**
-     * Sets the build info in the lore.
-     * @param build  Current build of the gun.
+     * Sets the quality info in the lore.
      */
-    private void setBuildInfo(final Build build)
+    private void setQualityInfo()
     {
-        lore.add(BUILD_IDX, buildLoreString(Build.getTitle(), build.getDisplayName()));
+        lore.add(BUILD_IDX, buildLoreString(Qualities.getInstance().getModuleName(), super.getGun().getQuality().getName()));
     }
     
     static

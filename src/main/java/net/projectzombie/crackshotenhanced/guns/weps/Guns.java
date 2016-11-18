@@ -35,7 +35,6 @@ import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MotionSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.SightSet;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
-import net.projectzombie.crackshotenhanced.guns.qualities.Build;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 
@@ -112,7 +111,7 @@ public class Guns
         private final String csUniqueID;
         private final GunID  gunID;
         
-        private final Attachments.Attachment[] attatchments;
+        private final ProjectileAttachments.ProjectileAttachment[] attatchments;
         private final Barrel barrel;
         private final Bolts.Bolt bolt;
         private final FireModes.FireMode firemode;
@@ -137,9 +136,9 @@ public class Guns
         
 
         public CrackshotGun(final GunSkeletons.GunSkeleton skeleton,
-                             final Attachments.Attachment attachmentOne,
-                             final Attachments.Attachment attachmentTwo,
-                             final Attachments.Attachment attachmentThree,
+                             final ProjectileAttachments.ProjectileAttachment attachmentOne,
+                             final ProjectileAttachments.ProjectileAttachment attachmentTwo,
+                             final ProjectileAttachments.ProjectileAttachment attachmentThree,
                              final Barrel barrel,
                              final Bolts.Bolt bolt,
                              final FireModes.FireMode firemodeType,
@@ -163,7 +162,7 @@ public class Guns
                 stock
             };
             
-            this.attatchments = new Attachments.Attachment[]
+            this.attatchments = new ProjectileAttachments.ProjectileAttachment[]
             {
                 attachmentOne,
                 attachmentTwo,
@@ -196,11 +195,9 @@ public class Guns
             this.durability = new DurabilitySet(modifiers, super.getSkeletonMaxDurability());
             this.motion = new MotionSet(modifiers,
                     super.getSkeletonRunningSpeedMultiplier(),
-                    super.getSkeletonSprintingSpeedMultiplier(),
                     super.getSkeletonCrouchingBulletSpreadMultiplier(),
                     super.getSkeletonStandingBulletSpreadMultiplier(),
-                    super.getSkeletonRunningBulletSpreadMultiplier(),
-                    super.getSkeletonSprintingBulletSpreadMultiplier());
+                    super.getSkeletonRunningBulletSpreadMultiplier());
             this.scopeSet = new SightSet(modifiers);
         }
         
@@ -233,9 +230,9 @@ public class Guns
         }
 
         public GunID        getGunID()               { return gunID;           }
-        public Attachments.Attachment getAttachmentOneMod()    { return attatchments[0]; }
-        public Attachments.Attachment getAttachmentTwoMod()    { return attatchments[1]; }
-        public Attachments.Attachment getAttachmentThreeMod()  { return attatchments[2]; }
+        public ProjectileAttachments.ProjectileAttachment getAttachmentOneMod()    { return attatchments[0]; }
+        public ProjectileAttachments.ProjectileAttachment getAttachmentTwoMod()    { return attatchments[1]; }
+        public ProjectileAttachments.ProjectileAttachment getAttachmentThreeMod()  { return attatchments[2]; }
         public Bolts.Bolt getBoltMod()             { return bolt;            }
         public Barrel       getBarrelMod()           { return barrel;          }
         public FireModes.FireMode getFireModeMod()         { return firemode;        }
@@ -347,8 +344,7 @@ public class Guns
         
         // TODO
         public double getEventBulletSpread(final double eventBulletSpread,
-                                           final int durability,
-                                           final Build build)
+                                           final int durability)
         {
             return eventBulletSpread;
         }

@@ -45,9 +45,9 @@ public class GunID
     private final int stockIndex;
     
     public GunID(final GunSkeletons.GunSkeleton skeleton,
-                final Attachments.Attachment attatchmentOne,
-                final Attachments.Attachment attatchmentTwo,
-                final Attachments.Attachment attatchmentThree,
+                final ProjectileAttachments.ProjectileAttachment attatchmentOne,
+                final ProjectileAttachments.ProjectileAttachment attatchmentTwo,
+                final ProjectileAttachments.ProjectileAttachment attatchmentThree,
                 final Barrels.Barrel barrel,
                 final Bolts.Bolt bolt,
                 final FireModes.FireMode firemodeType,
@@ -166,9 +166,9 @@ public class GunID
     }
     
     public GunSkeletons.GunSkeleton getSkeleton()       { return GunSkeletons.getInstance().get(skeletonIndex); }
-    public Attachments.Attachment getAttatchmentOne()   { return ProjectileAttachments.getInstance().get(attatchmentOneIndex); }
-    public Attachments.Attachment getAttatchmentTwo()   { return ProjectileAttachments.getInstance().get(attatchmentTwoIndex); }
-    public Attachments.Attachment getAttatchmentThree() { return ProjectileAttachments.getInstance().get(attatchmentThreeIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentOne()   { return ProjectileAttachments.getInstance().get(attatchmentOneIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentTwo()   { return ProjectileAttachments.getInstance().get(attatchmentTwoIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentThree() { return ProjectileAttachments.getInstance().get(attatchmentThreeIndex); }
     public Barrels.Barrel getBarrel()                { return Barrels.getInstance().get(barrelIndex); }
     public Bolts.Bolt getBolt()                    { return Bolts.getInstance().get(boltIndex); }
     public FireModes.FireMode getFireMode()            { return FireModes.getInstance().get(firemodeTypeIndex); }

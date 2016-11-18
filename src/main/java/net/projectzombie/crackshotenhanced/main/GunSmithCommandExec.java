@@ -11,7 +11,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.weps.Guns;
-import net.projectzombie.crackshotenhanced.guns.listeners.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.events.listener.ShootListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

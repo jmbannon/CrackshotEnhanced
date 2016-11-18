@@ -1,4 +1,4 @@
-package net.projectzombie.crackshotenhanced.guns.listeners;
+package net.projectzombie.crackshotenhanced.guns.events.listener;
 
 import java.util.HashMap;
 

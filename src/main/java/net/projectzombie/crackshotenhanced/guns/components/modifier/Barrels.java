@@ -9,6 +9,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.Barrels.Barr
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.SilencerSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -52,7 +53,7 @@ public class Barrels extends ModifierConfig<Barrel>
     
     static private final String YML_NAME = "Barrels.yml";
     static private final String MODULE_NAME = "Barrels";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private Barrels() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -66,6 +67,7 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getBoolean("Silencer"),
                     values.getDouble("Bullet Spread Modifier"),
                     values.getDouble("Base Damage Value"),
@@ -93,7 +95,7 @@ public class Barrels extends ModifierConfig<Barrel>
         return new Barrel();
     }
 
-    static public class Barrel extends GunModifier implements
+    static public class Barrel extends QualityGunModifier implements
             BulletSpreadSet.BulletSpreadAttributes,
             BaseDamageSet.BaseDamageAttributes,
             HeadshotDamageSet.HeadshotAttributes,
@@ -124,6 +126,7 @@ public class Barrels extends ModifierConfig<Barrel>
                         final int    materialByte,
                         final int    price,
                         final String color,
+                        final Qualities.Quality quality,
                         final boolean isSilencer,
                         final double bulletSpreadModifier,
                         final double baseDamageValue,
@@ -139,7 +142,7 @@ public class Barrels extends ModifierConfig<Barrel>
                         final int    projectileRangeValue,
                         final double projectileRangeMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color);
+            super(uniqueID, displayName, material, materialByte, price, color, quality);
             this.isSilencer = isSilencer;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.baseDamageValue = baseDamageValue;
@@ -158,7 +161,7 @@ public class Barrels extends ModifierConfig<Barrel>
 
         public Barrel()
         {
-            this(0, null, null, 0, 0, null, false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(0, null, null, 0, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public boolean isSilencer()                { return isSilencer; }

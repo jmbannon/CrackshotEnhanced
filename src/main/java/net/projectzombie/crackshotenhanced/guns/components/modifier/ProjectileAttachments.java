@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ProjectileAttachments.ProjectileAttachment;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -61,7 +62,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
 
     static private final String YML_NAME = "Attachments.yml";
     static private final String MODULE_NAME = "Attachments";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private ProjectileAttachments() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -75,6 +76,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getDouble("Bulletspread Multiplier"),
                     values.getDouble("Damage Modifier"),
                     values.getDouble("Damage Multiplier"),
@@ -112,7 +114,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
     }
 
 
-    static public class ProjectileAttachment extends Attachments.Attachment implements
+    static public class ProjectileAttachment extends QualityGunModifier implements
             BulletSpreadSet.BulletSpreadAttributes,
             BaseDamageSet.BaseDamageAttributes,
             HeadshotDamageSet.HeadshotAttributes,
@@ -148,36 +150,37 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         private final double stunDuration;
 
         private ProjectileAttachment(final int uniqueID,
-                            final String displayname,
-                            final String materialName,
-                            final int materialByte,
-                            final int price,
-                            final String color,
-                            final double bulletSpreadMultiplier,
-                            final double damageModifier,
-                            final double damageMultiplier,
-                            final double headshotDamageModifier,
-                            final double headshotDamageMultiplier,
-                            final double critChanceBoost,
-                            final double critStrikeMultiplier,
-                            final double bleedoutDurationSeconds,
-                            final double bleedoutDurationMultiplier,
-                            final double bleedoutDamageBoost,
-                            final double bleedoutDamageMultiplier,
-                            final double bleedoutDamageMultiplierFromBase,
-                            final double bleedoutDamageMultiplierFromShrap,
-                            final double fireDamageModifier,
-                            final double fireDamageMultiplier,
-                            final double igniteChance,
-                            final double igniteDuration,
-                            final double igniteDamageMultiplierFromFire,
-                            final double igniteDamageMultiplierFromBase,
-                            final double shrapnelDamageModifier,
-                            final double shrapnelDamageMultiplier,
-                            final double stunChance,
-                            final double stunDuration)
+                                     final String displayname,
+                                     final String materialName,
+                                     final int materialByte,
+                                     final int price,
+                                     final String color,
+                                     final Qualities.Quality quality,
+                                     final double bulletSpreadMultiplier,
+                                     final double damageModifier,
+                                     final double damageMultiplier,
+                                     final double headshotDamageModifier,
+                                     final double headshotDamageMultiplier,
+                                     final double critChanceBoost,
+                                     final double critStrikeMultiplier,
+                                     final double bleedoutDurationSeconds,
+                                     final double bleedoutDurationMultiplier,
+                                     final double bleedoutDamageBoost,
+                                     final double bleedoutDamageMultiplier,
+                                     final double bleedoutDamageMultiplierFromBase,
+                                     final double bleedoutDamageMultiplierFromShrap,
+                                     final double fireDamageModifier,
+                                     final double fireDamageMultiplier,
+                                     final double igniteChance,
+                                     final double igniteDuration,
+                                     final double igniteDamageMultiplierFromFire,
+                                     final double igniteDamageMultiplierFromBase,
+                                     final double shrapnelDamageModifier,
+                                     final double shrapnelDamageMultiplier,
+                                     final double stunChance,
+                                     final double stunDuration)
         {        
-            super(uniqueID, displayname, materialName, materialByte, price, color);
+            super(uniqueID, displayname, materialName, materialByte, price, color, quality);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
             this.damageModifier = damageModifier;
             this.damageMultiplier = damageMultiplier;
@@ -208,7 +211,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
          */
         private ProjectileAttachment()
         {
-            this(0, null, null, 0, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public double getDamageValue()                         { return damageModifier; }
@@ -232,7 +235,6 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         @Override public double getShrapnelDamageMultiplier()            { return shrapnelDamageMultiplier; }
         @Override public double getStunChance()                          { return stunChance; }
         @Override public double getStunDuration()                        { return stunDuration; }
-        @Override public boolean isAOE()                                 { return false;        }
         @Override public ProjectileAttachment getNullModifier()          { return slotOneSingleton.getNullValue(); }
     }
 }

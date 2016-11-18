@@ -14,6 +14,7 @@ import net.projectzombie.crackshotenhanced.guns.attributes.aoe.FlameAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.PoisonAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.RadiationAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.ShockAttributes;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -87,7 +88,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
 
     static private final String YML_NAME = "AOEAttachments.yml";
     static private final String MODULE_NAME = "AOEAttachments";
-    static private final String[] NECESSARY_VALUES = new String[] { "Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private AOEAttachments() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -96,11 +97,12 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
         try {
             return new AOEAttachment(
                     uniqueID,
-                    values.getString("Name"),
+                    values.getString("Display Name"),
                     values.getString("Material"),
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getDouble("Electric AOE Radius Value"),
                     values.getDouble("Electric AOE Radius Multiplier"),
                     values.getDouble("Electric AOE Duration Value"),
@@ -140,12 +142,12 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
                     values.getDouble("Explosive AOE DPS Multiplier")
             );
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add bolt " + values.getString("Display Name"));
+            Main.getPlugin().getLogger().warning("Cannot add AOE attachment " + values.getString("Display Name"));
             return null;
         }
     }
 
-    static public class AOEAttachment extends Attachments.Attachment implements AOEAttributes,
+    static public class AOEAttachment extends QualityGunModifier implements AOEAttributes,
             CombustAttributes,
             ElectricityAttributes,
             ExplosiveAttributes,
@@ -200,57 +202,58 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
 
         
         private AOEAttachment(final int uniqueID,
-                            final String displayname,
-                            final String materialName,
-                            final int materialByte,
-                            final int price,
-                            final String color,
+                              final String displayname,
+                              final String materialName,
+                              final int materialByte,
+                              final int price,
+                              final String color,
+                              final Qualities.Quality quality,
                             
                             final double electricAOERadiusValue,
-                            final double electricAOERadiusMultiplier,
-                            final double electricAOEDurationValue,
-                            final double electricAOEDurationMultiplier,
-                            final double electricAOEDamageValue,
-                            final double electricAOEDamageMultiplier,
-                            final int concurrentElectricityCount,
+                              final double electricAOERadiusMultiplier,
+                              final double electricAOEDurationValue,
+                              final double electricAOEDurationMultiplier,
+                              final double electricAOEDamageValue,
+                              final double electricAOEDamageMultiplier,
+                              final int concurrentElectricityCount,
 
-                            final double shockChance,
-                            final double shockDamageValue,
-                            final double shockDamageMultiplierFromElectricity,
+                              final double shockChance,
+                              final double shockDamageValue,
+                              final double shockDamageMultiplierFromElectricity,
 
-                            final double flameAOERadiusValue,
-                            final double flameAOERadiusMultiplier,
-                            final double flameAOEDurationValue,
-                            final double flameAOEDurationMultiplier,
-                            final double flameAOEDamageValue,
-                            final double flameAOEDamageMultiplier,
+                              final double flameAOERadiusValue,
+                              final double flameAOERadiusMultiplier,
+                              final double flameAOEDurationValue,
+                              final double flameAOEDurationMultiplier,
+                              final double flameAOEDamageValue,
+                              final double flameAOEDamageMultiplier,
 
-                            final double combustChance,
-                            final double combustDamageValue,
-                            final double combustDamageMultiplierFromElectricity,
+                              final double combustChance,
+                              final double combustDamageValue,
+                              final double combustDamageMultiplierFromElectricity,
 
-                            final double poisonAOERadiusValue,
-                            final double poisonAOERadiusMultiplier,
-                            final double poisonAOEDurationValue,
-                            final double poisonAOEDurationMultiplier,
-                            final double poisonAOEDamageValue,
-                            final double poisonAOEDamageMultiplier,
+                              final double poisonAOERadiusValue,
+                              final double poisonAOERadiusMultiplier,
+                              final double poisonAOEDurationValue,
+                              final double poisonAOEDurationMultiplier,
+                              final double poisonAOEDamageValue,
+                              final double poisonAOEDamageMultiplier,
 
-                            final double radiationAOERadiusValue,
-                            final double radiationAOERadiusMultiplier,
-                            final double radiationAOEDurationValue,
-                            final double radiationAOEDurationMultiplier,
-                            final double radiationAOEDamageValue,
-                            final double radiationAOEDamageMultiplier,
+                              final double radiationAOERadiusValue,
+                              final double radiationAOERadiusMultiplier,
+                              final double radiationAOEDurationValue,
+                              final double radiationAOEDurationMultiplier,
+                              final double radiationAOEDamageValue,
+                              final double radiationAOEDamageMultiplier,
 
-                            final double explosiveAOERadiusValue,
-                            final double explosiveAOERadiusMultiplier,
-                            final double explosiveAOEDurationValue,
-                            final double explosiveAOEDurationMultiplier,
-                            final double explosiveAOEDamageValue,
-                            final double explosiveAOEDamageMultiplier)
+                              final double explosiveAOERadiusValue,
+                              final double explosiveAOERadiusMultiplier,
+                              final double explosiveAOEDurationValue,
+                              final double explosiveAOEDurationMultiplier,
+                              final double explosiveAOEDamageValue,
+                              final double explosiveAOEDamageMultiplier)
         {        
-            super(uniqueID, displayname, materialName, materialByte, price, color);
+            super(uniqueID, displayname, materialName, materialByte, price, color, quality);
             this.electricAOERadiusValue                 = electricAOERadiusValue;
             this.electricAOERadiusMultiplier            = electricAOERadiusMultiplier;
             this.electricAOEDurationValue               = electricAOEDurationValue;
@@ -295,15 +298,14 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
          */
         private AOEAttachment()
         {
-            this(0, null, null, 0, 0, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0);
         }
 
 
         @Override public GunModifier getNullModifier() { return new AOEAttachment(); }
-        @Override public boolean isAOE() { return true; }
-        
+
         @Override public double getElectricityAOERadiusValue()        { return electricAOERadiusValue; }
         @Override public double getElectricityAOERadiusMultiplier()   { return electricAOERadiusMultiplier; }
         @Override public double getElectricityAOEDurationValue()      { return electricAOEDurationValue; }

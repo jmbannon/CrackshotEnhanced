@@ -2,14 +2,17 @@ package net.projectzombie.crackshotenhanced.main;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.ModifierSets;
+import net.projectzombie.crackshotenhanced.guns.events.listener.PlayerConnect;
+import net.projectzombie.crackshotenhanced.guns.events.scheduler.CSEPlayerRunningSpeed;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.weps.Guns;
 import net.projectzombie.crackshotenhanced.guns.crafting.Recipes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.windows.BlockBreakListener;
-import net.projectzombie.crackshotenhanced.guns.listeners.ShootListener;
-import net.projectzombie.crackshotenhanced.guns.listeners.ScopeZoomListener;
+import net.projectzombie.crackshotenhanced.guns.events.listener.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.events.listener.ScopeZoomListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -55,6 +58,8 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(scopeListener, this);
         this.getServer().getPluginManager().registerEvents(shootListener, this);
         this.getServer().getPluginManager().registerEvents(recipes, this);
+        this.getServer().getPluginManager().registerEvents(PlayerConnect.getListener(), this);
+        this.getServer().getScheduler().runTaskTimer(this, new CSEPlayerRunningSpeed(), 10L, 10L);
 
         Recipes.initializeCraftingRecipes();
         this.getLogger().info("CrackshotEnhanced enabled!");
@@ -71,6 +76,8 @@ public class Main extends JavaPlugin {
     
     private boolean initializeGuns()
     {
+        if (!isInitialized("Qualities", Qualities.getInstance().size()))
+            return false;
         if (!isInitialized("Attachments", ProjectileAttachments.getInstance().size()))
             return false;
         if (!isInitialized("Barrels", Barrels.getInstance().size()))
@@ -102,14 +109,14 @@ public class Main extends JavaPlugin {
     private boolean isInitialized(final String toInitialize,
                                   final int returned)
     {
-        if (returned >= 0)
+        if (returned > 0)
         {
             System.out.println("[Crackshot Enhanced] Initialized " + returned + " " + toInitialize);
             return true;
         }
         else
         {
-            System.out.println("[Crackshot Enhanced] FATAL: Could not size " + toInitialize + ". Disabling plugin.");
+            System.out.println("[Crackshot Enhanced] FATAL: Could not initialize " + toInitialize + ". Disabling plugin.");
             return false;
         }
     }

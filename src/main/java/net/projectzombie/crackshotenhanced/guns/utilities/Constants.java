@@ -27,6 +27,8 @@ import java.text.DecimalFormat;
 public class Constants
 {
     static public final double TPS = 19.00;
+    static public final double DEFAULT_PLAYER_SPEED = 0.2;
+
     static public final DecimalFormat FORMATTER = new DecimalFormat("#0.00");
     public static CSUtility CRACKSHOT = new CSUtility();
 }

@@ -23,22 +23,24 @@ public abstract class HiddenLoreInfo
      */
     public HiddenLoreInfo(final String[] info)
     {
-        this.info = new String[info.length + 1];
-        this.info[0] = VERIFY;
-        System.arraycopy(info, 0, this.info, 1, info.length);
-        this.isHiddenLore = true;
+        this.isHiddenLore = info != null;
+        if (isHiddenLore) {
+            this.info = new String[info.length + 1];
+            this.info[0] = VERIFY;
+            System.arraycopy(info, 0, this.info, 1, info.length);
+        } else {
+            this.info = null;
+        }
     }
     
     public HiddenLoreInfo(final String encodedString)
     {
-        if (encodedString != null)
+        if (encodedString != null && HiddenStringUtils.hasHiddenString(encodedString))
         {
             this.info = HiddenStringUtils.extractHiddenString(encodedString)
                 .replaceFirst(SEP, "")
                 .split(SEP);
-            this.isHiddenLore = info != null 
-                && info.length >= 1 
-                && info[0].equals(VERIFY);
+            this.isHiddenLore = info.length >= 1 && info[0].equals(VERIFY);
         } 
         else
         {

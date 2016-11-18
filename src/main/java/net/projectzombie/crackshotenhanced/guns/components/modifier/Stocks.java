@@ -8,6 +8,7 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Stocks.Stock;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MotionSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.BulletSpreadSet;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -35,17 +36,15 @@ public class Stocks extends ModifierConfig<Stock>
         defaultValues.put("Color", "GREEN");
         defaultValues.put("Bullet Spread Multiplier", 0.0);
         defaultValues.put("Speed Running Multiplier", 0.0);
-        defaultValues.put("Speed Sprinting Multiplier", 0.0);
         defaultValues.put("Bullet Spread Multiplier Crouching", 0.0);
         defaultValues.put("Bullet Spread Multiplier Standing", 0.0);
         defaultValues.put("Bullet Spread Multiplier Running", 0.0);
-        defaultValues.put("Bullet Spread Multiplier Sprinting", 0.0);
         return defaultValues;
     }
 
     static private final String YML_NAME = "Stocks.yml";
     static private final String MODULE_NAME = "Stocks";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private Stocks() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -59,13 +58,12 @@ public class Stocks extends ModifierConfig<Stock>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getDouble("Bullet Spread Multiplier"),
                     values.getDouble("Speed Running Multiplier"),
-                    values.getDouble("Speed Sprinting Multiplier"),
                     values.getDouble("Bullet Spread Multiplier Crouching"),
                     values.getDouble("Bullet Spread Multiplier Standing"),
-                    values.getDouble("Bullet Spread Multiplier Running"),
-                    values.getDouble("Bullet Spread Multiplier Sprinting")
+                    values.getDouble("Bullet Spread Multiplier Running")
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add stock " + values.getString("Display Name"));
@@ -79,58 +77,49 @@ public class Stocks extends ModifierConfig<Stock>
         return new Stock();
     }
     
-    static public class Stock extends GunModifier implements
+    static public class Stock extends QualityGunModifier implements
             BulletSpreadSet.BulletSpreadAttributes,
             MotionSet.MotionAttributes
     {
         private final double bulletSpreadMultiplier;
         
         private final double runningSpeedMultiplier;
-        private final double sprintingSpeedMultiplier;
-        
+
         private final double crouchingBulletSpreadMultiplier;
         private final double standingBulletSpreadMultiplier;
         private final double runningBulletSpreadMultiplier;
-        private final double sprintingBulletSpreadMultiplier;
-        
+
 
         private Stock(final int uniqueID,
-                       final String displayName,
-                       final String material,
-                       final int materialData,
-                       final int price,
-                       final String color,
+                      final String displayName,
+                      final String material,
+                      final int materialData,
+                      final int price,
+                      final String color,
+                      final Qualities.Quality quality,
                        final double bulletSpreadMultiplier,
-                       
-                       final double runningSpeedMultiplier,
-                       final double sprintingSpeedMultiplier,
-                       
-                       final double crouchingBulletSpreadMultiplier,
-                       final double standingBulletSpreadMultiplier,
-                       final double runningBulletSpreadMultiplier,
-                       final double sprintingBulletSpreadMultiplier)
+
+                      final double runningSpeedMultiplier,
+
+                      final double crouchingBulletSpreadMultiplier,
+                      final double standingBulletSpreadMultiplier,
+                      final double runningBulletSpreadMultiplier)
         {
-            super(uniqueID, displayName, material, materialData, price, color);
+            super(uniqueID, displayName, material, materialData, price, color, quality);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
-            
             this.runningSpeedMultiplier = runningSpeedMultiplier;
-            this.sprintingSpeedMultiplier = sprintingSpeedMultiplier;
-            
             this.crouchingBulletSpreadMultiplier = crouchingBulletSpreadMultiplier;
             this.standingBulletSpreadMultiplier = standingBulletSpreadMultiplier;
             this.runningBulletSpreadMultiplier = runningBulletSpreadMultiplier;
-            this.sprintingBulletSpreadMultiplier = sprintingBulletSpreadMultiplier;
         }
 
-        private Stock() { this(0, null, null, 0, 0, null, 0, 0, 0, 0, 0, 0, 0); }
+        private Stock() { this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0); }
         @Override public Stock getNullModifier() { return new Stock(); }
         
         @Override public double getBulletSpreadMultiplier()          { return bulletSpreadMultiplier; }
-        @Override public double getRunningSpeedMultiplier()          { return runningSpeedMultiplier; }
-        @Override public double getSprintingSpeedMultiplier()        { return sprintingSpeedMultiplier; }
+        @Override public double getSpeedMultiplier()                 { return runningSpeedMultiplier; }
         @Override public double getCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier; }
         @Override public double getStandingBulletSpreadMultiplier()  { return standingBulletSpreadMultiplier; }
         @Override public double getRunningBulletSpreadMultiplier()   { return runningBulletSpreadMultiplier; }
-        @Override public double getSprintingBulletSpreadMultiplier() { return sprintingBulletSpreadMultiplier; }
     }
 }

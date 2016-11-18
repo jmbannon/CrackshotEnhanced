@@ -6,6 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Bolts.Bolt;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -36,7 +37,7 @@ public class Bolts extends ModifierConfig<Bolt>
     
     static private final String YML_NAME = "Bolts.yml";
     static private final String MODULE_NAME = "Bolts";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private Bolts() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -50,6 +51,7 @@ public class Bolts extends ModifierConfig<Bolt>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getDouble("Bolt Duration Multiplier")
             );
         } catch (Exception e) {
@@ -64,25 +66,26 @@ public class Bolts extends ModifierConfig<Bolt>
         return new Bolt();
     }
     
-    static public class Bolt extends GunModifier
+    static public class Bolt extends QualityGunModifier
     {
         private final double durationMultiplier;
 
         private Bolt(final int uniqueID,
-                      final String displayName,
-                      final String material,
-                      final int materialByte,
-                      final int price,
-                      final String color,
+                     final String displayName,
+                     final String material,
+                     final int materialByte,
+                     final int price,
+                     final String color,
+                     final Qualities.Quality quality,
                       final double durationMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color);
+            super(uniqueID, displayName, material, materialByte, price, color, quality);
             this.durationMultiplier = durationMultiplier;
         }
 
         private Bolt()
         {
-            this(0, null, null, 0, 0, null, 0);
+            this(0, null, null, 0, 0, null, null, 0);
         }
 
         public double getBoltDurationMultiplier()           { return durationMultiplier; }

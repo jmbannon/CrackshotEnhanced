@@ -40,6 +40,8 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         this.readValues = getModules();
     }
 
+    public String getModuleName() { return moduleName; }
+
     private void writeExampleYml() {
         try {
             final File exampleFile = new File(Main.getPlugin().getDataFolder(), "example." + ymlName);

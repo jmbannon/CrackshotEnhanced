@@ -105,11 +105,5 @@ public class FireModes extends ModifierConfig<FireMode>
         @Override public int     getShotsPerBurst()  { return shotsPerBurst; }
         @Override public int price()                 { return 40;       }
         @Override public FireMode getNullModifier() { return new FireMode(); }
-        
-        static
-        public String getTitle()
-        {
-            return TITLE;
-        }
     }
 }

@@ -5,7 +5,6 @@
  */
 package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
-import net.projectzombie.crackshotenhanced.guns.qualities.Build;
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
 import net.projectzombie.crackshotenhanced.guns.weps.Guns;
@@ -34,17 +33,12 @@ public class HiddenGunInfo extends HiddenLoreInfo
     /** Index of the current durability. */
     private static final int DUR_IDX = 2;
     
-    /** Index of the current build. */
-    private static final int BUILD_IDX = 3;
-    
     /** Total length of the elements within the HiddenInfo. */
-    private static final int INFO_LEN = 4;
+    private static final int INFO_LEN = 3;
     
     /** Magic number that is set to a pre-shot gun's durability. Metal af \m/ */
     private static final int PRESHOT_VER_DUR = -666;
-    
-    /** Build that is set to a pre-shot gun's build. */
-    private static final Build PRESHOT_VER_BUILD = Build.PRESHOT;
+
     
     /**
      * Creates HiddenGunInfo from an existing hidden string.
@@ -64,7 +58,6 @@ public class HiddenGunInfo extends HiddenLoreInfo
         super(new String[] {
             String.valueOf(id.toString()),
             String.valueOf(PRESHOT_VER_DUR),
-            PRESHOT_VER_BUILD.name()
         });
     }
     
@@ -95,7 +88,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
     {
         return Guns.get(super.getInfoStr(GUN_ID_IDX));
     }
-    
+
     /**
      * @return Current durability.
      */
@@ -112,21 +105,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
     {
         return isPostShot() && getDurability() >= 0;
     }
-    
-    /**
-     * @return Current build of the gun.
-     */
-    public Build getBuild() 
-    {
-        try
-        {
-            return Build.valueOf(super.getInfoStr(BUILD_IDX));
-        } 
-        catch (IllegalArgumentException ex)
-        {
-            return null;
-        }
-    }
+
     
     /**
      * Sets the GunID with the String equivalent.
@@ -167,15 +146,6 @@ public class HiddenGunInfo extends HiddenLoreInfo
     }
     
     /**
-     * Sets the Build.
-     * @param build New Build to set.
-     */
-    public void setBuild(final Build build)
-    {
-        super.setInfoStr(BUILD_IDX, build.name());
-    }
-    
-    /**
      * @return Returns true if hidden gun info is pre-shot by checking magic values
      * set for both build and durability. False otherwise.
      */
@@ -183,10 +153,8 @@ public class HiddenGunInfo extends HiddenLoreInfo
     {
         System.out.println("IS VALID: " + this.isValid());
         System.out.println("DUR CHECK: " + (this.getDurability() == PRESHOT_VER_DUR));
-        System.out.println("BUILD: " + this.getBuild().equals(PRESHOT_VER_BUILD));
         return this.isValid()
-            && this.getDurability() == PRESHOT_VER_DUR
-            && this.getBuild().equals(PRESHOT_VER_BUILD);
+            && this.getDurability() == PRESHOT_VER_DUR;
     }
     
     /**

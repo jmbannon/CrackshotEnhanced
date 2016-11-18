@@ -5,7 +5,9 @@
  */
 package net.projectzombie.crackshotenhanced.guns.components.skeleton;
 
+import net.projectzombie.crackshotenhanced.guns.components.QualityModifierValue;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.weps.Guns;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -44,11 +46,9 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         defaultValues.put("Reload Bullets Individually", false);
         defaultValues.put("Recoil Amount", 0);
         defaultValues.put("Speed Running Multiplier", 0.0);
-        defaultValues.put("Speed Sprinting Multiplier", 0.0);
         defaultValues.put("Bullet Spread Crouching Multiplier", 0.0);
         defaultValues.put("Bullet Spread Standing Multiplier", 0.0);
         defaultValues.put("Bullet Spread Running Multiplier", 0.0);
-        defaultValues.put("Bullet Spread Sprinting Multiplier", 0.0);
         defaultValues.put("Sound Silenced", "NULL");
         defaultValues.put("Particle Shoot", "NULL");
         return defaultValues;
@@ -56,7 +56,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
     static private final String YML_NAME = "GunSkeletons.yml";
     static private final String MODULE_NAME = "GunSkeletons";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Weapon Type", "Modifier Set", "Material ID", "Material Data", "Sound Shoot", "Sound Reload" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality", "Weapon Type", "Modifier Set", "Material ID", "Material Data", "Sound Shoot", "Sound Reload" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private GunSkeletons() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -68,6 +68,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             return new GunSkeleton(
                     uniqueID,
                     values.getString("Display Name"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     SkeletonTypes.getInstance().get(values.getString("Weapon Type")),
                     ModifierSets.getInstance().get(values.getString("Modifier Set")),
                     values.getInt("Material ID"),
@@ -81,11 +82,9 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     values.getBoolean("Reload Bullets Individually"),
                     values.getInt("Recoil Amount"),
                     values.getDouble("Speed Running Multiplier"),
-                    values.getDouble("Speed Sprinting Multiplier"),
                     values.getDouble("Bullet Spread Crouching Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
-                    values.getDouble("Bullet Spread Sprinting Multiplier"),
                     values.getString("Sound Shoot"),
                     values.getString("Sound Silenced"),
                     values.getString("Particle Shoot"),
@@ -98,7 +97,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         }
     }
     
-    static public class GunSkeleton extends ModifierValue
+    static public class GunSkeleton extends QualityModifierValue
     {   
         private final SkeletonTypes.SkeletonType weaponType;
         private final double bulletSpread;
@@ -108,12 +107,10 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         private final boolean reloadBulletsIndividually;
         
         private final double runningSpeedMultiplier;
-        private final double sprintingSpeedMultiplier;
         private final double crouchingBulletSpreadMultiplier;
         private final double standingBulletSpreadMultiplier;
         private final double runningBulletSpreadMultiplier;
-        private final double sprintingBulletSpreadMultiplier;
-        
+
         private final int
                 itemID, 
                 itemData, 
@@ -130,6 +127,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
         private GunSkeleton(final int uniqueID,
                             final String skeletonName,
+                            final Qualities.Quality quality,
                             final SkeletonTypes.SkeletonType weaponType,
                             final ModifierSets.ModifierSet set,
                             final int materialID,
@@ -143,18 +141,16 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                             final boolean reloadBulletsIndividually,
                             final int recoilAmount,
                             final double runningSpeedMultiplier,
-                            final double sprintingSpeedMultiplier,
                             final double crouchingBulletSpreadMultiplier,
                             final double standingBulletSpreadMultiplier,
                             final double runningBulletSpreadMultiplier,
-                            final double sprintingBulletSpreadMultiplier,
-                            
+
                             final String sounds_shoot,
                             final String sounds_silenced,
                             final String particle_shoot,
                             final String sounds_reloading)
         {
-            super(uniqueID, skeletonName);
+            super(uniqueID, skeletonName, quality);
             this.weaponType = weaponType;
             this.itemID = materialID;
             this.itemData = materialData;
@@ -172,16 +168,14 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             this.modSet = set;
             this.reloadBulletsIndividually = reloadBulletsIndividually;
             this.runningSpeedMultiplier = runningSpeedMultiplier;
-            this.sprintingSpeedMultiplier = sprintingSpeedMultiplier;
             this.crouchingBulletSpreadMultiplier = crouchingBulletSpreadMultiplier;
             this.standingBulletSpreadMultiplier = standingBulletSpreadMultiplier;
             this.runningBulletSpreadMultiplier = runningBulletSpreadMultiplier;
-            this.sprintingBulletSpreadMultiplier = sprintingBulletSpreadMultiplier;
         }
         
         public GunSkeleton(final GunSkeleton skele)
         {
-            super(skele.getIndex(), skele.getName());
+            super(skele.getIndex(), skele.getName(), skele.getQuality());
             this.weaponType = skele.weaponType;
             this.itemID = skele.itemID;
             this.itemData = skele.itemData;
@@ -199,11 +193,9 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             this.modSet = skele.modSet;
             this.reloadBulletsIndividually = skele.reloadBulletsIndividually;
             this.runningSpeedMultiplier = skele.runningSpeedMultiplier;
-            this.sprintingSpeedMultiplier = skele.sprintingSpeedMultiplier;
             this.crouchingBulletSpreadMultiplier = skele.crouchingBulletSpreadMultiplier;
             this.standingBulletSpreadMultiplier = skele.standingBulletSpreadMultiplier;
             this.runningBulletSpreadMultiplier = skele.runningBulletSpreadMultiplier;
-            this.sprintingBulletSpreadMultiplier = skele.sprintingBulletSpreadMultiplier;
         }
 
         public String        getFileName()       { return super.getName().toLowerCase(); }
@@ -223,11 +215,9 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         public int           getSkeletonReloadAmount()   { return reloadAmount;   }
         public int           getSkeletonReloadDuration() { return reloadDuration; }
         public double        getSkeletonRunningSpeedMultiplier()          { return runningSpeedMultiplier;  }
-        public double        getSkeletonSprintingSpeedMultiplier()        { return sprintingSpeedMultiplier;  }
         public double        getSkeletonCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier;  }
         public double        getSkeletonStandingBulletSpreadMultiplier()  { return standingBulletSpreadMultiplier;  }
         public double        getSkeletonRunningBulletSpreadMultiplier()   { return runningBulletSpreadMultiplier;  }
-        public double        getSkeletonSprintingBulletSpreadMultiplier() { return sprintingBulletSpreadMultiplier;  }
         public String        getReloadSound()    { return soundReload;   }
         public ItemStack     getBareItemStack()  { return new ItemStack(itemID, 1, (short)itemData); }
         public ModifierSets.ModifierSet getModifierSet()    { return modSet; }
@@ -248,7 +238,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                 return null;
 
             Guns.CrackshotGun guns[] = new Guns.CrackshotGun[combinationCount];
-            final Attachments.Attachment nullAtt = ProjectileAttachments.getInstance().getNullValue();
+            final ProjectileAttachments.ProjectileAttachment nullAtt = ProjectileAttachments.getInstance().getNullValue();
             final Stocks.Stock nullStock = Stocks.getInstance().getNullValue();
 
             for (Barrels.Barrel barrel : modSet.getBarrels())

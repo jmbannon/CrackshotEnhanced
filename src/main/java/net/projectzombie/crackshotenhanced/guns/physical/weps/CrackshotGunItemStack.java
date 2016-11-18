@@ -61,8 +61,7 @@ public class CrackshotGunItemStack extends CrackshotGunLore
     public double getEventBulletSpread(final double eventBulletSpread)
     {
         return super.getGun().getEventBulletSpread(eventBulletSpread, 
-            super.getDurability(),
-            super.getBuild());
+            super.getDurability());
     }
     
     /**
@@ -82,7 +81,7 @@ public class CrackshotGunItemStack extends CrackshotGunLore
         
         if (super.isPostShot())
         {
-            newLore.toPostShotLore(this.getBuild(), this.getDurability());
+            newLore.toPostShotLore(this.getDurability());
             newMeta.setLore(newLore.getLore());
             newMeta.setDisplayName(getModifiedName(newMeta));
             newGunItem.setItemMeta(newMeta);
@@ -98,6 +97,10 @@ public class CrackshotGunItemStack extends CrackshotGunLore
         else
             return null;
     }
+
+    @Override public boolean isValid() {
+        return hasLore(gunItem) && super.isValid();
+    }
     
     /**
      * Returns true if the ItemStack contains lore.
@@ -106,7 +109,8 @@ public class CrackshotGunItemStack extends CrackshotGunLore
      */
     static private boolean hasLore(final ItemStack item)
     {
-        return item.hasItemMeta()
+        return item != null
+            && item.hasItemMeta()
             && item.getItemMeta().hasLore();
     }
     

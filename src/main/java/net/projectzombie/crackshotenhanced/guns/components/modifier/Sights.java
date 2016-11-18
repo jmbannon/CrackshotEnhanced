@@ -8,6 +8,7 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Sights.Sight;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.SightSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.BulletSpreadSet;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -40,7 +41,7 @@ public class Sights extends ModifierConfig<Sight>
 
     static private final String YML_NAME = "Sights.yml";
     static private final String MODULE_NAME = "Sights";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private Sights() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
@@ -54,6 +55,7 @@ public class Sights extends ModifierConfig<Sight>
                     values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
+                    Qualities.getInstance().get(values.getString("Quality")),
                     values.getInt("Crackshot Zoom Amount"),
                     values.getDouble("Bullet Spread Multiplier"),
                     values.getDouble("Bullet spread Zoom Multiplier")
@@ -71,7 +73,7 @@ public class Sights extends ModifierConfig<Sight>
         return new Sight();
     }
     
-    static public class Sight extends GunModifier implements
+    static public class Sight extends QualityGunModifier implements
             BulletSpreadSet.BulletSpreadAttributes,
             SightSet.SightAttributes
     {
@@ -85,11 +87,12 @@ public class Sights extends ModifierConfig<Sight>
                       final int materialByte,
                       final int price,
                       final String color,
+                      final Qualities.Quality quality,
                       final int crackshotZoomAmount,
                       final double bulletSpreadModifier,
                       final double zoomBulletSpreadModifier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color);
+            super(uniqueID, displayName, material, materialByte, price, color, quality);
             this.zoomAmount = crackshotZoomAmount;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.zoomBulletSpreadMultiplier = zoomBulletSpreadModifier;
@@ -97,7 +100,7 @@ public class Sights extends ModifierConfig<Sight>
 
         private Sight()
         {
-            this(0, null, null, 0, 0, null, 0, 0, 0);
+            this(0, null, null, 0, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getZoomAmount()                    { return zoomAmount;   }
