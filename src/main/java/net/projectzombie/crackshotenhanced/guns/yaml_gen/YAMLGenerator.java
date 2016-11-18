@@ -175,8 +175,8 @@ public class YAMLGenerator extends GunGenerator
         final String path = super.getCSWeaponName() + ".Reload.";
         
         wepsYAML.set(path + "Enable",                      true);
-        wepsYAML.set(path + "Reload_Amount",               super.getGunMagazine().getMagazineSize());
-        wepsYAML.set(path + "Reload_Duration",             super.getGunMagazine().getReloadDuration());
+        wepsYAML.set(path + "Reload_Amount",               super.getGunMagazine().getTotalMagazineSize());
+        wepsYAML.set(path + "Reload_Duration",             super.getGunMagazine().getTotalReloadDuration());
         wepsYAML.set(path + "Take_Ammo_On_Reload",         true);
         wepsYAML.set(path + "Reload_Bullets_Individually", super.reloadsBulletsIndividually());
         wepsYAML.set(path + "Sounds_Out_Of_Ammo",          "ITEM_BREAK-1-1-0");

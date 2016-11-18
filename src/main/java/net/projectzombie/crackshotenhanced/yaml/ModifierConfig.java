@@ -12,6 +12,7 @@ import java.util.*;
  */
 abstract public class ModifierConfig<T extends ModifierValue> {
 
+    static protected final String NULL_CONFIG_VALUE = "NULL";
     static protected final String SEP = "`-_`";
 
     private final File file;
@@ -161,7 +162,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
      */
     public T get(final String name)
     {
-        if (name == null) {
+        if (name == null || name.equalsIgnoreCase(NULL_CONFIG_VALUE)) {
             return getNullValue();
         }
         for (T temp : readValues)

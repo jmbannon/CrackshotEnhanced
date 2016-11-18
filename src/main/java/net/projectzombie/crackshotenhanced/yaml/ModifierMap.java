@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.*;
 
+import static net.projectzombie.crackshotenhanced.yaml.ModifierConfig.NULL_CONFIG_VALUE;
 import static net.projectzombie.crackshotenhanced.yaml.ModifierConfig.SEP;
 
 /**
@@ -50,7 +51,7 @@ public class ModifierMap {
 
         public void writeDefaultToYaml(final String path, final YamlConfiguration yaml) {
             switch (type) {
-                case STRING: if (value != null) yaml.set(path, value); else yaml.set(path, "NULL"); break;
+                case STRING: if (value != null) yaml.set(path, value); else yaml.set(path, NULL_CONFIG_VALUE); break;
                 case DOUBLE: yaml.set(path, Double.valueOf(value)); break;
                 case INT: yaml.set(path, Integer.valueOf(value)); break;
                 case BOOL: yaml.set(path, Boolean.valueOf(value)); break;

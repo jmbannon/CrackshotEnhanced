@@ -76,34 +76,18 @@ public class Main extends JavaPlugin {
     
     private boolean initializeGuns()
     {
-        if (!isInitialized("Qualities", Qualities.getInstance().size()))
-            return false;
-        if (!isInitialized("Attachments", ProjectileAttachments.getInstance().size()))
-            return false;
-        if (!isInitialized("Barrels", Barrels.getInstance().size()))
-            return false;
-        if (!isInitialized("Bolts", Bolts.getInstance().size()))
-            return false;
-        if (!isInitialized("FireModes", FireModes.getInstance().size()))
-            return false;
-        if (!isInitialized("Magazines", Magazines.getInstance().size()))
-            return false;
-        if (!isInitialized("Sights", Sights.getInstance().size()))
-            return false;
-        if (!isInitialized("Stocks", Stocks.getInstance().size()))
-            return false;
-        if (!isInitialized("ModifierAttributes Sets", ModifierSets.getInstance().size()))
-            return false;
-        if (!isInitialized("Firearm Action", FirearmActions.getInstance().size()))
-            return false;
-        if (!isInitialized("Weapon Types", SkeletonTypes.getInstance().size()))
-            return false;
-        if (!isInitialized("Gun Skeletons", GunSkeletons.getInstance().size()))
-            return false;
-        
-        if (!isInitialized("Guns", Guns.initialize()))
-            return false;
-        return true;
+        return isInitialized("Qualities", Qualities.getInstance().size())
+           && isInitialized("Attachments", ProjectileAttachments.getInstance().size())
+           && isInitialized("Barrels", Barrels.getInstance().size())
+           && isInitialized("Bolts", Bolts.getInstance().size())
+           && isInitialized("FireModes", FireModes.getInstance().size())
+           && isInitialized("Magazines", Magazines.getInstance().size())
+           && isInitialized("Sights", Sights.getInstance().size())
+           && isInitialized("Stocks", Stocks.getInstance().size())
+           && isInitialized("ModifierAttributes Sets", ModifierSets.getInstance().size())
+           && isInitialized("Firearm Action", FirearmActions.getInstance().size())
+           && isInitialized("Weapon Types", SkeletonTypes.getInstance().size())
+           && isInitialized("Gun Skeletons", GunSkeletons.getInstance().size());
     }
     
     private boolean isInitialized(final String toInitialize,
@@ -116,7 +100,7 @@ public class Main extends JavaPlugin {
         }
         else
         {
-            System.out.println("[Crackshot Enhanced] FATAL: Could not initialize " + toInitialize + ". Disabling plugin.");
+            System.out.println("[Crackshot Enhanced] FATAL: Could not size " + toInitialize + ". Disabling plugin.");
             return false;
         }
     }

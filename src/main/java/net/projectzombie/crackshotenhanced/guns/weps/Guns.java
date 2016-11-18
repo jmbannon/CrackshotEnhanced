@@ -52,7 +52,7 @@ public class Guns
     private Guns() { /* Do nothing. */ }
     
     static
-    public int initialize()
+    public int size()
     {
         return guns.size();
     }

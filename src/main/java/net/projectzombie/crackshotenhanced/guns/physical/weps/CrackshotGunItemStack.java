@@ -25,7 +25,7 @@ public class CrackshotGunItemStack extends CrackshotGunLore
      * Initializes the CrackshotGun ItemStack. If the ItemStack does not
      * contain lore the item is set to null. TODO: Throw exception.
      * 
-     * @param item ItemStack to initialize as CrackshotGun.
+     * @param item ItemStack to size as CrackshotGun.
      */
     public CrackshotGunItemStack(final ItemStack item)
     {

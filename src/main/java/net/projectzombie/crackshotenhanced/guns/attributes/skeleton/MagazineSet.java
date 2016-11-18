@@ -53,8 +53,8 @@ public class MagazineSet extends AttributeSet<MagazineSet.MagazineAttributes>
         this(new GunModifier[] { mod }, 0, 0);
     }
     
-    public int getMagazineSize()   { return magSizeModifier; }
-    public double getReloadDuration() { return reloadSpeedMultiplier;  }
+    public int getTotalMagazineSize()   { return totalMagSize; }
+    public double getTotalReloadDuration() { return totalReloadSpeed;  }
     
     @Override
     public ArrayList<String> getStats()
