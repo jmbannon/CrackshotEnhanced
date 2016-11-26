@@ -11,6 +11,8 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
 
+import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
+
 /**
  *
  * @author jb
@@ -30,22 +32,20 @@ public class MagazineSet extends AttributeSet<MagazineSet.MagazineAttributes>
     
     private final int magSizeModifier;
     private final double magSizeMultiplier;
-    private final int skeletonMagSize;
     private final int totalMagSize;
     private final double reloadSpeedMultiplier;
-    private final double totalReloadSpeed;
+    private final double totalReloadDurationInTicks;
     
     public MagazineSet(final GunModifier[] gunMods,
                        final int skeletonMagSize,
-                       final double skeletonReloadDuration)
+                       final double skeletonReloadDurationInTicks)
     {
         super("Magazine", gunMods, MagazineAttributes.class);
-        this.skeletonMagSize = skeletonMagSize;
         this.magSizeModifier = super.getIntSum(MagazineAttributes::getMagazineSizeModifier);
         this.magSizeMultiplier = super.getMultiplierSum(MagazineAttributes::getMagazineSizeMultiplier);
         this.reloadSpeedMultiplier = super.getMultiplierSum(MagazineAttributes::getReloadSpeedMultiplier);
         this.totalMagSize = Math.max(MIN_MAG_SIZE, (int)((skeletonMagSize + magSizeModifier) * magSizeMultiplier));
-        this.totalReloadSpeed = Math.max(MIN_RELOAD_SPEED, skeletonReloadDuration * reloadSpeedMultiplier);
+        this.totalReloadDurationInTicks = Math.max(MIN_RELOAD_SPEED, skeletonReloadDurationInTicks * reloadSpeedMultiplier);
     }
     
     public MagazineSet(GunModifier mod)
@@ -54,31 +54,30 @@ public class MagazineSet extends AttributeSet<MagazineSet.MagazineAttributes>
     }
     
     public int getTotalMagazineSize()   { return totalMagSize; }
-    public double getTotalReloadDuration() { return totalReloadSpeed;  }
+    public double getTotalReloadDurationInTicks() { return totalReloadDurationInTicks;  }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
         final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(totalMagSize, "total magazine size"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonMagSize, "stock mag size"));
-        stats.addAll(getStat());
-        
+        stats.add(ModifierLoreBuilder.getValueStat(totalMagSize, "magazine size"));
+        stats.add(ModifierLoreBuilder.getValueStat(totalReloadDurationInTicks / TPS, "reload duration"));
         return stats;
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
         final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(magSizeModifier, "extra mag size"));
+        stats.add(ModifierLoreBuilder.getValueStat(magSizeModifier, "magazine size"));
+        stats.add(ModifierLoreBuilder.getMultiplierStat(magSizeMultiplier, "magazine size"));
+        stats.add(ModifierLoreBuilder.getMultiplierStat(reloadSpeedMultiplier, "reload duration"));
         return stats;
     }
 
     @Override
     public boolean hasStats()
     {
-        return magSizeModifier > 0 && reloadSpeedMultiplier > 0;
+        return magSizeModifier > 0 || magSizeMultiplier > 0 || reloadSpeedMultiplier > 0;
     }
 }

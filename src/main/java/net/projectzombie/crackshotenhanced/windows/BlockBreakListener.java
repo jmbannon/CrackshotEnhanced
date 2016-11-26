@@ -56,7 +56,6 @@ public class BlockBreakListener implements Listener
     @EventHandler(priority = EventPriority.NORMAL)
     public void projectileBlockBreakEvent(WeaponHitBlockEvent event)
     {
-        final Player player = event.getPlayer();
         final Block block = event.getBlock();
         
         if (isBreakableBlock(block))

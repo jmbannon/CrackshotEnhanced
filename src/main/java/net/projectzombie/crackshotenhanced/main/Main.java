@@ -1,18 +1,19 @@
 package net.projectzombie.crackshotenhanced.main;
 
+import net.projectzombie.crackshotenhanced.events.scheduler.EntityTimedEventsPerTick;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.ModifierSets;
-import net.projectzombie.crackshotenhanced.guns.events.listener.PlayerConnect;
-import net.projectzombie.crackshotenhanced.guns.events.scheduler.CSEPlayerRunningSpeed;
+import net.projectzombie.crackshotenhanced.events.listener.OnHitListener;
+import net.projectzombie.crackshotenhanced.events.listener.PlayerConnect;
+import net.projectzombie.crackshotenhanced.events.scheduler.CSEPlayerRunningSpeed;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
 import net.projectzombie.crackshotenhanced.guns.crafting.Recipes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.windows.BlockBreakListener;
-import net.projectzombie.crackshotenhanced.guns.events.listener.ShootListener;
-import net.projectzombie.crackshotenhanced.guns.events.listener.ScopeZoomListener;
+import net.projectzombie.crackshotenhanced.events.listener.ShootListener;
+import net.projectzombie.crackshotenhanced.events.listener.ScopeZoomListener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -26,6 +27,7 @@ public class Main extends JavaPlugin {
     private GunSmithCommandExec gunsmithExec;
     private ShootListener shootListener;
     private Recipes recipes;
+    private OnHitListener onHitListener;
 
     static public Plugin getPlugin() {
         return PLUGIN;
@@ -50,6 +52,7 @@ public class Main extends JavaPlugin {
         this.gunsmithExec = new GunSmithCommandExec();
         this.scopeListener = new ScopeZoomListener();
         this.shootListener = new ShootListener();
+        this.onHitListener = new OnHitListener();
         this.recipes = new Recipes();
         
         this.getCommand("gunsmith").setExecutor(gunsmithExec);
@@ -58,8 +61,10 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(scopeListener, this);
         this.getServer().getPluginManager().registerEvents(shootListener, this);
         this.getServer().getPluginManager().registerEvents(recipes, this);
+        this.getServer().getPluginManager().registerEvents(onHitListener, this);
         this.getServer().getPluginManager().registerEvents(PlayerConnect.getListener(), this);
         this.getServer().getScheduler().runTaskTimer(this, new CSEPlayerRunningSpeed(), 10L, 10L);
+        this.getServer().getScheduler().runTaskTimer(this, new EntityTimedEventsPerTick(), 1L, 1L);
 
         Recipes.initializeCraftingRecipes();
         this.getLogger().info("CrackshotEnhanced enabled!");

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -44,30 +45,29 @@ public class FireModeSet extends AttributeSet<FireModeSet.FireModeAttributes>
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        return getStat();
+        return getIndividualStats();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
+        final StatBuilder stats = new StatBuilder();
         if (isAuto)
         {
-            stats.add(ModifierLoreBuilder.getBooleanStat(isAuto, "is automatic"));
+            stats.addBooleanStatIfTrue(isAuto, "is automatic");
         }
         else if (isBurst)
         {
-            stats.add(ModifierLoreBuilder.getBooleanStat(isBurst, "is burst-fire"));
-            stats.add(ModifierLoreBuilder.getValueStat(shotsPerBurst, "shots per burst"));
+            stats.addBooleanStatIfTrue(isBurst, "is burst-fire");
+            stats.addValueStat(shotsPerBurst, "shots per burst");
         }
         else
         {
-            stats.add(ModifierLoreBuilder.getBooleanStat(true, "is semi-automatic"));
+            stats.addBooleanStatIfTrue(true, "is semi-automatic");
         }
-        
-        return stats;
+        return stats.toArrayList();
     }
 
     @Override

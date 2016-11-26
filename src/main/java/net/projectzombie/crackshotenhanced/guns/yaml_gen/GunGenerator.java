@@ -9,7 +9,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.FireModes;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunLore;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import org.bukkit.ChatColor;
 
 import java.util.List;
@@ -18,13 +18,13 @@ import java.util.List;
  *
  * @author jesse
  */
-public class GunGenerator extends Guns.CrackshotGun
+public class GunGenerator extends CrackshotGun
 {
     private static final char CRACKSHOT_COLOR_CHAR = '&';
     private static final char CRACKSHOT_LORE_NEW_LINE= '|';
     public static final ChatColor ITEM_COLOR  = ChatColor.YELLOW;
     
-    public GunGenerator(final Guns.CrackshotGun gun)
+    public GunGenerator(final CrackshotGun gun)
     {
         super(gun);
     }
@@ -56,7 +56,7 @@ public class GunGenerator extends Guns.CrackshotGun
         if (action != null)
         {
             final int openDuration = action.getOpenDuration();
-            double durationMultiplier = super.getGunBolt().getBoltDurationMultiplier();
+            double durationMultiplier = super.getAttributes().getGunBolt().getBoltDurationMultiplier();
             
             int modifiedOpenDuration = (int)Math.round(openDuration * durationMultiplier);
             return Math.min(1, modifiedOpenDuration);

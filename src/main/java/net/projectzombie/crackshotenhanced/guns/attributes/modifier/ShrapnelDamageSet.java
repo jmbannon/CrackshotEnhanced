@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -36,22 +37,20 @@ public class ShrapnelDamageSet extends DamageOnHit<ShrapnelDamageSet.ShrapnelDam
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getTotal(), "total shrapnel damage"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.addAll(getStat());
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(super.getTotal(), "shrapnel damage");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getValue(), "shrapnel damage"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(super.getMultiplier(), "shrapnel damage"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(super.getValue(), "shrapnel damage");
+        stats.addMultiplierStatIfValid(super.getMultiplier(), "shrapnel damage");
+        return stats.toArrayList();
     }
     
 }

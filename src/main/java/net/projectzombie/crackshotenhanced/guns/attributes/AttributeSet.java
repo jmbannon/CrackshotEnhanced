@@ -35,9 +35,13 @@ public abstract class AttributeSet<T extends ModifierAttributes>
     {
         return name;
     }
-    
-    abstract public ArrayList<String> getStat();
-    abstract public ArrayList<String> getStats();
+
+    /** @return Stats applicable to a single GunModifier. */
+    abstract public ArrayList<String> getIndividualStats();
+
+    /** @return Stats applicable to an assembled gun. */
+    abstract public ArrayList<String> getGunStats();
+
     abstract public boolean hasStats();
 
     public final ArrayList<T> getModifiers(final GunModifier[] gunMods, Class<T> t)

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -37,8 +38,8 @@ public class CritSet extends Chance<CritSet.CritAttributes>
                     final double baseDamage)
     {
         super("Crit", mods, CritAttributes::getCritChance, CritAttributes.class);
-        
-        this.critStrikeMultiplier = super.getMultiplierSum(CritAttributes::getCritStrike);
+        // Only want sum because crit strike damage is an additional amount of base damage.
+        this.critStrikeMultiplier = super.getDoubleSum(CritAttributes::getCritStrike);
         this.critStrikeDamage = Math.max(0, critStrikeMultiplier * baseDamage);
     }
     
@@ -47,9 +48,8 @@ public class CritSet extends Chance<CritSet.CritAttributes>
         this(new GunModifier[] { mod }, 0.0);
     }
     
-    public double getCritStrikeDamage() { return critStrikeDamage; }
-    public double getCritStrikeMultiplier() { return critStrikeMultiplier; }
-    
+    public double getTotalDamageOnCrit() { return critStrikeDamage; }
+
     @Override
     public boolean hasStats()
     {
@@ -57,22 +57,20 @@ public class CritSet extends Chance<CritSet.CritAttributes>
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        stats.add(ModifierLoreBuilder.getValueStat(critStrikeDamage, "total damage on critical hit"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.addAll(getStat());        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStat(super.getChance(), "critical hit chance");
+        stats.addValueStat(critStrikeDamage, "damage on critical hit");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getMultiplierStat(critStrikeMultiplier, "critical strike from base damage"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(super.getChance(), "critical hit chance"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStatIfValid(super.getChance(), "critical hit chance");
+        stats.addMultiplierStatIfValid(critStrikeMultiplier, "critical strike from base damage");
+        return stats.toArrayList();
     }
 }

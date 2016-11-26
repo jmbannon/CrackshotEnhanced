@@ -7,7 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
 
@@ -161,7 +161,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      */
     public CrackshotGunLore toPostShotLore(final int durability)
     {
-        final Guns.CrackshotGun gun = super.getGun();
+        final CrackshotGun gun = super.getGun();
 
         lore.clear();
         this.setStatLineHiddenInfo();
@@ -198,7 +198,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      * Sets each GunModifier's in the lore if the GunModifier is not null.
      * @param gun CrackshotGun to add GunModifier info into lore.
      */
-    private void setGunModifierInfo(final Guns.CrackshotGun gun)
+    private void setGunModifierInfo(final CrackshotGun gun)
     {
         lore.add(MOD_LINE_IDX, LINE_MODS);
         addGunModifierLine("Attachment One", gun.getAttachmentOneMod());
@@ -294,7 +294,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      * @param gun CrackshotGun to evaluate accuracy rating.
      * @param durability Current durability of the CrackshotGun.
      */
-    private void setAccuracyInfo(final Guns.CrackshotGun gun,
+    private void setAccuracyInfo(final CrackshotGun gun,
                                  final int durability)
     {
         lore.add(ACCURACY_IDX, buildLoreString("Accuracy: ", "WIP"));

@@ -6,7 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.crafting;
 
 
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
@@ -52,7 +52,7 @@ public class Recipes implements Listener
 
         final CrackshotGunItemStack csItem = new CrackshotGunItemStack(mat[GUN_MATRIX_IDX]);
         
-        Guns.CrackshotGun newGun = csItem.getGun();
+        CrackshotGun newGun = csItem.getGun();
         GunModifierItemStack tempMod;
         
         if (validResult && csItem.isValid() && newGun != null)

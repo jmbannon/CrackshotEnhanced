@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -26,7 +27,6 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
     
     private final int extraDurability;
     private final double durabilityMultiplier;
-    private final int skeletonDurability;
     private final int totalDurability;
     
     public DurabilitySet(final GunModifier[] gunMods,
@@ -35,7 +35,6 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
         super("Durability", gunMods, DurabilityAttributes.class);
         this.durabilityMultiplier = super.getMultiplierSum(DurabilityAttributes::getDurabilityMultiplier);
         this.extraDurability = super.getIntSum(0, 0, DurabilityAttributes::getDurabilityModifier);
-        this.skeletonDurability = skeletonMaxDurability;
         this.totalDurability = (int)Math.max(MAX_DURABILITY, Math.round((skeletonMaxDurability + extraDurability) * durabilityMultiplier));
     }
     
@@ -51,26 +50,20 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
      * @return 
      */
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        stats.add(ModifierLoreBuilder.getValueStat(totalDurability, "total max durability"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonDurability, "max stock durability"));
-        stats.addAll(getStat());
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(totalDurability, "max durability");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(extraDurability, "durability"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(durabilityMultiplier, "durability"));
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(extraDurability, "durability");
+        stats.addMultiplierStatIfValid(durabilityMultiplier, "durability");
+        return stats.toArrayList();
     }
     
     @Override

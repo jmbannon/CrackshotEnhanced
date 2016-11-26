@@ -6,7 +6,10 @@
 package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
 import java.util.ArrayList;
+
+import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.STAT_SEPERATOR;
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.getMultiplierStat;
@@ -45,28 +48,32 @@ public class BleedoutSet extends DamageOverTime<BleedoutSet.BleedoutAttributes>
     {
         this(new GunModifier[] { mod }, 0.0);
     }
-    
+
+    /** TODO: Apply bandage */
     @Override
-    public ArrayList<String> getStats()
-    {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        stats.add(getValueStat(super.getTotalDPS(), "total bleed damage p/sec"));
-        stats.add(getValueStat(super.getTotalDurationInSeconds(), "total bleed duration"));
-        stats.add(STAT_SEPERATOR);
-        stats.addAll(getStat());
-        return stats;
+    public boolean canStop(final CSELivingEntity victim) {
+        return false;
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(getValueStat(super.getDamagePerSecond(), "bleed damage p/sec"));
-        stats.add(getMultiplierStat(super.getAdditionalValueMultiplierAppliedToDPS(), "bleed damage dealt from shrapnel damage p/sec"));
-        stats.add(getValueStat(super.getDurationValue(), "bleed duration"));
-        stats.add(getMultiplierStat(super.getDurationMultiplier(), "bleed duration"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(super.getTotalDPS(), "bleed damage p/sec");
+        stats.addValueStat(super.getTotalDurationInSeconds(), "bleed duration");
+        return stats.toArrayList();
+    }
+    
+    @Override
+    public ArrayList<String> getIndividualStats()
+    {
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(super.getDamagePerSecond(), "bleed damage p/sec");
+        stats.addMultiplierStatIfValid(super.getDamagePerSecondMultiplier(), "bleed damage p/sec");
+        stats.addMultiplierStatIfValid(super.getAdditionalValueMultiplierAppliedToDPS(), "bleed damage dealt from shrapnel damage p/sec");
+        stats.addValueStatIfValid(super.getDurationValue(), "bleed duration");
+        stats.addMultiplierStatIfValid(super.getDurationMultiplier(), "bleed duration");
+        return stats.toArrayList();
     }
 
 }

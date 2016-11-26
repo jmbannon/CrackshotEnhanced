@@ -5,8 +5,11 @@
  */
 package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
+import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
+import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.TimedEventPerTick;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.function.ToDoubleFunction;
 
@@ -17,7 +20,7 @@ import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
  * @author jb
  * @param <T>
  */
-public abstract class DamageOverTime<T extends ModifierAttributes> extends AttributeSet<T>
+public abstract class DamageOverTime<T extends ModifierAttributes> extends AttributeSet<T> implements TimedEventPerTick
 {
 
     private final double damagePerSecond;
@@ -72,11 +75,22 @@ public abstract class DamageOverTime<T extends ModifierAttributes> extends Attri
     public double getTotalDPT() { return totalDPS / TPS; }
     
     public double getTotalDurationInSeconds() { return totalDuration;       }
-    public double getTotalDurationInTicks()   { return totalDuration / TPS; }
+    public int getTotalDurationInTicks()   { return (int)(totalDuration / TPS); }
     public double getDurationValue()          { return durationValue;       }
     public double getDurationMultiplier()     { return durationMultiplier;  }
     public double getDamagePerSecond()        { return damagePerSecond;     }
     public double getDamagePerSecondMultiplier() { return damagePerSecondMultiplier; }
     public double getAdditionalValueMultiplierAppliedToDPS() { return additionalValueMultiplierAppliedToDPS; }
+
+
+    @Override public int getDurationInTicks() { return (int)(totalDuration / TPS); }
+    @Override public void applyEventPerTick(final CSELivingEntity victim) {
+        victim.toBukkit().damage(getTotalDPT());
+    }
+
+    @Override public void onStart(final CSELivingEntity entity) {}
+    @Override public void onEnd(final CSELivingEntity entity) {}
+
+    abstract public boolean canStop(final CSELivingEntity victim);
     
 }

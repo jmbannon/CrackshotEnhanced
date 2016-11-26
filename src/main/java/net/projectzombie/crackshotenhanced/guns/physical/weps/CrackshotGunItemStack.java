@@ -6,7 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -70,7 +70,7 @@ public class CrackshotGunItemStack extends CrackshotGunLore
      * @param newGun Modified version of current gun.
      * @return ItemStack of the new weapon.
      */
-    public ItemStack getModifiedGunItem(final Guns.CrackshotGun newGun)
+    public ItemStack getModifiedGunItem(final CrackshotGun newGun)
     {
         final ItemStack newGunItem = Constants.CRACKSHOT.generateWeapon(newGun.getCSWeaponName());
         if (newGunItem == null)

@@ -10,6 +10,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLore
 import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -28,15 +29,13 @@ public class BulletSpreadSet extends AttributeSet<BulletSpreadSet.BulletSpreadAt
     static private final double MIN_BULLET_SPREAD = 0.05;
     private final double totalBulletSpread;
     private final double bulletSpreadMultiplier;
-    private final double skeletonBulletSpread;
-    
+
     public BulletSpreadSet(final GunModifier[] gunMods,
                            final double skeletonBulletSpread)
     {
         super("Bullet Spread", gunMods, BulletSpreadAttributes.class);
         this.bulletSpreadMultiplier = super.getMultiplierSum(BulletSpreadAttributes::getBulletSpreadMultiplier);
         this.totalBulletSpread = Math.max(MIN_BULLET_SPREAD, bulletSpreadMultiplier * skeletonBulletSpread);
-        this.skeletonBulletSpread = skeletonBulletSpread;
     }
     
     public BulletSpreadSet(final GunModifier mod)
@@ -53,22 +52,18 @@ public class BulletSpreadSet extends AttributeSet<BulletSpreadSet.BulletSpreadAt
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        stats.add(ModifierLoreBuilder.getValueStat(totalBulletSpread, "total bullet spread"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonBulletSpread, "stock bullet spread"));
-        stats.addAll(getStat());
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(totalBulletSpread, "bullet spread");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getMultiplierStat(bulletSpreadMultiplier, "bullet spread"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addMultiplierStatIfValid(bulletSpreadMultiplier, "bullet spread");
+        return stats.toArrayList();
     }
 }

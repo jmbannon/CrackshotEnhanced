@@ -7,7 +7,11 @@ package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
 import java.util.ArrayList;
 
+import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.TimedEventPerTick;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
+import org.bukkit.Particle;
 
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.STAT_SEPERATOR;
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.getMultiplierStat;
@@ -18,7 +22,7 @@ import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
  *
  * @author jb
  */
-public class IgniteSet extends Chance<IgniteSet.IgniteAttributes>
+public class IgniteSet extends Chance<IgniteSet.IgniteAttributes> implements TimedEventPerTick
 {
     public interface IgniteAttributes extends ModifierAttributes {
         double getIgniteChance();
@@ -43,31 +47,39 @@ public class IgniteSet extends Chance<IgniteSet.IgniteAttributes>
     {
         this(new GunModifier[] { mod }, 0.0);
     }
-    
-    public double getIgniteDurationInSeconds()    { return igniteDurationInSeconds;       }
-    public double getIgniteDurationInTicks()      { return igniteDurationInSeconds / TPS; }
-    public double getIgniteFireDamageMultiplier() { return igniteFireDmgMultiplier;       }
-    public double getIgniteDamagePerSecond()      { return igniteDPS;                     }
-    public double getIgniteDamagePerTick()        { return igniteDPS / TPS;               }
-    
-    @Override
-    public ArrayList<String> getStats()
-    {
-        final ArrayList<String> stats = new ArrayList<>();
 
-        stats.add(getValueStat(igniteDPS, "total ignite damage p/sec"));
-        stats.add(STAT_SEPERATOR);
-        stats.addAll(getStat());
-        return stats;
+    public double getDamagePerTick() { return igniteDPS / TPS; }
+
+    @Override public int getDurationInTicks() { return (int)(igniteDurationInSeconds / TPS); }
+
+    @Override public void onStart(final CSELivingEntity entity) {}
+    @Override public void onEnd(final CSELivingEntity entity) {}
+    @Override public boolean canStop(final CSELivingEntity victim) {
+        return victim.isInWater();
+    }
+    @Override public void applyEventPerTick(final CSELivingEntity victim) {
+        victim.toBukkit().getWorld().spawnParticle(Particle.FLAME, victim.toBukkit().getLocation(), 1);
+        victim.toBukkit().damage(getDamagePerTick());
+    }
+
+
+    @Override
+    public ArrayList<String> getGunStats()
+    {
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStat(super.getChance(), "ignite chance");
+        stats.addValueStat(igniteDurationInSeconds, "ignite duration in seconds");
+        stats.addValueStat(igniteDPS, "ignite damage p/sec");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(getMultiplierStat(super.getChance(), "ignite chance"));
-        stats.add(getValueStat(igniteDurationInSeconds, "ignite duration in seconds"));
-        stats.add(getMultiplierStat(igniteFireDmgMultiplier, "ignite damage dealt from fire damage p/sec"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStatIfValid(super.getChance(), "ignite chance");
+        stats.addValueStatIfValid(igniteDurationInSeconds, "ignite duration in seconds");
+        stats.addMultiplierStatIfValid(igniteFireDmgMultiplier, "ignite damage dealt from fire damage p/sec");
+        return stats.toArrayList();
     }
 }

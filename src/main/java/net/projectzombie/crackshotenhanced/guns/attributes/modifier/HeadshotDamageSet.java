@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -36,21 +37,19 @@ public class HeadshotDamageSet extends DamageOnHit<HeadshotDamageSet.HeadshotAtt
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getTotal(), "total headshot damage"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.addAll(getStat());
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(super.getTotal(), "headshot damage");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getValue(), "head shot damage"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(super.getMultiplier(), "head shot damage"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(super.getValue(), "head shot damage");
+        stats.addMultiplierStatIfValid(super.getMultiplier(), "head shot damage");
+        return stats.toArrayList();
     }
 }

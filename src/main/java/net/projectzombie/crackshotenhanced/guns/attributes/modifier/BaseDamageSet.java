@@ -7,8 +7,10 @@ package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
 import java.util.ArrayList;
 
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -30,8 +32,6 @@ public class BaseDamageSet extends DamageOnHit<BaseDamageSet.BaseDamageAttribute
         double getDamageMultiplier();
     }
 
-    private final double skeleBaseDamage;
-    
     public BaseDamageSet(GunModifier[] modifiers,
                          final double skeletonBaseDamage)
     {
@@ -41,7 +41,6 @@ public class BaseDamageSet extends DamageOnHit<BaseDamageSet.BaseDamageAttribute
                 BaseDamageAttributes::getDamageValue,
                 BaseDamageAttributes::getDamageMultiplier,
                 BaseDamageAttributes.class);
-        this.skeleBaseDamage = skeletonBaseDamage;
     }
     
     public BaseDamageSet(GunModifier mod)
@@ -50,22 +49,19 @@ public class BaseDamageSet extends DamageOnHit<BaseDamageSet.BaseDamageAttribute
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getTotal(), "total base damage"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.add(ModifierLoreBuilder.getValueStat(skeleBaseDamage, "stock base damage"));
-        stats.addAll(getStat());
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(super.getTotal(), "base damage");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(super.getValue(), "base damage"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(super.getMultiplier(), "base damage"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(super.getValue(), "base damage");
+        stats.addMultiplierStatIfValid(super.getMultiplier(), "base damage");
+        return stats.toArrayList();
     }
 }

@@ -24,7 +24,22 @@ public class ModifierLoreBuilder
     {
         return TITLE_COLOR + title;
     }
-    
+
+    static
+    public boolean hasMultiplierEffect(final double multiplier) {
+        return multiplier != 0.0 && multiplier != 1.0;
+    }
+
+    static
+    public boolean hasValueEffect(final int value) {
+        return value != 0;
+    }
+
+    static
+    public boolean hasValueEffect(final double value) {
+        return value != 0.0;
+    }
+
     static
     public String getMultiplierStat(final double multiplier,
                                      final String description)
@@ -37,6 +52,12 @@ public class ModifierLoreBuilder
     public String getValueStat(final double value,
                                 final String description)
     {
+        return STAT_COLOR + "  " + numValue(value) + " " + description;
+    }
+
+    static
+    public String getValueStat(final int value,
+                               final String description) {
         return STAT_COLOR + "  " + numValue(value) + " " + description;
     }
     
@@ -61,11 +82,28 @@ public class ModifierLoreBuilder
     {
         return getSign(num) + FORMATTER.format(num);
     }
+
+    static
+    private String numValue(final int num)
+    {
+        return getSign(num) + num;
+    }
     
     static
     private String getSign(final double num)
     {
         if (num > 0.0)
+            return "+";
+        else if (num == 0)
+            return "";
+        else
+            return "-";
+    }
+
+    static
+    private String getSign(final int num)
+    {
+        if (num > 0)
             return "+";
         else if (num == 0)
             return "";

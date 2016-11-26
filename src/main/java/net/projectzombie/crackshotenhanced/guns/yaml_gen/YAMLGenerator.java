@@ -5,7 +5,7 @@
  */
 package net.projectzombie.crackshotenhanced.guns.yaml_gen;
 
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +27,7 @@ public class YAMLGenerator extends GunGenerator
     static private File weps;
     static private FileConfiguration wepsYAML;
     
-    private YAMLGenerator(final Guns.CrackshotGun gun)
+    private YAMLGenerator(final CrackshotGun gun)
     {
         super(gun);
     }
@@ -41,7 +41,7 @@ public class YAMLGenerator extends GunGenerator
         for (GunSkeletons.GunSkeleton skele : GunSkeletons.getInstance().getAll())
         {
             gunsWritten += skele.getGunBaseSet().length;
-            for (Guns.CrackshotGun gun : skele.getGunBaseSet())
+            for (CrackshotGun gun : skele.getGunBaseSet())
                 writeWeapon(gun);
         }
         
@@ -50,7 +50,7 @@ public class YAMLGenerator extends GunGenerator
     }
     
     static
-    private void writeWeapon(final Guns.CrackshotGun gun)
+    private void writeWeapon(final CrackshotGun gun)
     {
         YAMLGenerator gunGen = new YAMLGenerator(gun);
         gunGen.writeItemInformation();
@@ -107,8 +107,8 @@ public class YAMLGenerator extends GunGenerator
     private void writeCritical()
     {
         final String path = super.getCSWeaponName() + ".Critical_Hits.";
-        final double criticalChance = super.getCritical().getChance();
-        final double criticalStrike = super.getCritical().getCritStrikeDamage();
+        final double criticalChance = super.getAttributes().getCritical().getChance();
+        final double criticalStrike = super.getAttributes().getCritical().getTotalDamageOnCrit();
         
         if (criticalChance > 0 && criticalStrike > 0)
         {
@@ -121,7 +121,7 @@ public class YAMLGenerator extends GunGenerator
     private void writeShooting()
     {
         final String path = super.getCSWeaponName() + ".Shooting.";
-        final ProjectileSet projectileSet = super.getGunProjectile();
+        final ProjectileSet projectileSet = super.getAttributes().getGunProjectile();
         
         wepsYAML.set(path + "Right_Click_To_Shoot",            true);
         wepsYAML.set(path + "Cancel_Left_Click_Block_Damage",  true);
@@ -131,9 +131,9 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Projectile_Amount",               projectileSet.getTotalProjectileAmount());
         wepsYAML.set(path + "Projectile_Type",                 "snowball");
         wepsYAML.set(path + "Projectile_Speed",                projectileSet.getProjectileSpeed());
-        wepsYAML.set(path + "Projectile_Damage",               super.getBaseDamage().getValue());
+        wepsYAML.set(path + "Projectile_Damage",               super.getAttributes().getBaseDamage().getValue());
         wepsYAML.set(path + "Removal_Or_Drag_Delay",           super.getWeaponType().getRemovalDragDelay()); // NOTE: UPDATE THIS WITH PROJECTILE RANGE
-        wepsYAML.set(path + "Bullet_Spread",                   super.getBulletSpread().getBulletSpread());
+        wepsYAML.set(path + "Bullet_Spread",                   super.getAttributes().getBulletSpread().getBulletSpread());
         wepsYAML.set(path + "Sounds_Shoot",                    super.getSoundsShoot());
     }
     
@@ -144,8 +144,8 @@ public class YAMLGenerator extends GunGenerator
         final String path = super.getCSWeaponName() + ".Sight.";
         
         wepsYAML.set(path + "Enable",             true);
-        wepsYAML.set(path + "Zoom_Amount",        super.getScopeMod().getZoomAmount());
-        wepsYAML.set(path + "Zoom_Bullet_Spread", super.getSkeletonBulletSpread());
+        wepsYAML.set(path + "Zoom_Amount",        super.getAttributes().getSightSet().getZoomAmount());
+        wepsYAML.set(path + "Zoom_Bullet_Spread", super.getSkeletonBulletSpread()); /* TODO: FIX. */
         wepsYAML.set(path + "Sounds_Toggle_Zoom", "NOTE_STICKS-1-2-0");
     }
     
@@ -175,8 +175,8 @@ public class YAMLGenerator extends GunGenerator
         final String path = super.getCSWeaponName() + ".Reload.";
         
         wepsYAML.set(path + "Enable",                      true);
-        wepsYAML.set(path + "Reload_Amount",               super.getGunMagazine().getTotalMagazineSize());
-        wepsYAML.set(path + "Reload_Duration",             super.getGunMagazine().getTotalReloadDuration());
+        wepsYAML.set(path + "Reload_Amount",               super.getAttributes().getGunMagazine().getTotalMagazineSize());
+        wepsYAML.set(path + "Reload_Duration",             super.getAttributes().getGunMagazine().getTotalReloadDurationInTicks());
         wepsYAML.set(path + "Take_Ammo_On_Reload",         true);
         wepsYAML.set(path + "Reload_Bullets_Individually", super.reloadsBulletsIndividually());
         wepsYAML.set(path + "Sounds_Out_Of_Ammo",          "ITEM_BREAK-1-1-0");

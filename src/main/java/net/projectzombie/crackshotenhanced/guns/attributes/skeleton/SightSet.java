@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -38,34 +39,29 @@ public class SightSet extends AttributeSet<SightSet.SightAttributes>
         this(new GunModifier[] { mod });
     }
     
-//    public SightSet(final SightAttributes mod)
-//    {
-//        super("Sight", new GunModifier[] { mod }, SightAttributes.class);
-//        this.zoomAmount = mod.getZoomAmount();
-//        this.zoomBulletSpreadModifier = mod.getZoomBulletSpreadMultiplier();
-//    }
-    
-    public int getMagazineSize()   { return zoomAmount; }
-    public double getReloadDuration() { return zoomBulletSpreadModifier;  }
+    public int getZoomAmount()   { return zoomAmount; }
+    public double getZoomBulletSpreadModifier() { return zoomBulletSpreadModifier;  }
     
     @Override
-    public ArrayList<String> getStats()
-    {
-        return getStat();
+    public ArrayList<String> getGunStats(){
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(zoomAmount, "zoom amount");
+        stats.addMultiplierStat(zoomBulletSpreadModifier, "bullet spread while zoomed");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getMultiplierStat(zoomBulletSpreadModifier, "bullet spread while scoped"));
-        stats.add(ModifierLoreBuilder.getValueStat(zoomAmount, "zoom amount"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(zoomAmount, "zoom amount");
+        stats.addMultiplierStatIfValid(zoomBulletSpreadModifier, "bullet spread while zoomed");
+        return stats.toArrayList();
     }
 
     @Override
     public boolean hasStats()
     {
-        return zoomAmount > 0 && zoomBulletSpreadModifier > 0;
+        return zoomAmount > 0 || zoomBulletSpreadModifier > 0;
     }
 }

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -35,25 +36,17 @@ public class SilencerSet extends AttributeSet<SilencerSet.SilencerAttributes>
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        return getStat();
+        return getIndividualStats();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        if (isSilenced)
-        {
-            stats.add(ModifierLoreBuilder.getBooleanStat(isSilenced, "has silencer"));
-        }
-        else
-        {
-            stats.add(ModifierLoreBuilder.getBooleanStat(true, "no silencer"));
-        }
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addBooleanStatIfTrue(isSilenced, "has silencer");
+        return stats.toArrayList();
     }
 
     @Override

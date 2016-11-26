@@ -3,14 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.events.listener;
+package net.projectzombie.crackshotenhanced.events.listener;
 
-import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
 import com.shampaggon.crackshot.events.WeaponPreShootEvent;
 import com.shampaggon.crackshot.events.WeaponPrepareShootEvent;
 import com.shampaggon.crackshot.events.WeaponShootEvent;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunLore;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.static_maps.Guns;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -108,35 +108,13 @@ public class ShootListener implements Listener
             System.out.println("shoot vec " + proj.getVelocity().toString());
         }
     }
-    
-    /**
-     * Testing
-     * @param event 
-     */
-    @EventHandler(priority = EventPriority.LOWEST)
-    private void onHitEvent(WeaponDamageEntityEvent event)
-    {
-        
-        final String gunID = event.getDamager().getCustomName();
-        final Guns.CrackshotGun gun = Guns.get(gunID);
-        
-        if (gun != null)
-        {
-            System.out.println("Setting damage: " + gun.getDamageOnEntityHit(event.isHeadshot()));
-            event.setDamage(gun.getDamageOnEntityHit(event.isHeadshot()));
-        }
-        else
-        {
-            System.out.println("Can not find gun with ID: " + gunID);
-        }
-    }
-    
+
     private static String getGunID(final Player player)
     {
         return new CrackshotGunLore(player.getItemInHand().getItemMeta().getLore()).getGunIDStr();
     }
     
-    public static Guns.CrackshotGun getGun(final Player player)
+    public static CrackshotGun getGun(final Player player)
     {
         return Guns.get(getGunID(player));
     }

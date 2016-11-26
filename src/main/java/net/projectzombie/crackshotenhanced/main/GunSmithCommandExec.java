@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
-import net.projectzombie.crackshotenhanced.guns.events.listener.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.events.listener.ShootListener;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -37,32 +37,25 @@ public class GunSmithCommandExec implements CommandExecutor
         if (!sender.isOp())
             return true;
         
-        if (args.length == 1 && args[0].equalsIgnoreCase("stats"))
-        {
-            final Guns.CrackshotGun gun = ShootListener.getGun(sender);
-            final ArrayList<String> stats;
-            
+        if (args.length == 1 && args[0].equalsIgnoreCase("stats"))  {
+            final CrackshotGun gun = ShootListener.getGun(sender);
             if (gun == null)
                 sender.sendMessage("You must have a gun in hand to view its stats.");
             else
-            {
-                stats = gun.getAllStatInfo();
-                for (String str : stats)
-                    sender.sendMessage(str);
-            }
-        }
-        if (args.length == 1 && args[0].equalsIgnoreCase("list"))
-        {
+                gun.getStats().forEach(s -> sender.sendMessage(s));
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("components")) {
+            final CrackshotGun gun = ShootListener.getGun(sender);
+            if (gun == null)
+                sender.sendMessage("You must have a gun in hand to view its stats.");
+            else
+                gun.getComponentStats().forEach(s -> sender.sendMessage(s));
+        } else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             listModifierTypes(sender);
-        }
-        else if (args.length == 2 && args[0].equalsIgnoreCase("list"))
-        {
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("list")) {
             if (args[1].equalsIgnoreCase("attatchment1")
                     || args[1].equalsIgnoreCase("attatchment2")
                     || args[1].equalsIgnoreCase("attatchment3"))
-            {
                 listModifierNames(sender, ProjectileAttachments.getInstance().getAll());
-            }
             else if (args[1].equalsIgnoreCase("barrel"))
                 listModifierNames(sender, Barrels.getInstance().getAll());
             else if (args[1].equalsIgnoreCase("bolt"))

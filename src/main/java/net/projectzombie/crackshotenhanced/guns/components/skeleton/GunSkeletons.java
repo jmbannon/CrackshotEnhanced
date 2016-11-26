@@ -8,11 +8,10 @@ package net.projectzombie.crackshotenhanced.guns.components.skeleton;
 import net.projectzombie.crackshotenhanced.guns.components.QualityModifierValue;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
-import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons.GunSkeleton;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -229,7 +228,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
          * method is to be used for generating the YAML for Crackshot guns.
          * @return 
          */
-        public Guns.CrackshotGun[] getGunBaseSet()
+        public CrackshotGun[] getGunBaseSet()
         {
             final int combinationCount = modSet.getCSCombinationCount();
             int i = 0;
@@ -237,7 +236,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             if (combinationCount <= 0)
                 return null;
 
-            Guns.CrackshotGun guns[] = new Guns.CrackshotGun[combinationCount];
+            CrackshotGun guns[] = new CrackshotGun[combinationCount];
             final ProjectileAttachments.ProjectileAttachment nullAtt = ProjectileAttachments.getInstance().getNullValue();
             final Stocks.Stock nullStock = Stocks.getInstance().getNullValue();
 
@@ -251,7 +250,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                         {
                             for (Sights.Sight sight : modSet.getSights())
                             {
-                                guns[i++] = new Guns.CrackshotGun(
+                                guns[i++] = new CrackshotGun(
                                         this,
                                         nullAtt,
                                         nullAtt, 

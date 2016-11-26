@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
@@ -37,10 +38,6 @@ public class ProjectileSet extends AttributeSet<ProjectileSet.ProjectileAttribut
     private final double addedProjectileRangeMultiplier;
     private final double addedProjectileSpeedMultiplier;
     private final int addedProjectileAmount;
-
-    private final int skeletonProjectileRange;
-    private final int skeletonProjectileSpeed;
-    private final int skeletonProjectileAmount;
     
     public ProjectileSet(final GunModifier[] gunMods,
                        final int skeletonProjectileRange,
@@ -48,10 +45,6 @@ public class ProjectileSet extends AttributeSet<ProjectileSet.ProjectileAttribut
                        final int skeletonProjectileAmount)
     {
         super("Projectile", gunMods, ProjectileAttributes.class);
-        this.skeletonProjectileRange = skeletonProjectileRange;
-        this.skeletonProjectileSpeed = skeletonProjectileSpeed;
-        this.skeletonProjectileAmount = skeletonProjectileAmount;
-
         this.addedProjectileAmount = super.getIntSum(ProjectileAttributes::getProjectileAmount);
         this.addedProjectileSpeedMultiplier = super.getMultiplierSum(ProjectileAttributes::getProjectileSpeedMultiplier);
         this.addedProjectileRangeValue = super.getIntSum(ProjectileAttributes::getProjectileRangeValue);
@@ -72,36 +65,32 @@ public class ProjectileSet extends AttributeSet<ProjectileSet.ProjectileAttribut
     public int getTotalProjectileAmount()  { return totalProjectileAmount; }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        stats.addAll(getStat());
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        if (skeletonProjectileAmount > 1) 
-            stats.add(ModifierLoreBuilder.getValueStat(skeletonProjectileAmount, "stock projectiles per shot"));
+        final StatBuilder stats = new StatBuilder();
+        if (totalProjectileAmount != 1)
+            stats.addValueStat(totalProjectileAmount, "projectiles per shot");
         else
-            stats.add(ModifierLoreBuilder.getValueStat(skeletonProjectileAmount, "stock projectile per shot"));
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonProjectileSpeed, "stock projectile speed"));
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonProjectileRange, "stock projectile range"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        
-        return stats;
+            stats.addValueStat(totalProjectileAmount, "projectile per shot");
+        stats.addValueStat(totalProjectileSpeed, "projectile speed");
+        stats.addValueStat(totalProjectileRange, "projectile range");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        
-        if (totalProjectileAmount > 1)
-            stats.add(ModifierLoreBuilder.getValueStat(totalProjectileAmount, "projectiles per shot"));
-        else
-            stats.add(ModifierLoreBuilder.getValueStat(totalProjectileAmount, "projectile per shot"));
-        stats.add(ModifierLoreBuilder.getValueStat(totalProjectileSpeed, "projectile speed"));
-        stats.add(ModifierLoreBuilder.getValueStat(totalProjectileRange, "projectile range"));
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        if (addedProjectileAmount > 1)
+            stats.addValueStat(addedProjectileAmount, "additional projectiles per shot");
+        else if (addedProjectileAmount == 1)
+            stats.addValueStat(addedProjectileAmount, "additional projectile per shot");
+
+        stats.addMultiplierStatIfValid(addedProjectileSpeedMultiplier, "stock projectile speed");
+        stats.addValueStatIfValid(addedProjectileRangeValue, "range");
+        stats.addMultiplierStatIfValid(addedProjectileRangeMultiplier, "range");
+
+        return stats.toArrayList();
     }
     
     @Override

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
 
@@ -25,17 +26,18 @@ public class BoltSet extends AttributeSet<BoltSet.BoltAttributes>
     }
 
     private final double boltDurationMultiplier;
-    private final double skeletonBoltActionDurationInTicks;
-    
+    private final double totalBoltDurationInTicks;
+
     public BoltSet(final GunModifier[] gunMods,
                    final int skeletonBoltActionDurationInTicks)
     {
         super("Bolt Action", gunMods, BoltAttributes.class);
         this.boltDurationMultiplier = super.getMultiplierSum(BoltAttributes::getBoltDurationMultiplier);
-        this.skeletonBoltActionDurationInTicks = skeletonBoltActionDurationInTicks;
+        this.totalBoltDurationInTicks = skeletonBoltActionDurationInTicks * boltDurationMultiplier;
     }
 
     public double getBoltDurationMultiplier() { return boltDurationMultiplier; }
+    public double getTotalBoltDurationInTicks() { return totalBoltDurationInTicks; }
     
     public BoltSet(final GunModifier mod)
     {
@@ -43,31 +45,24 @@ public class BoltSet extends AttributeSet<BoltSet.BoltAttributes>
     }
     
     @Override
-    public ArrayList<String> getStats()
+    public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        final double newBoltSpeed = skeletonBoltActionDurationInTicks * boltDurationMultiplier;
-        
-        stats.add(ModifierLoreBuilder.getValueStat(newBoltSpeed / TPS, "bolt action duration in seconds"));
-        stats.add(ModifierLoreBuilder.STAT_SEPERATOR);
-        stats.addAll(getStat());
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(totalBoltDurationInTicks / TPS, "bolt action duration in seconds");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getMultiplierStat(boltDurationMultiplier, "bolt action duration"));
-        stats.add(ModifierLoreBuilder.getValueStat(skeletonBoltActionDurationInTicks / TPS, "stock bolt action duration"));
-        
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addMultiplierStatIfValid(boltDurationMultiplier, "bolt action duration");
+        return stats.toArrayList();
     }
     
     @Override
     public boolean hasStats()
     {
-        return boltDurationMultiplier > 0 && skeletonBoltActionDurationInTicks > 0;
+        return totalBoltDurationInTicks > 0;
     }
 }

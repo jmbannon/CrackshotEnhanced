@@ -48,23 +48,23 @@ public class GunModifierLore extends HiddenGunModifierInfo
 
 
         
-        if (this instanceof BleedoutSet.BleedoutAttributes)     stats.addAll(new BleedoutSet(mod).getStat());
-        if (this instanceof BoltSet.BoltAttributes)         stats.addAll(new BoltSet(mod).getStat());
-        if (this instanceof BulletSpreadSet.BulletSpreadAttributes) stats.addAll(new BulletSpreadSet(mod).getStat());
-        if (this instanceof CritSet.CritAttributes)         stats.addAll(new CritSet(mod).getStat());
-        if (this instanceof BaseDamageSet.BaseDamageAttributes)   stats.addAll(new BaseDamageSet(mod).getStat());
-        if (this instanceof HeadshotDamageSet.HeadshotAttributes)     stats.addAll(new HeadshotDamageSet(mod).getStat());
-        if (this instanceof DurabilitySet.DurabilityAttributes)   stats.addAll(new DurabilitySet(mod).getStat());
-        if (this instanceof FireModeSet.FireModeAttributes)     stats.addAll(new FireModeSet(mod).getStat());
-        if (this instanceof IgniteSet.IgniteAttributes)       stats.addAll(new IgniteSet(mod).getStat());
-        if (this instanceof FireDamageSet.FireDamageAttributes)   stats.addAll(new FireDamageSet(mod).getStat());
-        if (this instanceof MagazineSet.MagazineAttributes)     stats.addAll(new MagazineSet(mod).getStat());
-        if (this instanceof ProjectileSet.ProjectileAttributes)   stats.addAll(new ProjectileSet(mod).getStat());
-        if (this instanceof MotionSet.MotionAttributes)       stats.addAll(new MotionSet(mod).getStat());
-        if (this instanceof ShrapnelDamageSet.ShrapnelDamageAttributes) stats.addAll(new ShrapnelDamageSet(mod).getStat());
-        if (this instanceof StunSet.StunAttributes)         stats.addAll(new StunSet(mod).getStat());
-        if (this instanceof SilencerSet.SilencerAttributes)     stats.addAll(new SilencerSet(mod).getStat());
-        if (this instanceof SightSet.SightAttributes)         stats.addAll(new SightSet(mod).getStat());
+        if (this instanceof BleedoutSet.BleedoutAttributes)     stats.addAll(new BleedoutSet(mod).getIndividualStats());
+        if (this instanceof BoltSet.BoltAttributes)         stats.addAll(new BoltSet(mod).getIndividualStats());
+        if (this instanceof BulletSpreadSet.BulletSpreadAttributes) stats.addAll(new BulletSpreadSet(mod).getIndividualStats());
+        if (this instanceof CritSet.CritAttributes)         stats.addAll(new CritSet(mod).getIndividualStats());
+        if (this instanceof BaseDamageSet.BaseDamageAttributes)   stats.addAll(new BaseDamageSet(mod).getIndividualStats());
+        if (this instanceof HeadshotDamageSet.HeadshotAttributes)     stats.addAll(new HeadshotDamageSet(mod).getIndividualStats());
+        if (this instanceof DurabilitySet.DurabilityAttributes)   stats.addAll(new DurabilitySet(mod).getIndividualStats());
+        if (this instanceof FireModeSet.FireModeAttributes)     stats.addAll(new FireModeSet(mod).getIndividualStats());
+        if (this instanceof IgniteSet.IgniteAttributes)       stats.addAll(new IgniteSet(mod).getIndividualStats());
+        if (this instanceof FireDamageSet.FireDamageAttributes)   stats.addAll(new FireDamageSet(mod).getIndividualStats());
+        if (this instanceof MagazineSet.MagazineAttributes)     stats.addAll(new MagazineSet(mod).getIndividualStats());
+        if (this instanceof ProjectileSet.ProjectileAttributes)   stats.addAll(new ProjectileSet(mod).getIndividualStats());
+        if (this instanceof MotionSet.MotionAttributes)       stats.addAll(new MotionSet(mod).getIndividualStats());
+        if (this instanceof ShrapnelDamageSet.ShrapnelDamageAttributes) stats.addAll(new ShrapnelDamageSet(mod).getIndividualStats());
+        if (this instanceof StunSet.StunAttributes)         stats.addAll(new StunSet(mod).getIndividualStats());
+        if (this instanceof SilencerSet.SilencerAttributes)     stats.addAll(new SilencerSet(mod).getIndividualStats());
+        if (this instanceof SightSet.SightAttributes)         stats.addAll(new SightSet(mod).getIndividualStats());
 
         if (!stats.isEmpty())
         {

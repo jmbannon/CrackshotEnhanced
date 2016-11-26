@@ -6,8 +6,9 @@
 package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
+import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
-import net.projectzombie.crackshotenhanced.guns.weps.Guns;
+import net.projectzombie.crackshotenhanced.static_maps.Guns;
 
 /**
  *
@@ -84,7 +85,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
      * Gets the CrackshotGun by parsing the GunID in the hidden lore.
      * @return CrackshotGun affiliated with the GunID.
      */
-    public Guns.CrackshotGun getGun()
+    public CrackshotGun getGun()
     {
         return Guns.get(super.getInfoStr(GUN_ID_IDX));
     }

@@ -88,7 +88,7 @@ public class GunID
             this.uniqueID = null;
     }
     
-    public GunID(final Guns.CrackshotGun gun,
+    public GunID(final CrackshotGun gun,
                  final GunModifier modifier,
                  final GunModifierType type)
     {

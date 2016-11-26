@@ -7,15 +7,18 @@ package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
 import java.util.ArrayList;
 
+import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.TimedEvent;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
+import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 
 /**
  *
  * @author jb
  */
-public class StunSet extends Chance<StunSet.StunAttributes>
+public class StunSet extends Chance<StunSet.StunAttributes> implements TimedEvent
 {
     public interface StunAttributes extends ModifierAttributes {
         double getStunChance();
@@ -34,23 +37,29 @@ public class StunSet extends Chance<StunSet.StunAttributes>
     {
         this(new GunModifier[] { mod });
     }
-    
-    public double getDurationInSeconds() { return durationInSeconds; }
-    public double getDurationInTicks()   { return durationInSeconds / Constants.TPS; }
+
+    @Override public int getDurationInTicks() { return (int)(durationInSeconds / Constants.TPS); }
+
+    @Override public void onStart(final CSELivingEntity entity) { entity.setSpeed(0.0); }
+    @Override public void onEnd(final CSELivingEntity entity) { entity.setSpeed(entity.getDefaultSpeed()); }
+
+    @Override public boolean canStop(final CSELivingEntity victim) { return false; }
     
     @Override
-    public ArrayList<String> getStats()
-    {
-        return getStat();
+    public ArrayList<String> getGunStats() {
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStat(super.getChance(), "stun chance");
+        stats.addValueStat(durationInSeconds, "stun duration");
+        return stats.toArrayList();
     }
     
     @Override
-    public ArrayList<String> getStat()
+    public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getMultiplierStat(super.getChance(), "stun chance"));
-        stats.add(ModifierLoreBuilder.getValueStat(durationInSeconds, "stun duration"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addPercentageStatIfValid(super.getChance(), "stun chance");
+        stats.addValueStatIfValid(durationInSeconds, "stun duration");
+        return stats.toArrayList();
     }
     
 }
