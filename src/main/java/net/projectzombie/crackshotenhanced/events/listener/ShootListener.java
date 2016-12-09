@@ -8,8 +8,11 @@ package net.projectzombie.crackshotenhanced.events.listener;
 import com.shampaggon.crackshot.events.WeaponPreShootEvent;
 import com.shampaggon.crackshot.events.WeaponPrepareShootEvent;
 import com.shampaggon.crackshot.events.WeaponShootEvent;
+import net.projectzombie.crackshotenhanced.entities.CSEPlayer;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunLore;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.static_maps.ConnectedPlayers;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
 import org.bukkit.entity.Entity;
@@ -53,29 +56,33 @@ public class ShootListener implements Listener
     @EventHandler(priority = EventPriority.HIGH)
     public void preDecayEvent(WeaponPreShootEvent event)
     {
-        final Player shooter = event.getPlayer();
+        final Player player = event.getPlayer();
+        final CSEPlayer shooter = ConnectedPlayers.get(player);
+        final CrackshotGunItemStack physicalGun = shootCrackshotGunItemStack(
+                shooter.toBukkit().getInventory().getItemInMainHand());
         
-        final double bulletSpread = shoot(event.getBulletSpread(), shooter.getItemInHand());
-        
-        if (bulletSpread <= -2)
+        if (physicalGun == null)
         {
-            shooter.sendMessage("A parsing error has occured. Please consult an admin.");
+            player.sendMessage("Invalid gun. Please consult an admin.");
             event.setCancelled(true);
-        }
-        else if (bulletSpread < 0)
-        {
-            shooter.sendMessage("Weapon's configuration is not encrypted. Please consult an admin.");
-            event.setCancelled(true);
-        }
-        else if (bulletSpread == 0)
-        {
+        } else if (physicalGun.isBroken()) {
             event.setSounds(null);
             event.setCancelled(true);
-        }
-        else
-        {
-            //Bukkit.broadcastMessage("" + bulletSpread);
-            event.setBulletSpread(bulletSpread);
+        } else {
+            final CrackshotGun gun = physicalGun.getGun();
+            if (shooter.isMoving()) {
+                Main.info("IS MOVING");
+                event.setBulletSpread(gun.getRunningBulletSpread());
+            } else if (shooter.isZoomed()) {
+                Main.info("IS ZOOMED");
+                event.setBulletSpread(gun.getZoomedBulletSpread());
+            } else if (shooter.isCrouching()) {
+                Main.info("IS CROUCH");
+                event.setBulletSpread(gun.getCrouchingBulletSpread());
+            } else /* shooter.isStanding() */ {
+                Main.info("IS STANDING");
+                event.setBulletSpread(gun.getStandingBulletSpread());
+            }
         }
     }
     
@@ -120,43 +127,25 @@ public class ShootListener implements Listener
     }
     
     /**
-     * 
-     * @param eventBulletSpread
+     * Updates the ItemStack's durability/lore and returns the CrackshotGunItemStack
      * @param item
-     * @return  leq 0 - An error occurred in the parsing.
-     *           eq 0 - The weapon is broken
-     *          geq 0 - The bullet spread to set for the event
+     * @return CrackshotGunItemStack
      */
-    public static double shoot(final double eventBulletSpread,
-                               final ItemStack item)
+    private static CrackshotGunItemStack shootCrackshotGunItemStack(final ItemStack item)
     {
-        final int ERROR = -2;
+        if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasLore())
+            return null;
+
         final CrackshotGunItemStack csItem = new CrackshotGunItemStack(item);
         final ItemMeta gunMeta = item.getItemMeta();
-        
-        if (!item.hasItemMeta() || !item.getItemMeta().hasLore())
-            return ERROR;
 
-        if (csItem.isPreShot())
-        {
-            System.out.println("IS PRE SHOT");
-            csItem.toPostShotLore();
-            csItem.decrementDurability();
+        if (csItem.shoot()) {
             gunMeta.setLore(csItem.getLore());
+            item.setItemMeta(gunMeta);
+            return csItem;
+        } else {
+            return null;
         }
-        else if (csItem.isPostShot())
-        {
-            System.out.println("IS POST SHOT");
-            csItem.decrementDurability();
-            gunMeta.setLore(csItem.getLore());
-        }
-        else {
-            System.out.println("IS ERROR");
-            return ERROR;
-        }
-
-        item.setItemMeta(gunMeta);
-        return csItem.getEventBulletSpread(eventBulletSpread);
     }
     
 }

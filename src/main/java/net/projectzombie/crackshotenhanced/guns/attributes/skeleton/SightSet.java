@@ -40,7 +40,7 @@ public class SightSet extends AttributeSet<SightSet.SightAttributes>
     }
     
     public int getZoomAmount()   { return zoomAmount; }
-    public double getZoomBulletSpreadModifier() { return zoomBulletSpreadModifier;  }
+    public double getZoomBulletSpreadMultiplier() { return zoomBulletSpreadModifier;  }
     
     @Override
     public ArrayList<String> getGunStats(){

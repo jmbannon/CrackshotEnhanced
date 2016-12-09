@@ -34,6 +34,10 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
     static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Probability" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
+    public String getTitle() {
+        return "Quality: ";
+    }
+
     private Qualities() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
     public Qualities.Quality buildModule(final int uniqueID, final ModifierMap values) {

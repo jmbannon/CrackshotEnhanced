@@ -315,7 +315,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      */
     private void setQualityInfo()
     {
-        lore.add(BUILD_IDX, buildLoreString(Qualities.getInstance().getModuleName(), super.getGun().getQuality().getName()));
+        lore.add(BUILD_IDX, buildLoreString(Qualities.getInstance().getTitle(), super.getGun().getQuality().getName()));
     }
     
     static

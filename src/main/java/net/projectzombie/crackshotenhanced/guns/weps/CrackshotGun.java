@@ -119,7 +119,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
     public double getTotalDamageOnHit() {
         return Arrays.stream(attributes.getAll())
                 .filter(set -> set instanceof DamageOnHit)
-                .map(set -> (DamageOnHit) set)
+                .map(set -> (DamageOnHit)set)
                 .mapToDouble(DamageOnHit::getTotal)
                 .sum();
     }
@@ -145,12 +145,40 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
         return 0;
     }
 
-    public double getZoomedBulletSpread() {
-        return 0;
+    // -------------------------------------------------------------------------
+    //  Bullet Spread
+    // -------------------------------------------------------------------------
+
+    /** @return BulletSpread * multiplier */
+    private double getBulletSpread(final double multiplier) {
+        return attributes.getBulletSpread().getBulletSpread() * multiplier;
     }
 
+    /** @return BulletSpread. */
+    private double getBulletSpread() { return getBulletSpread(1.0); }
+
+    /** @return BulletSpread when zoomed. */
+    public double getZoomedBulletSpread() {
+        final double zoomMultiplier = attributes.getSightSet().getZoomBulletSpreadMultiplier();
+        return this.getBulletSpread(zoomMultiplier);
+    }
+
+    /** @return BulletSpread when standing. */
+    public double getStandingBulletSpread() {
+        final double standingMultiplier = attributes.getMotionSet().getTotalStandingBulletSpreadMultiplier();
+        return this.getBulletSpread(standingMultiplier);
+    }
+
+    /** @return BulletSpread when running. */
     public double getRunningBulletSpread() {
-        return 0;
+        final double runningMultiplier = attributes.getMotionSet().getTotalRunningBulletSpreadMultiplier();
+        return this.getBulletSpread(runningMultiplier);
+    }
+
+    /** @return BulletSpread when crouching. */
+    public double getCrouchingBulletSpread() {
+        final double crouchingMultiplier = attributes.getMotionSet().getTotalCrouchingBulletSpreadMultiplier();
+        return this.getBulletSpread(crouchingMultiplier);
     }
 
     public int getInitialDurability() {
@@ -178,12 +206,6 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
     public CrackshotGun getModifiedGun(final GunModifier modifier,
                                        final GunModifierType type) {
         return Guns.get(new GunID(this, modifier, type));
-    }
-
-    // TODO
-    public double getEventBulletSpread(final double eventBulletSpread,
-                                       final int durability) {
-        return eventBulletSpread;
     }
 
     public ArrayList<String> getStats() {

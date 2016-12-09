@@ -52,19 +52,6 @@ public class CrackshotGunItemStack extends CrackshotGunLore
     }
     
     /**
-     * Returns the bullet spread to be set for the event.
-     * Takes into account the durability and build of the gun.
-     * 
-     * @param eventBulletSpread Original bullet spread from the event.
-     * @return Adjusted event bullet spread.
-     */
-    public double getEventBulletSpread(final double eventBulletSpread)
-    {
-        return super.getGun().getEventBulletSpread(eventBulletSpread, 
-            super.getDurability());
-    }
-    
-    /**
      * Returns the ItemStack of a modified gun.
      * 
      * @param newGun Modified version of current gun.
@@ -92,10 +79,23 @@ public class CrackshotGunItemStack extends CrackshotGunLore
             newLore.setGunID(newGun.getUniqueID());
             newLore.toPreShotLore();
             newMeta.setLore(newLore.getLore());
+            newGunItem.setItemMeta(newMeta);
             return newGunItem;
         }
         else
             return null;
+    }
+
+    public boolean shoot() {
+        if (this.isValid()) {
+            if (this.isPreShot()) {
+                this.toPostShotLore();
+            }
+            this.decrementDurability();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override public boolean isValid() {

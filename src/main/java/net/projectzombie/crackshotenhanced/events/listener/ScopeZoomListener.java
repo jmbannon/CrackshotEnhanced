@@ -2,6 +2,8 @@ package net.projectzombie.crackshotenhanced.events.listener;
 
 import java.util.HashMap;
 
+import net.projectzombie.crackshotenhanced.entities.CSEPlayer;
+import net.projectzombie.crackshotenhanced.static_maps.ConnectedPlayers;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,15 +41,18 @@ public class ScopeZoomListener implements Listener
     {
         final Player player = event.getPlayer();
         final UUID playerUUID = event.getPlayer().getUniqueId();
-        final ItemStack scope = new ItemStack(Material.PUMPKIN);
+        final CSEPlayer CSPlayer = ConnectedPlayers.get(playerUUID);
 
         if (event.isZoomIn())
         {
+            CSPlayer.setZoomed(true);
+            final ItemStack scope = new ItemStack(Material.PUMPKIN);
             helmetList.put(playerUUID, player.getInventory().getHelmet());	
             player.getInventory().setHelmet(scope);
         } 
         else if (helmetList.containsKey(playerUUID))
         {
+            CSPlayer.setZoomed(false);
             player.getInventory().setHelmet(helmetList.get(playerUUID));
             helmetList.remove(playerUUID);
         }

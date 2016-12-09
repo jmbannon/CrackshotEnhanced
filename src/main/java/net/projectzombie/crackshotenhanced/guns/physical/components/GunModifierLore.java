@@ -46,8 +46,6 @@ public class GunModifierLore extends HiddenGunModifierInfo
         if (!this.isValid() || mod == null || mod.isNull())
             return null;
 
-
-        
         if (this instanceof BleedoutSet.BleedoutAttributes)     stats.addAll(new BleedoutSet(mod).getIndividualStats());
         if (this instanceof BoltSet.BoltAttributes)         stats.addAll(new BoltSet(mod).getIndividualStats());
         if (this instanceof BulletSpreadSet.BulletSpreadAttributes) stats.addAll(new BulletSpreadSet(mod).getIndividualStats());
