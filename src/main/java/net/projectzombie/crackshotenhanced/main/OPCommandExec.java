@@ -8,14 +8,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.Arrays;
+
 public class OPCommandExec implements CommandExecutor
 {
-    final BlockBreakListener blockBreak;
-    
-    public OPCommandExec()
-    {
-        this.blockBreak = new BlockBreakListener();
-    }
+
+    public OPCommandExec() { /* Do nothing. */ }
 	
     @Override
     public boolean onCommand(CommandSender cs,
@@ -23,27 +21,27 @@ public class OPCommandExec implements CommandExecutor
                          String label,
                          String[] args)
     {
-        if (!(cs instanceof Player) || !cs.isOp())
-                return true;
+        if (!cs.isOp())
+            return true;
 
-        final Player sender = (Player)cs;
-
-        if (cmd.getName().equalsIgnoreCase("bw") && args.length > 0)
+        Main.info(cmd.getName());
+        Main.info("" + args.length);
+        if (cmd.getName().equalsIgnoreCase("cse") && args.length > 0)
         {
-            Bukkit.broadcastMessage(args[0]);
+            Arrays.stream(args).forEach(s -> Main.info(s));
             if (args[0].equalsIgnoreCase("yaml"))
                 YAMLGenerator.generateDefaultWeapons();
             else
-                this.commandList(sender);
+                this.commandList(cs);
         }
         else
-            this.commandList(sender);
+            this.commandList(cs);
 
         return true;
     }
     
-    public void commandList(Player sender)
+    public void commandList(CommandSender sender)
     {
-        sender.sendMessage("/bw yaml");
+        sender.sendMessage("/cse yaml");
     }
 }

@@ -53,7 +53,7 @@ public class CritSet extends Chance<CritSet.CritAttributes>
     @Override
     public boolean hasStats()
     {
-        return super.getChance() > 0 && critStrikeMultiplier > 0;
+        return super.hasStats() && critStrikeMultiplier > 0;
     }
     
     @Override

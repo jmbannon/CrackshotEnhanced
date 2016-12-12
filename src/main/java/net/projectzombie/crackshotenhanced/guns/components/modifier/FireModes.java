@@ -73,14 +73,12 @@ public class FireModes extends ModifierConfig<FireMode>
     
     static public class FireMode extends GunModifier implements FireModeSet.FireModeAttributes
     {
-        private static final String TITLE = "Fire Mode: ";
-
         private final boolean isBurstFire;
         private final boolean isAutomatic;
         private final int shotsPerBurst;
 
         private FireMode(final int uniqueID,
-                        final String displayName,
+                          final String displayName,
                           final String material,
                           final int materialByte,
                           final int price,
@@ -100,10 +98,9 @@ public class FireModes extends ModifierConfig<FireMode>
             this(0, null, null, 0, 0, null, false, 0, false);
         }
         
-        @Override public boolean isBurstFire()       { return isBurstFire; }
-        @Override public boolean isAutomatic()       { return isAutomatic; }
-        @Override public int     getShotsPerBurst()  { return shotsPerBurst; }
-        @Override public int price()                 { return 40;       }
+        @Override public boolean  isBurstFire()       { return isBurstFire; }
+        @Override public boolean  isAutomatic()       { return isAutomatic; }
+        @Override public int      getShotsPerBurst()  { return shotsPerBurst; }
         @Override public FireMode getNullModifier() { return new FireMode(); }
     }
 }

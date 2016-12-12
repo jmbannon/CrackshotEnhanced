@@ -11,6 +11,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 /**
  *
@@ -54,25 +55,14 @@ public class FireModeSet extends AttributeSet<FireModeSet.FireModeAttributes>
     public ArrayList<String> getIndividualStats()
     {
         final StatBuilder stats = new StatBuilder();
-        if (isAuto)
-        {
-            stats.addBooleanStatIfTrue(isAuto, "is automatic");
-        }
-        else if (isBurst)
-        {
-            stats.addBooleanStatIfTrue(isBurst, "is burst-fire");
+        if (isAuto) {
+            stats.addBooleanStatIfTrue(true, "Automatic");
+        } else if (isBurst) {
+            stats.addBooleanStatIfTrue(true, "Burst-fire");
             stats.addValueStat(shotsPerBurst, "shots per burst");
-        }
-        else
-        {
-            stats.addBooleanStatIfTrue(true, "is semi-automatic");
+        } else {
+            stats.addBooleanStatIfTrue(true, "Semi-Automatic");
         }
         return stats.toArrayList();
-    }
-
-    @Override
-    public boolean hasStats()
-    {
-        return true;
     }
 }

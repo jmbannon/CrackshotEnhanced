@@ -46,10 +46,7 @@ public abstract class DamageOnHit<T extends ModifierAttributes> extends Attribut
 
     
     @Override
-    public boolean hasStats()
-    {
-        return totalDamage > 0;
-    }
+    public boolean hasStats()     { return super.hasStats() && totalDamage > 0; }
     public double getValue()      { return damageValue; }
     public double getMultiplier() { return damageMultiplier; }
     public double getTotal()      { return totalDamage; }

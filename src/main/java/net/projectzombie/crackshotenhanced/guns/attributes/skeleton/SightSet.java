@@ -62,6 +62,7 @@ public class SightSet extends AttributeSet<SightSet.SightAttributes>
     @Override
     public boolean hasStats()
     {
-        return zoomAmount > 0 || zoomBulletSpreadModifier > 0;
+        return super.hasStats()
+                && (zoomAmount > 0 || (zoomBulletSpreadModifier != 1.0 && zoomBulletSpreadModifier != 0.0));
     }
 }

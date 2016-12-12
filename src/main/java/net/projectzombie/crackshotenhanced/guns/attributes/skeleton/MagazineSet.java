@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
 
@@ -59,25 +60,25 @@ public class MagazineSet extends AttributeSet<MagazineSet.MagazineAttributes>
     @Override
     public ArrayList<String> getGunStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(totalMagSize, "magazine size"));
-        stats.add(ModifierLoreBuilder.getValueStat(totalReloadDurationInTicks / TPS, "reload duration"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStat(totalMagSize, "magazine size");
+        stats.addValueStat(totalReloadDurationInTicks / TPS, "second reload duration");
+        return stats.toArrayList();
     }
     
     @Override
     public ArrayList<String> getIndividualStats()
     {
-        final ArrayList<String> stats = new ArrayList<>();
-        stats.add(ModifierLoreBuilder.getValueStat(magSizeModifier, "magazine size"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(magSizeMultiplier, "magazine size"));
-        stats.add(ModifierLoreBuilder.getMultiplierStat(reloadSpeedMultiplier, "reload duration"));
-        return stats;
+        final StatBuilder stats = new StatBuilder();
+        stats.addValueStatIfValid(magSizeModifier, "magazine size");
+        stats.addMultiplierStatIfValid(magSizeMultiplier, "magazine size");
+        stats.addMultiplierStatIfValid(reloadSpeedMultiplier, "reload duration");
+        return stats.toArrayList();
     }
 
     @Override
     public boolean hasStats()
     {
-        return magSizeModifier > 0 || magSizeMultiplier > 0 || reloadSpeedMultiplier > 0;
+        return super.hasStats() && (magSizeModifier > 0 || magSizeMultiplier != 1.0 || reloadSpeedMultiplier != 1.0);
     }
 }

@@ -2,6 +2,7 @@ package net.projectzombie.crackshotenhanced.guns.attributes;
 
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.*;
+import net.projectzombie.crackshotenhanced.guns.components.modifier.FireModes;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 
@@ -29,6 +30,8 @@ public class Attributes {
     private final DurabilitySet durability;
     private final MotionSet motion;
     private final SightSet sightSet;
+    private final FireModeSet fireModeSet;
+    private final SilencerSet silencerSet;
 
     public Attributes(final GunSkeletons.GunSkeleton skeleton,
                       final GunModifier[] modifiers) {
@@ -53,6 +56,8 @@ public class Attributes {
                 skeleton.getSkeletonStandingBulletSpreadMultiplier(),
                 skeleton.getSkeletonRunningBulletSpreadMultiplier());
         this.sightSet = new SightSet(modifiers);
+        this.fireModeSet = new FireModeSet(modifiers);
+        this.silencerSet = new SilencerSet(modifiers);
     }
 
     public Attributes(final GunModifier modifiers) {
@@ -70,6 +75,8 @@ public class Attributes {
         this.durability = new DurabilitySet(modifiers);
         this.motion = new MotionSet(modifiers);
         this.sightSet = new SightSet(modifiers);
+        this.fireModeSet = new FireModeSet(modifiers);
+        this.silencerSet = new SilencerSet(modifiers);
     }
 
     public BulletSpreadSet getBulletSpread()      { return bulletSpread;  }
@@ -86,10 +93,12 @@ public class Attributes {
     public MotionSet getMotionSet()               { return motion;        }
     public DurabilitySet getDurabilitySet()       { return durability;    }
     public SightSet getSightSet()                 { return sightSet;      }
+    public FireModeSet getFireModeSet()           { return fireModeSet;   }
+    public SilencerSet getSilencerSet()           { return  silencerSet;  }
 
     public AttributeSet[] getAll() {
-        return new AttributeSet[] {bulletSpread, baseDamage, headshot, bleedout, crit, shrapnel, fireDamage, mag,
-                boltSet, projectile, stun, motion, durability, sightSet
+        return new AttributeSet[] {fireModeSet, silencerSet, bulletSpread, baseDamage, headshot, bleedout, crit,
+                shrapnel, fireDamage, mag, boltSet, projectile, stun, motion, durability, sightSet
         };
     }
 
@@ -111,7 +120,9 @@ public class Attributes {
         return stats;
     }
 
-    public ArrayList<String> getIndividualStatInfo(final String statDisplayName)
+    public ArrayList<String> getIndividualStatInfo(final String statDisplayName,
+                                                   final int statNameIndentation,
+                                                   final int statIndentation)
     {
         final ArrayList<String> stats = new ArrayList<>();
         final AttributeSet modSets[] = getAll();
@@ -120,14 +131,18 @@ public class Attributes {
         stats.add(toTitle(statDisplayName + " Stats"));
         for (AttributeSet modSet : modSets)
         {
-            tempStats = modSet.getIndividualStats();
+            tempStats = modSet.getIndividualStats(statIndentation);
             if (modSet.hasStats() && !tempStats.isEmpty())
             {
-                stats.add(STAT_TYPE_SEPERATOR);
-                stats.add(toTitle(modSet.getName()));
+                stats.add("  " + toTitle(modSet.getName()));
                 stats.addAll(tempStats);
             }
         }
         return stats;
+    }
+
+    public ArrayList<String> getIndividualStatInfo(final String statDisplayName)
+    {
+        return getIndividualStatInfo(statDisplayName, 0, 0);
     }
 }

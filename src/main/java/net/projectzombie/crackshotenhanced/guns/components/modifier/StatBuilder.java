@@ -1,5 +1,6 @@
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -43,6 +44,12 @@ public class StatBuilder {
         lore.add(STAT_COLOR + "  " + numPercentage(multiplier) + " " + description);
     }
 
+//    public void addMultiplierStat(final double multiplier,
+//                                  final double offset,
+//                                  final String description) {
+//        addMultiplierStat(multiplier - offset, description);
+//    }
+
     public void addPercentageStat(final double percentage,
                                   final String description) {
         lore.add(STAT_COLOR + "  " + numPercentage(percentage) + " " + description);
@@ -74,12 +81,29 @@ public class StatBuilder {
             addMultiplierStat(multiplier, description);
     }
 
+//    public void addMultiplierStatIfValid(final double multiplier,
+//                                         final double offset,
+//                                         final String description)
+//    {
+//        if (hasMultiplierEffect(multiplier))
+//            addMultiplierStat(multiplier, offset, description);
+//    }
+
     public void addPercentageStatIfValid(final double percentage,
                                          final String description)
     {
         if (hasPercentageEffect(percentage))
             addMultiplierStat(percentage, description);
     }
+
+//    public void addPercentageStatIfValid(final double percentage,
+//                                         final double offset,
+//                                         final String description)
+//    {
+//        Main.info(description + " " + percentage);
+//        if (hasPercentageEffect(percentage))
+//            addMultiplierStat(percentage, offset, description);
+//    }
 
     public void addValueStatIfValid(final double value,
                                     final String description) {
@@ -97,22 +121,21 @@ public class StatBuilder {
 
     private String numPercentage(final double num)
     {
-        return getSign(num) + FORMATTER.format(num) + "%";
+        return getSign(num - 1.0) + FORMATTER.format(100 * (num - 1.0)) + "%";
     }
 
     private String numValue(final double num) { return getSign(num) + FORMATTER.format(num); }
 
     private String numValue(final int num) { return getSign(num) + num; }
 
-    static
-    private String getSign(final double num)
+
+    /** @return '+' if positive, '' otherwise because negative values will include the negative symbol when printed. */
+    static private String getSign(final double num)
     {
         if (num > 0.0)
             return "+";
-        else if (num == 0)
-            return "";
         else
-            return "-";
+            return "";
     }
 
     static

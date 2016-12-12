@@ -48,11 +48,4 @@ public class SilencerSet extends AttributeSet<SilencerSet.SilencerAttributes>
         stats.addBooleanStatIfTrue(isSilenced, "has silencer");
         return stats.toArrayList();
     }
-
-    @Override
-    public boolean hasStats()
-    {
-        return true;
-    }
-
 }

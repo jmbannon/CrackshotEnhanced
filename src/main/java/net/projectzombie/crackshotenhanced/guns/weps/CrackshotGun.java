@@ -171,7 +171,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
 
     /** @return BulletSpread when running. */
     public double getRunningBulletSpread() {
-        final double runningMultiplier = attributes.getMotionSet().getTotalRunningBulletSpreadMultiplier();
+        final double runningMultiplier = attributes.getMotionSet().getTotalMovingBulletSpreadMultiplier();
         return this.getBulletSpread(runningMultiplier);
     }
 
@@ -216,7 +216,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
         final ArrayList<String> stats = new ArrayList<>();
         for (GunModifier gunMod : getGunModifiers()) {
             if (!gunMod.isNull())
-                stats.addAll(new Attributes(gunMod).getIndividualStatInfo(gunMod.getDisplayName(false)));
+                stats.addAll(new Attributes(gunMod).getIndividualStatInfo(gunMod.getDisplayName(false), 2, 4));
         }
         return stats;
     }

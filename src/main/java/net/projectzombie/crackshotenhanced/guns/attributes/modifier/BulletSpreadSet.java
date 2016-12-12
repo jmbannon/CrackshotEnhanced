@@ -5,8 +5,6 @@
  */
 package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
-import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
-
 import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
@@ -44,12 +42,6 @@ public class BulletSpreadSet extends AttributeSet<BulletSpreadSet.BulletSpreadAt
     }
     
     public double getBulletSpread() { return totalBulletSpread; }
-    
-    @Override
-    public boolean hasStats()
-    {
-        return true;
-    }
     
     @Override
     public ArrayList<String> getGunStats()

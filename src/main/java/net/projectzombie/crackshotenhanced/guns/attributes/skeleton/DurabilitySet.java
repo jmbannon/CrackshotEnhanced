@@ -65,10 +65,4 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
         stats.addMultiplierStatIfValid(durabilityMultiplier, "durability");
         return stats.toArrayList();
     }
-    
-    @Override
-    public boolean hasStats()
-    {
-        return true; // Every gun has durability
-    }
 }

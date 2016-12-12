@@ -6,6 +6,9 @@ commands:
   bw:
     description: Memory used storing blocks.
     usage: "Usage: /bw lore"
+  cse:
+    description: OP commands.
+    usage: "/cse yaml"
   gunsmith:
     description: Access the gunsmith at spawn to modify weapons.
     usage: "/gunsmith"

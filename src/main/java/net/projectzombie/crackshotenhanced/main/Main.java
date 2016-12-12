@@ -48,7 +48,7 @@ public class Main extends JavaPlugin {
         
         this.windowListener = new BlockBreakListener();
         this.OPexec = new OPCommandExec();
-        this.getCommand("bw").setExecutor(OPexec);
+        this.getCommand("cse").setExecutor(OPexec);
         this.getServer().getPluginManager().registerEvents(windowListener, this);
 
         this.gunsmithExec = new GunSmithCommandExec();

@@ -57,7 +57,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
                     ProjectileAttachments.getInstance().get(values.getStringList("Attachments"), true),
                     Barrels.getInstance().get(values.getStringList("Barrels"), true),
                     Bolts.getInstance().get(values.getStringList("Bolts"), true),
-                    FireModes.getInstance().get(values.getStringList("FireModes"), true),
+                    FireModes.getInstance().get(values.getStringList("FireModes"), false),
                     Magazines.getInstance().get(values.getStringList("FireModes"), true),
                     Sights.getInstance().get(values.getStringList("FireModes"), true),
                     Stocks.getInstance().get(values.getStringList("FireModes"), true)

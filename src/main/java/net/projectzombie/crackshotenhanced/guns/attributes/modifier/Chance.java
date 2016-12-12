@@ -34,7 +34,7 @@ public abstract class Chance<T extends ModifierAttributes> extends AttributeSet<
     @Override
     public boolean hasStats()
     {
-        return chance > 0;
+        return super.hasStats() && chance > 0;
     }
     
     public boolean rollDice()

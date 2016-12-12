@@ -9,9 +9,12 @@ import net.projectzombie.crackshotenhanced.guns.attributes.modifier.ModifierAttr
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.ToDoubleFunction;
 import java.util.function.ToIntFunction;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -39,10 +42,24 @@ public abstract class AttributeSet<T extends ModifierAttributes>
     /** @return Stats applicable to a single GunModifier. */
     abstract public ArrayList<String> getIndividualStats();
 
+    public ArrayList<String> getIndividualStats(int spaceIndentation) {
+        if (spaceIndentation < 0) throw new IllegalArgumentException("Space indentation must be > 0");
+        if (spaceIndentation == 0) {
+            return getIndividualStats();
+        } else {
+            final ArrayList<String> toRet = new ArrayList<>();
+            final char[] spaces = new char[spaceIndentation];
+            Arrays.fill(spaces, ' ');
+            final String spaceStr = new String(spaces);
+            getIndividualStats().forEach(s -> toRet.add(spaceStr + s));
+            return toRet;
+        }
+    }
+
     /** @return Stats applicable to an assembled gun. */
     abstract public ArrayList<String> getGunStats();
 
-    abstract public boolean hasStats();
+    public boolean hasStats() { return !attributes.isEmpty(); };
 
     public final ArrayList<T> getModifiers(final GunModifier[] gunMods, Class<T> t)
     {

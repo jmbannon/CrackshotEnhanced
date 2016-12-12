@@ -68,7 +68,7 @@ public abstract class DamageOverTime<T extends ModifierAttributes> extends Attri
     @Override
     public boolean hasStats()
     {
-        return totalDPS > 0 && totalDuration > 0;
+        return super.hasStats() && totalDPS > 0 && totalDuration > 0;
     }
 
     public double getTotalDPS() { return totalDPS;       }

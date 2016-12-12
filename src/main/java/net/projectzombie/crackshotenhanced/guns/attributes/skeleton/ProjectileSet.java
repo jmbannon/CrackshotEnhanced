@@ -92,10 +92,4 @@ public class ProjectileSet extends AttributeSet<ProjectileSet.ProjectileAttribut
 
         return stats.toArrayList();
     }
-    
-    @Override
-    public boolean hasStats()
-    {
-        return true;
-    }
 }
