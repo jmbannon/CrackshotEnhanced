@@ -45,7 +45,7 @@ public class SilencerSet extends AttributeSet<SilencerSet.SilencerAttributes>
     public ArrayList<String> getIndividualStats()
     {
         final StatBuilder stats = new StatBuilder();
-        stats.addBooleanStatIfTrue(isSilenced, "has silencer");
+        stats.addBooleanStatIfTrue(isSilenced, "Silenced");
         return stats.toArrayList();
     }
 }

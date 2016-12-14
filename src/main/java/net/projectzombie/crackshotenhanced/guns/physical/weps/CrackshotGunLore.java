@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
+import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
@@ -135,15 +136,13 @@ public class CrackshotGunLore extends HiddenGunInfo
     public void setDurability(final int dur)
     {
         super.setDurability(dur);
-        setStatLineHiddenInfo();
+        this.setConditionLore(this.getGun().getCondition(dur));
+        this.setStatLineHiddenInfo();
     }
     
-    @Override
-    public int decrementDurability()
+    public void decrementDurability()
     {
-        final int decDur = super.decrementDurability();
-        setStatLineHiddenInfo();
-        return decDur;
+        this.setDurability(super.getDurability() - 1);
     }
     
     /**
@@ -166,9 +165,9 @@ public class CrackshotGunLore extends HiddenGunInfo
         lore.clear();
         this.setStatLineHiddenInfo();
         this.setDPSInfo(gun.getDPS());
-        this.setAccuracyInfo(gun, durability);
+        this.setBulletSpread(gun);
         this.setQualityInfo();
-        this.setConditionLore(gun.getCondition(durability));
+        this.setDurability(durability);
         this.setGunModifierInfo(gun);
         lore.add(LORE_END_INFO);
         
@@ -249,24 +248,23 @@ public class CrackshotGunLore extends HiddenGunInfo
     {
         return lore != null && lore.size() > 0;
     }
-    
-    /**
-     * Sets lore with LINE_STATS appended with HiddenInfo.
-     */
-    private void setStatLineHiddenInfo()
-    {
-        if (STAT_LINE_HIDDENINFO_IDX >= lore.size()) {
-            lore.add(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+
+    /** Adds the info to lore if lore size is <= infoIndex, otherwise sets the info to lore. */
+    private void setInfo(final int infoIndex, final String info) {
+        if (infoIndex >= lore.size()) {
+            lore.add(infoIndex, info);
         } else {
-            lore.set(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+            lore.set(infoIndex, info);
         }
     }
+
+    /** Sets lore with LINE_STATS appended with HiddenInfo. */
+    private void setStatLineHiddenInfo()
+    {
+        setInfo(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
+    }
     
-    /**
-     * Sets lore DPS.
-     * 
-     * @param dps Damage per second to set in lore.
-     */
+    /** @param dps Damage per second to set in lore. */
     private void setDPSInfo(final Double dps)
     {
         lore.add(DPS_IDX, buildLoreString("DPS: ", String.valueOf(dps)));
@@ -289,15 +287,14 @@ public class CrackshotGunLore extends HiddenGunInfo
     }
     
     /**
-     * TODO: Sets the accuracy information in the lore.
-     * 
-     * @param gun CrackshotGun to evaluate accuracy rating.
-     * @param durability Current durability of the CrackshotGun.
+     * If the gun can zoom it displays zoom bullet spread. Otherwise displays standing bullet spread.
+     * @param gun CrackshotGun to evaluate bullet spread.
      */
-    private void setAccuracyInfo(final CrackshotGun gun,
-                                 final int durability)
+    private void setBulletSpread(final CrackshotGun gun)
     {
-        lore.add(ACCURACY_IDX, buildLoreString("Accuracy: ", "WIP"));
+        final double bulletSpreadToDisplay = gun.canZoom() ?
+                gun.getZoomedBulletSpread() : gun.getStandingBulletSpread();
+        setInfo(ACCURACY_IDX, buildLoreString("Bullet Spread: ", Constants.FORMATTER.format(bulletSpreadToDisplay)));
     }
     
     /**
@@ -306,7 +303,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      */
     private void setConditionLore(final Condition condition)
     {
-        lore.add(CONDITION_IDX, buildLoreString(Condition.getTitle(), condition.toString()));
+        setInfo(CONDITION_IDX, buildLoreString(Condition.getTitle(), condition.toString()));
     }
     
     
@@ -315,7 +312,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      */
     private void setQualityInfo()
     {
-        lore.add(BUILD_IDX, buildLoreString(Qualities.getInstance().getTitle(), super.getGun().getQuality().getName()));
+        setInfo(BUILD_IDX, buildLoreString(Qualities.getInstance().getTitle(), super.getGun().getQuality().getName()));
     }
     
     static

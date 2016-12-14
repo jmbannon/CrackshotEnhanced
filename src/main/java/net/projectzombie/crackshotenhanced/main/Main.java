@@ -6,7 +6,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.ModifierSets;
 import net.projectzombie.crackshotenhanced.events.scheduler.CSEPlayerRunningSpeed;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
-import net.projectzombie.crackshotenhanced.guns.crafting.Recipes;
+import net.projectzombie.crackshotenhanced.events.listener.CraftingListener;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
@@ -23,7 +23,7 @@ public class Main extends JavaPlugin {
     private OPCommandExec OPexec;
     private GunSmithCommandExec gunsmithExec;
     private ShootListener shootListener;
-    private Recipes recipes;
+    private CraftingListener recipes;
     private OnHitListener onHitListener;
     private PlayerMovementListener playerMovement;
 
@@ -55,7 +55,7 @@ public class Main extends JavaPlugin {
         this.scopeListener = new ScopeZoomListener();
         this.shootListener = new ShootListener();
         this.onHitListener = new OnHitListener();
-        this.recipes = new Recipes();
+        this.recipes = new CraftingListener();
         this.playerMovement = new PlayerMovementListener();
         
         this.getCommand("gunsmith").setExecutor(gunsmithExec);
@@ -70,7 +70,7 @@ public class Main extends JavaPlugin {
         this.getServer().getScheduler().runTaskTimer(this, new CSEPlayerRunningSpeed(), 10L, 10L);
         this.getServer().getScheduler().runTaskTimer(this, new EntityTimedEventsPerTick(), 1L, 1L);
 
-        Recipes.initializeCraftingRecipes();
+        CraftingListener.initializeCraftingRecipes();
         this.getLogger().info("CrackshotEnhanced enabled!");
 
     }

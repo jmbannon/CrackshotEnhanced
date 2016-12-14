@@ -220,4 +220,6 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
         }
         return stats;
     }
+
+    public boolean canZoom() { return attributes.getSightSet().getZoomAmount() > 0; }
 }

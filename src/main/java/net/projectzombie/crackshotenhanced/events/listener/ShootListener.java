@@ -20,6 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -84,6 +85,8 @@ public class ShootListener implements Listener
                 event.setBulletSpread(gun.getStandingBulletSpread());
             }
         }
+
+        player.updateInventory();
     }
     
     @EventHandler(priority = EventPriority.HIGH)
@@ -137,11 +140,8 @@ public class ShootListener implements Listener
             return null;
 
         final CrackshotGunItemStack csItem = new CrackshotGunItemStack(item);
-        final ItemMeta gunMeta = item.getItemMeta();
 
         if (csItem.shoot()) {
-            gunMeta.setLore(csItem.getLore());
-            item.setItemMeta(gunMeta);
             return csItem;
         } else {
             return null;

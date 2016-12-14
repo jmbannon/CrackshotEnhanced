@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.crafting;
+package net.projectzombie.crackshotenhanced.events.listener;
 
 
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -28,7 +29,7 @@ import static net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType.
  *
  * @author Jesse Bannon
  */
-public class Recipes implements Listener
+public class CraftingListener implements Listener
 {
 //    *  [,0] [,1] [,2]
 // * [0,]  0    1    2
@@ -38,7 +39,7 @@ public class Recipes implements Listener
     static private int CRAFT_MODIFIER_IDXS[] = new int[] { 0, 1, 2, 3, 5, 6, 7, 8 };
     static private int GUN_MATRIX_IDX = 4;
     
-    public Recipes() { /* Do nothing. */ }
+    public CraftingListener() { /* Do nothing. */ }
     
     @EventHandler(priority = EventPriority.NORMAL)
     public void onGunCraft(PrepareItemCraftEvent event)
@@ -46,7 +47,7 @@ public class Recipes implements Listener
         final CraftingInventory inv = event.getInventory();
         final ItemStack[] mat = inv.getMatrix();
         final boolean validResult = getSkeleton(inv.getResult()) != null;
-        
+
         if (mat.length < GUN_MATRIX_IDX)
             return;
 
@@ -54,7 +55,7 @@ public class Recipes implements Listener
         
         CrackshotGun newGun = csItem.getGun();
         GunModifierItemStack tempMod;
-        
+
         if (validResult && csItem.isValid() && newGun != null)
         {
             for (int matIdx : CRAFT_MODIFIER_IDXS)
@@ -94,17 +95,9 @@ public class Recipes implements Listener
         }
     }
     
-
-    
-    
-    
     static public void initializeCraftingRecipes()
     {
-        for (GunSkeletons.GunSkeleton skele : GunSkeletons.getInstance().getAll())
-        {
-            //intializeScopes(skele);
-            intializeAttatchments(skele);
-        }
+        GunSkeletons.getInstance().getAll().forEach(CraftingListener::intializeAttatchments);
     }
     
     static private void intializeAttatchments(final GunSkeletons.GunSkeleton skele)

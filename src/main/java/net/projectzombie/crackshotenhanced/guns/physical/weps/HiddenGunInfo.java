@@ -8,6 +8,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.weps;
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
+import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 
 /**
@@ -40,7 +41,6 @@ public class HiddenGunInfo extends HiddenLoreInfo
     /** Magic number that is set to a pre-shot gun's durability. Metal af \m/ */
     private static final int PRESHOT_VER_DUR = -666;
 
-    
     /**
      * Creates HiddenGunInfo from an existing hidden string.
      * @param hiddenLoreInfo Existing hidden string that contains gun info.
@@ -62,9 +62,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
         });
     }
     
-    /**
-     * @return The GunID hidden in the lore as a String.
-     */
+    /** @return The GunID hidden in the lore as a String. */
     public String getGunIDStr()
     {
         if (super.isValid())
@@ -73,9 +71,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
             return null;
     }
     
-    /**
-     * @return The GunID hidden in the lore.
-     */
+    /** @return The GunID hidden in the lore. */
     public GunID getGunID()
     {
         return new GunID(getGunIDStr());
@@ -90,24 +86,15 @@ public class HiddenGunInfo extends HiddenLoreInfo
         return Guns.get(super.getInfoStr(GUN_ID_IDX));
     }
 
-    /**
-     * @return Current durability.
-     */
+    /** @return Current durability.*/
     public int getDurability()
     {
         return super.getInfoInt(DUR_IDX);
     }
     
-    /**
-     * @return Returns true if the gun is post-shot and the durability is >= 0.
-     *         False otherwise.
-     */
-    public boolean isBroken()
-    {
-        return isPostShot() && getDurability() >= 0;
-    }
+    /** @return Returns true if the gun is post-shot and the durability is >= 0. False otherwise. */
+    public boolean isBroken() { return this.isPostShot() && this.getDurability() <= 0; }
 
-    
     /**
      * Sets the GunID with the String equivalent.
      * @param newID GunID String to set.
@@ -118,61 +105,25 @@ public class HiddenGunInfo extends HiddenLoreInfo
     }
     
     /**
-     * Sets the GunID with the new GunID.
-     * @param newID GunID to set.
-     */
-    public void setGunID(final GunID newID)
-    {
-        super.setInfoStr(GUN_ID_IDX, newID.toString());
-    }
-    
-    /**
      * Sets the durability with the new durability.
      * @param newDurability New durability to set.
      */
-    public void setDurability(final int newDurability)
-    {
+    public void setDurability(final int newDurability) {
         super.setInfoInt(DUR_IDX, newDurability);
-    }
-    
-    /**
-     * Decrements the current durability by one and returns the new durability.
-     * @return Current durability minus one.
-     */
-    public int decrementDurability()
-    {
-        final int decDur = getDurability() - 1;
-        super.setInfoInt(DUR_IDX, decDur);
-        return decDur;
     }
     
     /**
      * @return Returns true if hidden gun info is pre-shot by checking magic values
      * set for both build and durability. False otherwise.
      */
-    public boolean isPreShot()
-    {
-        System.out.println("IS VALID: " + this.isValid());
-        System.out.println("DUR CHECK: " + (this.getDurability() == PRESHOT_VER_DUR));
-        return this.isValid()
-            && this.getDurability() == PRESHOT_VER_DUR;
+    public boolean isPreShot() {
+        return this.isValid() && this.getDurability() == PRESHOT_VER_DUR;
     }
     
-    /**
-     * @return Returns true if the HiddenGunInfo is valid and it's not pre-shot.
-     */
+    /** @return Returns true if the HiddenGunInfo is valid and it's not pre-shot. */
     public boolean isPostShot()
     {
         return this.isValid() && !this.isPreShot();
-    }
-    
-    /**
-     * @return Returns the string equivalent of this particular GunID's 
-     * HiddenGunInfo.
-     */
-    public String getPreShotHiddenInfo()
-    {
-        return new HiddenGunInfo(this.getGunID()).getHiddenInfo();
     }
     
     /**

@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.components;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -56,6 +57,7 @@ public class GunModifierItemStack extends GunModifierLore
     
     static private boolean hasLore(final ItemStack item)
     {
+        Main.info("HAS LORE: " + item.getType().toString() + " " + (item.hasItemMeta() ? item.getItemMeta().hasLore() : false));
         return item.hasItemMeta()
             && item.getItemMeta().hasLore();
     }

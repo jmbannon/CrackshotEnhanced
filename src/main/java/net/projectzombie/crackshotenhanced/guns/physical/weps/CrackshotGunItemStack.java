@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.weps;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -87,15 +88,19 @@ public class CrackshotGunItemStack extends CrackshotGunLore
     }
 
     public boolean shoot() {
-        if (this.isValid()) {
-            if (this.isPreShot()) {
-                this.toPostShotLore();
-            }
+        final ItemMeta gunMeta = gunItem.getItemMeta();
+        if (this.isPostShot()) {
             this.decrementDurability();
-            return true;
+        } else if (this.isPreShot()) {
+            gunMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+            this.toPostShotLore();
         } else {
             return false;
         }
+        gunMeta.setLore(this.getLore());
+        gunItem.setItemMeta(gunMeta);
+        return true;
+
     }
 
     @Override public boolean isValid() {

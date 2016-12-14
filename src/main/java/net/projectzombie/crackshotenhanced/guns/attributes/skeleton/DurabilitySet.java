@@ -8,7 +8,6 @@ package net.projectzombie.crackshotenhanced.guns.attributes.skeleton;
 import java.util.ArrayList;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.attributes.AttributeSet;
-import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
@@ -23,7 +22,7 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
         double getDurabilityMultiplier();
     }
 
-    private static final int MAX_DURABILITY = 5;
+    private static final int MIN_DURABILITY = 5;
     
     private final int extraDurability;
     private final double durabilityMultiplier;
@@ -34,8 +33,8 @@ public class DurabilitySet extends AttributeSet<DurabilitySet.DurabilityAttribut
     {
         super("Durability", gunMods, DurabilityAttributes.class);
         this.durabilityMultiplier = super.getMultiplierSum(DurabilityAttributes::getDurabilityMultiplier);
-        this.extraDurability = super.getIntSum(0, 0, DurabilityAttributes::getDurabilityModifier);
-        this.totalDurability = (int)Math.max(MAX_DURABILITY, Math.round((skeletonMaxDurability + extraDurability) * durabilityMultiplier));
+        this.extraDurability = super.getIntSum(DurabilityAttributes::getDurabilityModifier);
+        this.totalDurability = (int)Math.max(MIN_DURABILITY, (skeletonMaxDurability + extraDurability) * durabilityMultiplier);
     }
     
     public DurabilitySet(final GunModifier mod)

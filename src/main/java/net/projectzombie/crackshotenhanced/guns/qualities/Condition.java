@@ -5,6 +5,7 @@
  */
 package net.projectzombie.crackshotenhanced.guns.qualities;
 
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.ChatColor;
 
 /**
@@ -62,7 +63,10 @@ public enum Condition
     static public Condition getCondition(final double currentDurability,
                                          final double maxDurability)
     {
+        Main.info("CURR DUR: " + currentDurability);
+        Main.info("MAX DUR: " + maxDurability);
         final double durRatio = currentDurability/maxDurability;
+        Main.info("RATIO: " + durRatio);
         for (Condition cond : Condition.values())
         {
             if (durRatio >= cond.ratioDurability)
