@@ -38,7 +38,9 @@ public class OnHitListener implements Listener {
         final CSELivingEntity<LivingEntity> entity = new CSELivingEntity<>((LivingEntity)event.getVictim());
         final CrackshotGun gun = Guns.get(gunID);
 
-        if (gun != null) {
+        if (player.getUniqueId().equals(entity.getUniqueId())) {
+            event.setCancelled(true);
+        } else if (gun != null) {
             final double damage = calculateDamageOnHit(player, gun, entity, event.isHeadshot());
             Main.getPlugin().getLogger().info("Setting damage: " + damage);
             event.setDamage(damage);
@@ -71,9 +73,11 @@ public class OnHitListener implements Listener {
             toReturn += gun.getTotalDamageOnHit();
         }
         if (gun.isStun()) {
+            Main.info("IS STUN");
             EntityTimedEvents.add(victim, gun.getAttributes().getStunSet());
         }
         if (gun.isIgnite()) {
+            Main.info("IS IGNITE");
             EntityTimedEvents.add(victim, gun.getAttributes().getIgniteSet());
         }
         EntityTimedEvents.add(victim, gun.getAttributes().getBleedout());

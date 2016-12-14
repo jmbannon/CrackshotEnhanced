@@ -13,6 +13,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLore
 import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 /**
  *
@@ -38,9 +39,9 @@ public class StunSet extends Chance<StunSet.StunAttributes> implements TimedEven
         this(new GunModifier[] { mod });
     }
 
-    @Override public int getDurationInTicks() { return (int)(durationInSeconds / Constants.TPS); }
+    @Override public int getDurationInTicks() { return (int)(durationInSeconds * Constants.TPS); }
 
-    @Override public void onStart(final CSELivingEntity entity) { entity.setSpeed(0.0); }
+    @Override public void onStart(final CSELivingEntity entity) { entity.setSpeed(0.0); Main.info("Setting speed to 0"); }
     @Override public void onEnd(final CSELivingEntity entity) { entity.setSpeed(entity.getDefaultSpeed()); }
 
     @Override public boolean canStop(final CSELivingEntity victim) { return false; }
@@ -49,7 +50,7 @@ public class StunSet extends Chance<StunSet.StunAttributes> implements TimedEven
     public ArrayList<String> getGunStats() {
         final StatBuilder stats = new StatBuilder();
         stats.addPercentageStat(super.getChance(), "stun chance");
-        stats.addValueStat(durationInSeconds, "stun duration");
+        stats.addValueStat(durationInSeconds, "stun duration in seconds");
         return stats.toArrayList();
     }
     
@@ -58,7 +59,7 @@ public class StunSet extends Chance<StunSet.StunAttributes> implements TimedEven
     {
         final StatBuilder stats = new StatBuilder();
         stats.addPercentageStatIfValid(super.getChance(), "stun chance");
-        stats.addValueStatIfValid(durationInSeconds, "stun duration");
+        stats.addValueStatIfValid(durationInSeconds, "stun duration in seconds");
         return stats.toArrayList();
     }
     

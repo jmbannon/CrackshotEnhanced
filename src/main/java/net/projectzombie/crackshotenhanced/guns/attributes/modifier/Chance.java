@@ -26,7 +26,7 @@ public abstract class Chance<T extends ModifierAttributes> extends AttributeSet<
                   final Class<T> t)
     {
         super(name, gunMods, t);
-        this.chance = super.getDoubleSum(0, 0, chanceSum);
+        this.chance = super.getDoubleSum(chanceSum);
     }
     
     public double getChance() { return chance; }

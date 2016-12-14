@@ -3,6 +3,7 @@ package net.projectzombie.crackshotenhanced.static_maps;
 import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.TimedEvent;
 import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.TimedEventPerTick;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -41,12 +42,14 @@ public class EntityTimedEvents {
 
         private EntityTimedEventsInfo(final CSELivingEntity entity,
                                       final TimedEvent event) {
+            Main.info("Creating new timed event info");
             this.entity = entity;
             this.events = new LinkedList<>();
             this.events.add(new TimedEventInfo(event));
         }
 
         private void addTimedEvent(final TimedEvent event) {
+            Main.info("Adding new timed event");
             this.events.addLast(new TimedEventInfo(event));
         }
 
@@ -64,6 +67,7 @@ public class EntityTimedEvents {
                     continue;
                 }
                 if (eventInfo.isStart()) {
+                    Main.info("Starting event!!!");
                     eventInfo.event.onStart(entity);
                 }
                 if (eventInfo.event instanceof TimedEventPerTick) {

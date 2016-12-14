@@ -11,6 +11,9 @@ import net.projectzombie.crackshotenhanced.guns.attributes.attributeproperties.T
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
+import net.projectzombie.crackshotenhanced.main.Main;
+import org.bukkit.Effect;
+import org.bukkit.EntityEffect;
 import org.bukkit.Particle;
 
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.getValueStat;
@@ -48,7 +51,7 @@ public class IgniteSet extends Chance<IgniteSet.IgniteAttributes> implements Tim
 
     public double getDamagePerTick() { return igniteDPS / TPS; }
 
-    @Override public int getDurationInTicks() { return (int)(igniteDurationInSeconds / TPS); }
+    @Override public int getDurationInTicks() { return (int)(igniteDurationInSeconds * TPS); }
 
     @Override public void onStart(final CSELivingEntity entity) {}
     @Override public void onEnd(final CSELivingEntity entity) {}
@@ -56,7 +59,7 @@ public class IgniteSet extends Chance<IgniteSet.IgniteAttributes> implements Tim
         return victim.isInWater();
     }
     @Override public void applyEventPerTick(final CSELivingEntity victim) {
-        victim.toBukkit().getWorld().spawnParticle(Particle.FLAME, victim.toBukkit().getLocation(), 1);
+        victim.toBukkit().getWorld().playEffect(victim.toBukkit().getLocation(), Effect.MOBSPAWNER_FLAMES, 0);
         victim.toBukkit().damage(getDamagePerTick());
     }
 

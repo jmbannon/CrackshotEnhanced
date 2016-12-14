@@ -75,7 +75,7 @@ public abstract class DamageOverTime<T extends ModifierAttributes> extends Attri
     public double getTotalDPT() { return totalDPS / TPS; }
     
     public double getTotalDurationInSeconds() { return totalDuration;       }
-    public int getTotalDurationInTicks()   { return (int)(totalDuration / TPS); }
+    public int getTotalDurationInTicks()   { return (int)(totalDuration * TPS); }
     public double getDurationValue()          { return durationValue;       }
     public double getDurationMultiplier()     { return durationMultiplier;  }
     public double getDamagePerSecond()        { return damagePerSecond;     }
