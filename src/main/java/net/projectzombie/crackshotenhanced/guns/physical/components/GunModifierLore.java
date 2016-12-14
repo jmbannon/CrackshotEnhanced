@@ -56,7 +56,7 @@ public class GunModifierLore extends HiddenGunModifierInfo
         if (mod instanceof DurabilitySet.DurabilityAttributes)   stats.addAll(new DurabilitySet(mod).getIndividualStats());
         if (mod instanceof FireModeSet.FireModeAttributes)     stats.addAll(new FireModeSet(mod).getIndividualStats());
         if (mod instanceof IgniteSet.IgniteAttributes)       stats.addAll(new IgniteSet(mod).getIndividualStats());
-        if (mod instanceof FireDamageSet.FireDamageAttributes)   stats.addAll(new FireDamageSet(mod).getIndividualStats());
+        if (mod instanceof IncendiaryDamageSet.IncendiaryDamageAttributes)   stats.addAll(new IncendiaryDamageSet(mod).getIndividualStats());
         if (mod instanceof MagazineSet.MagazineAttributes)     stats.addAll(new MagazineSet(mod).getIndividualStats());
         if (mod instanceof ProjectileSet.ProjectileAttributes)   stats.addAll(new ProjectileSet(mod).getIndividualStats());
         if (mod instanceof MotionSet.MotionAttributes)       stats.addAll(new MotionSet(mod).getIndividualStats());
@@ -65,39 +65,28 @@ public class GunModifierLore extends HiddenGunModifierInfo
         if (mod instanceof SilencerSet.SilencerAttributes)     stats.addAll(new SilencerSet(mod).getIndividualStats());
         if (mod instanceof SightSet.SightAttributes)         stats.addAll(new SightSet(mod).getIndividualStats());
 
-        if (!stats.isEmpty())
-        {
+        if (!stats.isEmpty()) {
             Collections.shuffle(stats);
-            stats.add(0, buildStatLore());
+            stats.add(HIDDEN_LORE_IDX, this.buildStatLore());
             return stats;
         } else {
             return null;
         }
     }
     
-    private String buildStatLore()
-    {
+    private String buildStatLore() {
         return STATS_LINE + super.getHiddenInfo();
     }
     
     static
-    private boolean hasLoreContents(final List<String> lore)
-    {
+    private boolean hasLoreContents(final List<String> lore) {
         return lore != null
             && lore.size() > HIDDEN_LORE_IDX;
     }
     
     static
-    private String extractHiddenLoreInfo(final List<String> lore)
-    {
-        if (hasLoreContents(lore))
-        {
-            return lore.get(HIDDEN_LORE_IDX).replace(STATS_LINE, "");
-        }
-        else
-        {
-            return null;
-        }
+    private String extractHiddenLoreInfo(final List<String> lore) {
+        return hasLoreContents(lore) ? lore.get(HIDDEN_LORE_IDX).replace(STATS_LINE, "") : null;
     }
     
 }

@@ -2,13 +2,11 @@ package net.projectzombie.crackshotenhanced.guns.attributes;
 
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.*;
-import net.projectzombie.crackshotenhanced.guns.components.modifier.FireModes;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 
 import java.util.ArrayList;
 
-import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.STAT_TYPE_SEPERATOR;
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.toTitle;
 
 /**
@@ -21,7 +19,8 @@ public class Attributes {
     private final HeadshotDamageSet headshot;
     private final BleedoutSet bleedout;
     private final ShrapnelDamageSet shrapnel;
-    private final FireDamageSet fireDamage;
+    private final IncendiaryDamageSet incendiaryDamage;
+    private final IgniteSet igniteSet;
     private final CritSet crit;
     private final MagazineSet mag;
     private final BoltSet boltSet;
@@ -39,7 +38,7 @@ public class Attributes {
         this.baseDamage = new BaseDamageSet(modifiers, skeleton.getSkeletonBaseDamage());
         this.headshot = new HeadshotDamageSet(modifiers);
         this.shrapnel = new ShrapnelDamageSet(modifiers);
-        this.fireDamage = new FireDamageSet(modifiers);
+        this.incendiaryDamage = new IncendiaryDamageSet(modifiers);
         this.bleedout = new BleedoutSet(modifiers, this.shrapnel.getTotal());
         this.crit = new CritSet(modifiers, this.baseDamage.getTotal());
         this.mag = new MagazineSet(modifiers, skeleton.getSkeletonReloadAmount(), skeleton.getSkeletonReloadDuration());
@@ -58,6 +57,7 @@ public class Attributes {
         this.sightSet = new SightSet(modifiers);
         this.fireModeSet = new FireModeSet(modifiers);
         this.silencerSet = new SilencerSet(modifiers);
+        this.igniteSet = new IgniteSet(modifiers, incendiaryDamage.getTotal());
     }
 
     public Attributes(final GunModifier modifiers) {
@@ -65,7 +65,7 @@ public class Attributes {
         this.baseDamage = new BaseDamageSet(modifiers);
         this.headshot = new HeadshotDamageSet(modifiers);
         this.shrapnel = new ShrapnelDamageSet(modifiers);
-        this.fireDamage = new FireDamageSet(modifiers);
+        this.incendiaryDamage = new IncendiaryDamageSet(modifiers);
         this.bleedout = new BleedoutSet(modifiers);
         this.crit = new CritSet(modifiers);
         this.mag = new MagazineSet(modifiers);
@@ -77,6 +77,7 @@ public class Attributes {
         this.sightSet = new SightSet(modifiers);
         this.fireModeSet = new FireModeSet(modifiers);
         this.silencerSet = new SilencerSet(modifiers);
+        this.igniteSet = new IgniteSet(modifiers);
     }
 
     public BulletSpreadSet getBulletSpread()      { return bulletSpread;  }
@@ -85,11 +86,12 @@ public class Attributes {
     public BleedoutSet getBleedout()              { return bleedout;      }
     public CritSet getCritical()                  { return crit;          }
     public ShrapnelDamageSet getShrapnel()        { return shrapnel;      }
-    public FireDamageSet getFireDamage()          { return fireDamage;    }
+    public IncendiaryDamageSet getIncendiarySet() { return incendiaryDamage;    }
+    public IgniteSet getIgniteSet()               { return igniteSet;     }
     public MagazineSet getGunMagazine()           { return mag;           }
     public BoltSet getGunBolt()                   { return boltSet;       }
     public ProjectileSet getGunProjectile()       { return projectile;    }
-    public StunSet getGunStun()                   { return stun;          }
+    public StunSet getStunSet()                   { return stun;          }
     public MotionSet getMotionSet()               { return motion;        }
     public DurabilitySet getDurabilitySet()       { return durability;    }
     public SightSet getSightSet()                 { return sightSet;      }
@@ -98,7 +100,7 @@ public class Attributes {
 
     public AttributeSet[] getAll() {
         return new AttributeSet[] {fireModeSet, silencerSet, bulletSpread, baseDamage, headshot, bleedout, crit,
-                shrapnel, fireDamage, mag, boltSet, projectile, stun, motion, durability, sightSet
+                shrapnel, incendiaryDamage, mag, boltSet, projectile, stun, motion, durability, sightSet
         };
     }
 

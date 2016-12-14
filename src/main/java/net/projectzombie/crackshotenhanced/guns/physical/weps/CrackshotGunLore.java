@@ -15,6 +15,7 @@ import net.projectzombie.crackshotenhanced.guns.weps.GunID;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.ChatColor;
 
 /**
@@ -187,11 +188,9 @@ public class CrackshotGunLore extends HiddenGunInfo
         return this;
     }
     
-    /************************************************************
-     * 
-     *  PRIVATE FUNCTIONS
-     *
-     ************************************************************/
+    // ---------------------------------------------------------------------------------------------------
+    // PRIVATE FUNCTIONS
+    // ---------------------------------------------------------------------------------------------------
     
     /**
      * Sets each GunModifier's in the lore if the GunModifier is not null.
@@ -237,17 +236,6 @@ public class CrackshotGunLore extends HiddenGunInfo
     {
         return GUN_MOD_COLOR + title + ": " + mod.getDisplayName(true);
     }
-    
-    /**
-     * 
-     * @param lore Lore to check.
-     * @return Returns true if lore contains at least one line.
-     */
-    static
-    private boolean hasLoreContents(List<String> lore)
-    {
-        return lore != null && lore.size() > 0;
-    }
 
     /** Adds the info to lore if lore size is <= infoIndex, otherwise sets the info to lore. */
     private void setInfo(final int infoIndex, final String info) {
@@ -259,31 +247,12 @@ public class CrackshotGunLore extends HiddenGunInfo
     }
 
     /** Sets lore with LINE_STATS appended with HiddenInfo. */
-    private void setStatLineHiddenInfo()
-    {
-        setInfo(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo());
-    }
+    private void setStatLineHiddenInfo() { setInfo(STAT_LINE_HIDDENINFO_IDX, LINE_STATS + this.getHiddenInfo()); }
     
     /** @param dps Damage per second to set in lore. */
     private void setDPSInfo(final Double dps)
     {
         lore.add(DPS_IDX, buildLoreString("DPS: ", String.valueOf(dps)));
-    }
-    
-    /**
-     * If lore contains more than one line it returns the HiddenLore contents.
-     * Otherwise returns null.
-     * 
-     * @param lore Lore to extract HiddenLore from.
-     * @return HidenLore if it exists, null otherwise.
-     */
-    static
-    private String extractHiddenInfo(final List<String> lore)
-    {
-        if (hasLoreContents(lore))
-            return lore.get(STAT_LINE_HIDDENINFO_IDX).replace(LINE_STATS, "");
-        else
-            return null;
     }
     
     /**
@@ -307,27 +276,47 @@ public class CrackshotGunLore extends HiddenGunInfo
     }
     
     
-    /**
-     * Sets the quality info in the lore.
-     */
-    private void setQualityInfo()
-    {
+    /** Sets the quality info in the lore. */
+    private void setQualityInfo() {
         setInfo(BUILD_IDX, buildLoreString(Qualities.getInstance().getTitle(), super.getGun().getQuality().getName()));
     }
-    
+
+    // ---------------------------------------------------------------------------------------------------
+    // STATIC FUNCTIONS
+    // ---------------------------------------------------------------------------------------------------
+
+    /**
+     * @param lore Lore to check.
+     * @return Returns true if lore contains at least one line.
+     */
+    static
+    private boolean hasLoreContents(List<String> lore)
+    {
+        return lore != null && lore.size() > 0;
+    }
+
+    /**
+     * If lore contains more than one line it returns the HiddenLore contents.
+     * Otherwise returns null.
+     *
+     * @param lore Lore to extract HiddenLore from.
+     * @return HidenLore if it exists, null otherwise.
+     */
+    static
+    private String extractHiddenInfo(final List<String> lore)
+    {
+        if (hasLoreContents(lore))
+            return lore.get(STAT_LINE_HIDDENINFO_IDX).replace(LINE_STATS, "");
+        else
+            return null;
+    }
+
     static
     private String buildLoreString(final String title,
                                    final ChatColor valueColor,
                                    final String value)
-    {
-        final StringBuilder stb = new StringBuilder();
-        stb.append(TITLE_COLOR);
-        stb.append(title);
-        stb.append(valueColor);
-        stb.append(value);
-        return stb.toString();
-    }
-    
+    { return TITLE_COLOR + title + valueColor + value; }
+
     static
     private String buildLoreString(final String title,
                                    final String value)

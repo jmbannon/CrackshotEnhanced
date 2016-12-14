@@ -31,7 +31,7 @@ public class FireModeSet extends AttributeSet<FireModeSet.FireModeAttributes>
     private final boolean isAuto;
     private final boolean isBurst;
     private final int shotsPerBurst;
-    
+
     public FireModeSet(final GunModifier[] gunMods)
     {
         super("Fire Mode", gunMods, FireModeAttributes.class);
@@ -39,21 +39,17 @@ public class FireModeSet extends AttributeSet<FireModeSet.FireModeAttributes>
         this.isBurst = !isAuto && super.getBoolean(FireModeAttributes::isBurstFire);
         this.shotsPerBurst = isBurst ? super.getIntSum(0, MIN_SHOTS_PER_BURST, FireModeAttributes::getShotsPerBurst) : 0;
     }
-    
+
     public FireModeSet(GunModifier mod)
     {
         this(new GunModifier[] { mod });
     }
-    
+
     @Override
-    public ArrayList<String> getGunStats()
-    {
-        return getIndividualStats();
-    }
-    
+    public ArrayList<String> getGunStats() {return getIndividualStats(); }
+
     @Override
-    public ArrayList<String> getIndividualStats()
-    {
+    public ArrayList<String> getIndividualStats() {
         final StatBuilder stats = new StatBuilder();
         if (isAuto) {
             stats.addBooleanStatIfTrue(true, "Automatic");

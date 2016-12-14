@@ -61,30 +61,21 @@ public class CrackshotGunItemStack extends CrackshotGunLore
     public ItemStack getModifiedGunItem(final CrackshotGun newGun)
     {
         final ItemStack newGunItem = Constants.CRACKSHOT.generateWeapon(newGun.getCSWeaponName());
-        if (newGunItem == null)
+        if (newGunItem == null || !this.isValid())
             return null;
-        
+
         final ItemMeta newMeta = newGunItem.getItemMeta();
         final CrackshotGunLore newLore = new CrackshotGunLore(newMeta.getLore());
-        
-        if (super.isPostShot())
-        {
+
+        newLore.setGunID(newGun.getUniqueID());
+        if (this.isPostShot())
             newLore.toPostShotLore(this.getDurability());
-            newMeta.setLore(newLore.getLore());
-            newMeta.setDisplayName(getModifiedName(newMeta));
-            newGunItem.setItemMeta(newMeta);
-            return newGunItem;
-        }
-        else if (super.isPreShot())
-        {
-            newLore.setGunID(newGun.getUniqueID());
+        else // this.isPreShot()
             newLore.toPreShotLore();
-            newMeta.setLore(newLore.getLore());
-            newGunItem.setItemMeta(newMeta);
-            return newGunItem;
-        }
-        else
-            return null;
+        newMeta.setLore(newLore.getLore());
+        newMeta.setDisplayName(getModifiedName(newMeta));
+        newGunItem.setItemMeta(newMeta);
+        return newGunItem;
     }
 
     public boolean shoot() {

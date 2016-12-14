@@ -58,9 +58,9 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
                     Barrels.getInstance().get(values.getStringList("Barrels"), true),
                     Bolts.getInstance().get(values.getStringList("Bolts"), true),
                     FireModes.getInstance().get(values.getStringList("FireModes"), false),
-                    Magazines.getInstance().get(values.getStringList("FireModes"), true),
-                    Sights.getInstance().get(values.getStringList("FireModes"), true),
-                    Stocks.getInstance().get(values.getStringList("FireModes"), true)
+                    Magazines.getInstance().get(values.getStringList("Magazines"), true),
+                    Sights.getInstance().get(values.getStringList("Sights"), true),
+                    Stocks.getInstance().get(values.getStringList("Stocks"), true)
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add modifier set " + values.getString("Set Name"));

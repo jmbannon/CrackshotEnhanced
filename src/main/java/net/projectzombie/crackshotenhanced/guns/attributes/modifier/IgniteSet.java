@@ -13,8 +13,6 @@ import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 import org.bukkit.Particle;
 
-import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.STAT_SEPERATOR;
-import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.getMultiplierStat;
 import static net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder.getValueStat;
 import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
 
@@ -31,16 +29,16 @@ public class IgniteSet extends Chance<IgniteSet.IgniteAttributes> implements Tim
     }
 
     private final double igniteDurationInSeconds;
-    private final double igniteFireDmgMultiplier;
+    private final double igniteIncendiaryDmgMultiplier;
     private final double igniteDPS;
     
     public IgniteSet(final GunModifier[] mods,
-                     final double totalFireDamage)
+                     final double totalIncendiaryDamage)
     {
         super("Ignite Damage", mods, IgniteAttributes::getIgniteChance, IgniteAttributes.class);
         this.igniteDurationInSeconds = super.getDoubleSum(IgniteAttributes::getIgniteDuration);
-        this.igniteFireDmgMultiplier = super.getDoubleSum(IgniteAttributes::getIgniteDamageMultiplierFromFireDamage);
-        this.igniteDPS = this.igniteFireDmgMultiplier * totalFireDamage;
+        this.igniteIncendiaryDmgMultiplier = super.getDoubleSum(IgniteAttributes::getIgniteDamageMultiplierFromFireDamage);
+        this.igniteDPS = this.igniteIncendiaryDmgMultiplier * totalIncendiaryDamage;
     }
     
     public IgniteSet(final GunModifier mod)
@@ -79,7 +77,7 @@ public class IgniteSet extends Chance<IgniteSet.IgniteAttributes> implements Tim
         final StatBuilder stats = new StatBuilder();
         stats.addPercentageStatIfValid(super.getChance(), "ignite chance");
         stats.addValueStatIfValid(igniteDurationInSeconds, "ignite duration in seconds");
-        stats.addMultiplierStatIfValid(igniteFireDmgMultiplier, "ignite damage dealt from fire damage p/sec");
+        stats.addMultiplierStatIfValid(igniteIncendiaryDmgMultiplier, "ignite damage dealt from incendiary damage p/sec");
         return stats.toArrayList();
     }
 }

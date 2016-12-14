@@ -34,11 +34,9 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         this.yml = YamlConfiguration.loadConfiguration(this.file);
         this.moduleName = moduleName;
         this.necessaryValues = necessaryValues;
-        writeExampleYml();
-//        this.items = new TreeSet<String>();
-//        this.readValues = new ArrayList<T>();
         this.items = this.yml.getKeys(false);
         this.readValues = getModules();
+        writeExampleYml();
     }
 
     public String getModuleName() { return moduleName; }
@@ -46,6 +44,11 @@ abstract public class ModifierConfig<T extends ModifierValue> {
     private void writeExampleYml() {
         try {
             final File exampleFile = new File(Main.getPlugin().getDataFolder(), "example." + ymlName);
+            if (exampleFile.exists()) {
+                exampleFile.delete();
+                exampleFile.createNewFile();
+            }
+
             final YamlConfiguration exampleYml = YamlConfiguration.loadConfiguration(exampleFile);
             final String fieldPath = "test_module";
 
@@ -71,13 +74,14 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         if (defaultValues.contains(key)) {
             return true;
         } else {
-            Main.getPlugin().getLogger().warning("Module " + this.moduleName + ": Entry " + entry + " unknown value '" + key + '\'');
+            Main.warning("Module " + this.moduleName + ": Entry " + entry + " unknown value '" + key + '\'');
+            return false;
         }
-        return false;
     }
 
     private final String separateStringList(final List<String> list) {
         final StringBuilder stb = new StringBuilder();
+
         for (int i = 0 ; i < list.size() - 1; i++) {
             stb.append(list.get(i));
             stb.append(SEP);
@@ -165,10 +169,8 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         if (name == null || name.equalsIgnoreCase(NULL_CONFIG_VALUE)) {
             return getNullValue();
         }
-        for (T temp : readValues)
-        {
-            if (name.equalsIgnoreCase(temp.getName()))
-            {
+        for (T temp : readValues) {
+            if (name.equalsIgnoreCase(temp.getName())) {
                 return temp;
             }
         }
@@ -203,23 +205,16 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         if (names == null || names.size() == 0)
             return matchValues;
 
-        for (String name : names)
-        {
-            for (T temp : readValues)
-            {
-                if (temp == null)
-                {
-                    if (name == null || name.isEmpty() || name.equalsIgnoreCase("null"))
-                    {
+        for (String name : names) {
+            for (T temp : readValues) {
+                if (temp == null) {
+                    if (name == null || name.isEmpty() || name.equalsIgnoreCase("null")) {
                         matchValues.add(temp);
                         break;
                     }
-                }
-                else
-                {
+                } else {
                     tempName = temp.getName();
-                    if (tempName != null && tempName.equalsIgnoreCase(name))
-                    {
+                    if (tempName != null && tempName.equalsIgnoreCase(name)) {
                         matchValues.add(temp);
                         break;
                     }
@@ -230,20 +225,6 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         return matchValues;
     }
 
-    /**
-     * @return The length of the initialized array of elements. -1 if null.
-     */
-    public int size()
-    {
-        if (readValues == null)
-        {
-            return -1;
-        }
-        else
-        {
-            return readValues.size();
-        }
-    }
-
-
+    /** @return The length of the initialized array of elements. -1 if null. */
+    public int size() { return readValues == null ? -1 : readValues.size(); }
 }

@@ -20,9 +20,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 /**
  *
@@ -62,13 +60,13 @@ public class ShootListener implements Listener
         final CrackshotGunItemStack physicalGun = shootCrackshotGunItemStack(
                 shooter.toBukkit().getInventory().getItemInMainHand());
         
-        if (physicalGun == null)
-        {
+        if (physicalGun == null) {
             player.sendMessage("Invalid gun. Please consult an admin.");
             event.setCancelled(true);
         } else if (physicalGun.isBroken()) {
             event.setSounds(null);
             event.setCancelled(true);
+            player.sendMessage("Your " + physicalGun.getGun().getName() + " is broken.");
         } else {
             final CrackshotGun gun = physicalGun.getGun();
             if (shooter.isMoving()) {
@@ -93,10 +91,8 @@ public class ShootListener implements Listener
     public void preDecayEvent(WeaponPrepareShootEvent event)
     {
         final Player shooter = event.getPlayer();
-        final CrackshotGunItemStack gunItem = new CrackshotGunItemStack(shooter.getItemInHand());
-        if (gunItem.isBroken())
-        {
-            shooter.sendMessage("Your " + event.getWeaponTitle() + " is broken.");
+        final CrackshotGunItemStack gunItem = new CrackshotGunItemStack(shooter.getInventory().getItemInMainHand());
+        if (gunItem.isBroken()) {
             event.setCancelled(true);
         }
     }
@@ -104,24 +100,17 @@ public class ShootListener implements Listener
     @EventHandler(priority = EventPriority.LOWEST)
     public void test(WeaponShootEvent event)
     {
-        final Entity proj = event.getProjectile();
+        final Entity projectile = event.getProjectile();
         final String gunID = getGunID(event.getPlayer());
-        
-        if (gunID == null)
-        {
-            System.out.println("Gun id is null");
-        }
-        else
-        {
-            proj.setCustomName(gunID);
-            proj.setCustomNameVisible(false);
-            System.out.println("shoot vec " + proj.getVelocity().toString());
+        if (gunID != null) {
+            projectile.setCustomName(gunID);
+            projectile.setCustomNameVisible(false);
         }
     }
 
     private static String getGunID(final Player player)
     {
-        return new CrackshotGunLore(player.getItemInHand().getItemMeta().getLore()).getGunIDStr();
+        return new CrackshotGunLore(player.getInventory().getItemInMainHand().getItemMeta().getLore()).getGunIDStr();
     }
     
     public static CrackshotGun getGun(final Player player)

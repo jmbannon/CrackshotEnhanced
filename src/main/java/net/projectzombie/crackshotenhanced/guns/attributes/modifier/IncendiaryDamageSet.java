@@ -8,30 +8,29 @@ package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
-import net.projectzombie.crackshotenhanced.guns.components.modifier.ModifierLoreBuilder;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 /**
  *
  * @author jb
  */
-public class FireDamageSet extends DamageOnHit<FireDamageSet.FireDamageAttributes>
+public class IncendiaryDamageSet extends DamageOnHit<IncendiaryDamageSet.IncendiaryDamageAttributes>
 {
-    public interface FireDamageAttributes extends ModifierAttributes {
-        double getFireDamageValue();
-        double getFireDamageMultiplier();
+    public interface IncendiaryDamageAttributes extends ModifierAttributes {
+        double getIncendiaryDamageValue();
+        double getIncendiaryDamageMultiplier();
     }
 
-    public FireDamageSet(GunModifier[] modifiers)
+    public IncendiaryDamageSet(GunModifier[] modifiers)
     {
-        super("Fire Damage",
+        super("Incendiary Damage",
                 modifiers,
-              FireDamageAttributes::getFireDamageValue,
-              FireDamageAttributes::getFireDamageMultiplier,
-                FireDamageAttributes.class);
+                IncendiaryDamageAttributes::getIncendiaryDamageValue,
+                IncendiaryDamageAttributes::getIncendiaryDamageMultiplier,
+                IncendiaryDamageAttributes.class);
     }
     
-    public FireDamageSet(GunModifier mod)
+    public IncendiaryDamageSet(GunModifier mod)
     {
         this(new GunModifier[] { mod });
     }
@@ -40,7 +39,7 @@ public class FireDamageSet extends DamageOnHit<FireDamageSet.FireDamageAttribute
     public ArrayList<String> getGunStats()
     {
         final StatBuilder stats = new StatBuilder();
-        stats.addValueStat(super.getTotal(), "fire damage");
+        stats.addValueStat(super.getTotal(), "incendiary damage");
         return stats.toArrayList();
     }
     
@@ -48,8 +47,8 @@ public class FireDamageSet extends DamageOnHit<FireDamageSet.FireDamageAttribute
     public ArrayList<String> getIndividualStats()
     {
         final StatBuilder stats = new StatBuilder();
-        stats.addValueStatIfValid(super.getValue(), "fire damage");
-        stats.addMultiplierStatIfValid(super.getMultiplier(), "fire damage");
+        stats.addValueStatIfValid(super.getValue(), "incendiary damage");
+        stats.addMultiplierStatIfValid(super.getMultiplier(), "incendiary damage");
         return stats.toArrayList();
     }
 }

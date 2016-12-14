@@ -40,8 +40,8 @@ public class Barrels extends ModifierConfig<Barrel>
         defaultValues.put("Base Damage Multiplier", 0.0);
         defaultValues.put("Shrapnel Damage Value", 0.0);
         defaultValues.put("Shrapnel Damage Multiplier", 0.0);
-        defaultValues.put("Fire Damage Value", 0.0);
-        defaultValues.put("Fire Damage Multiplier", 0.0);
+        defaultValues.put("Incendiary Damage Value", 0.0);
+        defaultValues.put("Incendiary Damage Multiplier", 0.0);
         defaultValues.put("Headshot Modifier", 0.0);
         defaultValues.put("Headshot Multiplier", 0.0);
         defaultValues.put("Projectile Additional Per Shot", 0);
@@ -74,8 +74,8 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getDouble("Base Damage Multiplier"),
                     values.getDouble("Shrapnel Damage Value"),
                     values.getDouble("Shrapnel Damage Multiplier"),
-                    values.getDouble("Fire Damage Value"),
-                    values.getDouble("Fire Damage Multiplier"),
+                    values.getDouble("Incendiary Damage Value"),
+                    values.getDouble("Incendiary Damage Multiplier"),
                     values.getDouble("Headshot Modifier"),
                     values.getDouble("Headshot Multiplier"),
                     values.getInt("Projectile Additional Per Shot"),
@@ -101,7 +101,7 @@ public class Barrels extends ModifierConfig<Barrel>
             HeadshotDamageSet.HeadshotAttributes,
             ProjectileSet.ProjectileAttributes,
             SilencerSet.SilencerAttributes,
-            FireDamageSet.FireDamageAttributes,
+            IncendiaryDamageSet.IncendiaryDamageAttributes,
             ShrapnelDamageSet.ShrapnelDamageAttributes
     {
         private final double bulletSpreadModifier;
@@ -109,8 +109,8 @@ public class Barrels extends ModifierConfig<Barrel>
         private final double baseDamageMultiplier;
         private final double shrapnelDamageValue;
         private final double shrapnelDamageMultiplier;
-        private final double fireDamageValue;
-        private final double fireDamageMultiplier;
+        private final double incendiaryDamageValue;
+        private final double incendiaryDamageMultiplier;
         private final double headshotValue;
         private final double headshotMultiplier;
         private final int    additionalProjectiles;
@@ -149,8 +149,8 @@ public class Barrels extends ModifierConfig<Barrel>
             this.baseDamageMultiplier = baseDamageMultiplier;
             this.shrapnelDamageValue = shrapnelDamageValue;
             this.shrapnelDamageMultiplier = shrapnelDamageMultiplier;
-            this.fireDamageValue = fireDamageValue;
-            this.fireDamageMultiplier = fireDamageMultiplier;
+            this.incendiaryDamageValue = fireDamageValue;
+            this.incendiaryDamageMultiplier = fireDamageMultiplier;
             this.headshotValue = headshotValue;
             this.headshotMultiplier = headshotMultiplier;
             this.additionalProjectiles = additionalProjectiles;
@@ -175,8 +175,8 @@ public class Barrels extends ModifierConfig<Barrel>
         @Override public double getProjectileSpeedMultiplier() { return projectileSpeedMultiplier; }
         @Override public int getProjectileRangeValue()         { return projectileRangeValue; }
         @Override public double getProjectileRangeMultiplier() { return projectileRangeMultiplier; }
-        @Override public double getFireDamageValue()           { return fireDamageValue; }
-        @Override public double getFireDamageMultiplier()      { return fireDamageMultiplier; }
+        @Override public double getIncendiaryDamageValue()           { return incendiaryDamageValue; }
+        @Override public double getIncendiaryDamageMultiplier()      { return incendiaryDamageMultiplier; }
         @Override public double getShrapnelDamageValue()       { return shrapnelDamageValue; }
         @Override public double getShrapnelDamageMultiplier()       { return shrapnelDamageMultiplier; }
     }

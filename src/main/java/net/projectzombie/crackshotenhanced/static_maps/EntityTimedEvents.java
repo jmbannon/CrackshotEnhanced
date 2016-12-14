@@ -75,7 +75,7 @@ public class EntityTimedEvents {
     }
 
     static public void add(final CSELivingEntity entity,
-                    final TimedEvent event) {
+                           final TimedEvent event) {
         final UUID uuid = entity.getUniqueId();
         if (ENTITY_EVENT_MAP.containsKey(uuid)) {
             EntityTimedEventsInfo info = ENTITY_EVENT_MAP.get(uuid);

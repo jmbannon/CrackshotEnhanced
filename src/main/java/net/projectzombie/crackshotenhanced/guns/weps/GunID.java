@@ -20,6 +20,7 @@ package net.projectzombie.crackshotenhanced.guns.weps;
 import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 /**
  *
@@ -142,28 +143,10 @@ public class GunID
         }
     }
     
-    public String getUniqueID()
-    {
-        return uniqueID;
-    }
-    
-    public String getCSUniqueID()
-    {
-        if (uniqueID == null)
-            return null;
-        else
-            return uniqueID.split(CS_ID_SEP)[0];
-    }
-    
-    public boolean isValid() 
-    {
-        return uniqueID != null;
-    }
-    
-    @Override public String toString()
-    {
-        return this.uniqueID;
-    }
+    public String getUniqueID() { return uniqueID; }
+    public String getCSUniqueID() { return (uniqueID != null) ? uniqueID.split(CS_ID_SEP)[0] : null; }
+    public boolean isValid() { return uniqueID != null; }
+    @Override public String toString() { return this.uniqueID; }
     
     public GunSkeletons.GunSkeleton getSkeleton()       { return GunSkeletons.getInstance().get(skeletonIndex); }
     public ProjectileAttachments.ProjectileAttachment getAttatchmentOne()   { return ProjectileAttachments.getInstance().get(attatchmentOneIndex); }
@@ -214,11 +197,5 @@ public class GunID
                 && attIDXs[3] < Stocks.getInstance().size();
     }
     
-    private static int getGunModifierID(final GunModifier mod)
-    {
-        if (mod != null)
-            return mod.getIndex();
-        else
-            return -1;
-    }
+    private static int getGunModifierID(final GunModifier mod) { return mod != null ? mod.getIndex() : -1; }
 }

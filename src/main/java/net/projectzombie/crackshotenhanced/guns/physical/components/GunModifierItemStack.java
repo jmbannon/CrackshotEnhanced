@@ -44,7 +44,6 @@ public class GunModifierItemStack extends GunModifierLore
         if (material != null)
         {
             final ItemStack item = new ItemStack(material, itemStackAmount, type.getMaterialDataShort());
-
             ItemMeta meta = item.getItemMeta();
             meta.setLore(super.generateLore());
             meta.setDisplayName(mod.getDisplayName(noItalics));
@@ -57,7 +56,6 @@ public class GunModifierItemStack extends GunModifierLore
     
     static private boolean hasLore(final ItemStack item)
     {
-        Main.info("HAS LORE: " + item.getType().toString() + " " + (item.hasItemMeta() ? item.getItemMeta().hasLore() : false));
         return item.hasItemMeta()
             && item.getItemMeta().hasLore();
     }

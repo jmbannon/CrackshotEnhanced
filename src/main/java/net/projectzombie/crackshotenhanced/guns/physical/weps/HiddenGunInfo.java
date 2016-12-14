@@ -8,7 +8,6 @@ package net.projectzombie.crackshotenhanced.guns.physical.weps;
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
-import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 
 /**
@@ -45,10 +44,7 @@ public class HiddenGunInfo extends HiddenLoreInfo
      * Creates HiddenGunInfo from an existing hidden string.
      * @param hiddenLoreInfo Existing hidden string that contains gun info.
      */
-    public HiddenGunInfo(final String hiddenLoreInfo)
-    {
-        super(hiddenLoreInfo);
-    }
+    public HiddenGunInfo(final String hiddenLoreInfo) { super(hiddenLoreInfo); }
 
     /**
      * Creates HiddenGunInfo from a GunID. Gun is assumed to be pre-shot.
@@ -72,59 +68,34 @@ public class HiddenGunInfo extends HiddenLoreInfo
     }
     
     /** @return The GunID hidden in the lore. */
-    public GunID getGunID()
-    {
-        return new GunID(getGunIDStr());
-    }
+    public GunID getGunID() { return new GunID(getGunIDStr()); }
     
     /**
      * Gets the CrackshotGun by parsing the GunID in the hidden lore.
      * @return CrackshotGun affiliated with the GunID.
      */
-    public CrackshotGun getGun()
-    {
-        return Guns.get(super.getInfoStr(GUN_ID_IDX));
-    }
+    public CrackshotGun getGun() { return Guns.get(super.getInfoStr(GUN_ID_IDX)); }
 
     /** @return Current durability.*/
-    public int getDurability()
-    {
-        return super.getInfoInt(DUR_IDX);
-    }
+    public int getDurability() { return super.getInfoInt(DUR_IDX); }
     
     /** @return Returns true if the gun is post-shot and the durability is >= 0. False otherwise. */
-    public boolean isBroken() { return this.isPostShot() && this.getDurability() <= 0; }
+    public boolean isBroken() { return this.isPostShot() && this.getDurability() < 0; }
 
-    /**
-     * Sets the GunID with the String equivalent.
-     * @param newID GunID String to set.
-     */
-    public void setGunID(final String newID)
-    {
-        super.setInfoStr(GUN_ID_IDX, newID);
-    }
+    /** @param newID GunID String to set. */
+    public void setGunID(final String newID) { super.setInfoStr(GUN_ID_IDX, newID); }
     
-    /**
-     * Sets the durability with the new durability.
-     * @param newDurability New durability to set.
-     */
-    public void setDurability(final int newDurability) {
-        super.setInfoInt(DUR_IDX, newDurability);
-    }
+    /** @param newDurability New durability to set. */
+    public void setDurability(final int newDurability) { super.setInfoInt(DUR_IDX, newDurability); }
     
     /**
      * @return Returns true if hidden gun info is pre-shot by checking magic values
      * set for both build and durability. False otherwise.
      */
-    public boolean isPreShot() {
-        return this.isValid() && this.getDurability() == PRESHOT_VER_DUR;
-    }
+    public boolean isPreShot() { return this.isValid() && this.getDurability() == PRESHOT_VER_DUR; }
     
     /** @return Returns true if the HiddenGunInfo is valid and it's not pre-shot. */
-    public boolean isPostShot()
-    {
-        return this.isValid() && !this.isPreShot();
-    }
+    public boolean isPostShot() { return this.isValid() && !this.isPreShot(); }
     
     /**
      * @return Returns true if the HiddenGunInfo's length is correct and

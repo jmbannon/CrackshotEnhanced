@@ -52,9 +52,9 @@ public class GunSmithCommandExec implements CommandExecutor
         } else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             listModifierTypes(sender);
         } else if (args.length == 2 && args[0].equalsIgnoreCase("list")) {
-            if (args[1].equalsIgnoreCase("attatchment1")
-                    || args[1].equalsIgnoreCase("attatchment2")
-                    || args[1].equalsIgnoreCase("attatchment3"))
+            if (args[1].equalsIgnoreCase("attachment1")
+                    || args[1].equalsIgnoreCase("attachment2")
+                    || args[1].equalsIgnoreCase("attachment3"))
                 listModifierNames(sender, ProjectileAttachments.getInstance().getAll());
             else if (args[1].equalsIgnoreCase("barrel"))
                 listModifierNames(sender, Barrels.getInstance().getAll());
@@ -88,11 +88,11 @@ public class GunSmithCommandExec implements CommandExecutor
                 return true;
             }
             
-            if (args[1].equalsIgnoreCase("attatchment1"))
+            if (args[1].equalsIgnoreCase("attachment1"))
                 modItem = getModItem(SLOT_ONE_ATTACHMENT, index);
-            else if (args[1].equalsIgnoreCase("attatchment2"))
+            else if (args[1].equalsIgnoreCase("attachment2"))
                 modItem = getModItem(SLOT_TWO_ATTATCHMENT, index);
-            else if (args[1].equalsIgnoreCase("attatchment3"))
+            else if (args[1].equalsIgnoreCase("attachment3"))
                 modItem = getModItem(SLOT_THREE_ATTATCHMENT, index);
             else if (args[1].equalsIgnoreCase("barrel"))
                 modItem = getModItem(BARREL, index);
@@ -141,9 +141,9 @@ public class GunSmithCommandExec implements CommandExecutor
     
     public void listModifierTypes(final Player sender)
     {
-        sender.sendMessage("Attatchment1");
-        sender.sendMessage("Attatchment2");
-        sender.sendMessage("Attatchment3");
+        sender.sendMessage("Attachment1");
+        sender.sendMessage("Attachment2");
+        sender.sendMessage("Attachment3");
         sender.sendMessage("Barrel");
         sender.sendMessage("Bolt");
         sender.sendMessage("FireMode");

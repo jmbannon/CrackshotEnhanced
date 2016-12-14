@@ -61,8 +61,5 @@ public class BoltSet extends AttributeSet<BoltSet.BoltAttributes>
     }
     
     @Override
-    public boolean hasStats()
-    {
-        return super.hasStats() && totalBoltDurationInTicks > 0;
-    }
+    public boolean hasStats() { return super.hasStats() && totalBoltDurationInTicks > 0; }
 }

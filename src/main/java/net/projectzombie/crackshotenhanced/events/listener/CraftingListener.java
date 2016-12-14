@@ -56,13 +56,10 @@ public class CraftingListener implements Listener
         CrackshotGun newGun = csItem.getGun();
         GunModifierItemStack tempMod;
 
-        if (validResult && csItem.isValid() && newGun != null)
-        {
-            for (int matIdx : CRAFT_MODIFIER_IDXS)
-            {
+        if (validResult && csItem.isValid() && newGun != null) {
+            for (int matIdx : CRAFT_MODIFIER_IDXS) {
                 tempMod = new GunModifierItemStack(mat[matIdx]);
-                if (tempMod.isValid())
-                {
+                if (tempMod.isValid()) {
                     newGun = newGun.getModifiedGun(tempMod);
                 }
             }

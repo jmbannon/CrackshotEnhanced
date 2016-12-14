@@ -5,6 +5,10 @@
  */
 package net.projectzombie.crackshotenhanced.guns.utilities;
 
+import net.projectzombie.crackshotenhanced.main.Main;
+
+import java.util.Arrays;
+
 /**
  *
  * @author jb
@@ -102,6 +106,6 @@ public abstract class HiddenLoreInfo
     
     private boolean isValidIndex(final int idx)
     {
-        return idx >= 0 && idx < info.length;
+        return info != null && idx >= 0 && idx < info.length;
     }
 }

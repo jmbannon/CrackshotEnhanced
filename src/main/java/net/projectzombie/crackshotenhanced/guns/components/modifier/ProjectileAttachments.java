@@ -28,7 +28,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
     }
 
 
-    static private final ModifierMap buildDefaultValues() {
+    static private ModifierMap buildDefaultValues() {
         final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
@@ -47,11 +47,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         defaultValues.put("Bleedout Damage Multiplier", 0.0);
         defaultValues.put("Bleedout Damage Multiplier from Base Damage", 0.0);
         defaultValues.put("Bleedout Damage Multiplier from Shrapnel", 0.0);
-        defaultValues.put("Fire Damage ModifierAttributes", 0.0);
-        defaultValues.put("Fire Damage Multiplier", 0.0);
+        defaultValues.put("Incendiary Damage Modifier", 0.0);
+        defaultValues.put("Incendiary Damage Multiplier", 0.0);
         defaultValues.put("Ignite Chance", 0.0);
         defaultValues.put("Ignite Duration", 0.0);
-        defaultValues.put("Ignite Damage Multiplier From Fire Damage", 0.0);
+        defaultValues.put("Ignite Damage Multiplier From Incendiary Damage", 0.0);
         defaultValues.put("Ignite Damage Multiplier From Base Damage", 0.0);
         defaultValues.put("Shrapnel Damage Modifier", 0.0);
         defaultValues.put("Shrapnel Damage Multiplier", 0.0);
@@ -90,11 +90,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                     values.getDouble("Bleedout Damage Multiplier"),
                     values.getDouble("Bleedout Damage Multiplier from Base Damage"),
                     values.getDouble("Bleedout Damage Multiplier from Shrapnel"),
-                    values.getDouble("Fire Damage ModifierAttributes"),
-                    values.getDouble("Fire Damage Multiplier"),
+                    values.getDouble("Incendiary Damage Modifier"),
+                    values.getDouble("Incendiary Damage Multiplier"),
                     values.getDouble("Ignite Chance"),
                     values.getDouble("Ignite Duration"),
-                    values.getDouble("Ignite Damage Multiplier From Fire Damage"),
+                    values.getDouble("Ignite Damage Multiplier From Incendiary Damage"),
                     values.getDouble("Ignite Damage Multiplier From Base Damage"),
                     values.getDouble("Shrapnel Damage Modifier"),
                     values.getDouble("Shrapnel Damage Multiplier"),
@@ -120,7 +120,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
             HeadshotDamageSet.HeadshotAttributes,
             CritSet.CritAttributes,
             BleedoutSet.BleedoutAttributes,
-            FireDamageSet.FireDamageAttributes,
+            IncendiaryDamageSet.IncendiaryDamageAttributes,
             IgniteSet.IgniteAttributes,
             ShrapnelDamageSet.ShrapnelDamageAttributes,
             StunSet.StunAttributes
@@ -138,11 +138,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         private final double bleedoutDamageMultiplier;
         private final double bleedoutDamageMultiplierFromBase;
         private final double bleedoutDamageMultiplierFromShrap;
-        private final double fireDamageModifier;
-        private final double fireDamageMultiplier;
+        private final double incendiaryDamageModifier;
+        private final double incendiaryDamageMultiplier;
         private final double igniteChance;
         private final double igniteDuration;
-        private final double igniteDamageMultiplierFromFire;
+        private final double igniteDamageMultiplierFromIncendiary;
         private final double igniteDamageMultiplierFromBase;
         private final double shrapnelDamageModifier;
         private final double shrapnelDamageMultiplier;
@@ -194,11 +194,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
             this.bleedoutDamageMultiplier = bleedoutDamageMultiplier;
             this.bleedoutDamageMultiplierFromBase = bleedoutDamageMultiplierFromBase;
             this.bleedoutDamageMultiplierFromShrap = bleedoutDamageMultiplierFromShrap;
-            this.fireDamageModifier = fireDamageModifier;
-            this.fireDamageMultiplier = fireDamageMultiplier;
+            this.incendiaryDamageModifier = fireDamageModifier;
+            this.incendiaryDamageMultiplier = fireDamageMultiplier;
             this.igniteChance = igniteChance;
             this.igniteDuration = igniteDuration;
-            this.igniteDamageMultiplierFromFire = igniteDamageMultiplierFromFire;
+            this.igniteDamageMultiplierFromIncendiary = igniteDamageMultiplierFromFire;
             this.igniteDamageMultiplierFromBase = igniteDamageMultiplierFromBase;
             this.shrapnelDamageModifier = shrapnelDamageModifier;
             this.shrapnelDamageMultiplier = shrapnelDamageMultiplier;
@@ -226,11 +226,11 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         @Override public double getHeadshotDamageMultiplier()            { return headshotDamageMultiplier; }
         @Override public double getBleedoutDurationMultiplier()          { return bleedoutDurationMultiplier; }
         @Override public double getBleedoutDamageMultiplerFromShrapnel() { return bleedoutDamageMultiplierFromShrap; }
-        @Override public double getFireDamageValue()                     { return fireDamageModifier; }
-        @Override public double getFireDamageMultiplier()                { return fireDamageMultiplier; }
+        @Override public double getIncendiaryDamageValue()                     { return incendiaryDamageModifier; }
+        @Override public double getIncendiaryDamageMultiplier()                { return incendiaryDamageMultiplier; }
         @Override public double getIgniteChance()                        { return igniteChance; }
         @Override public double getIgniteDuration()                      { return igniteDuration; }
-        @Override public double getIgniteDamageMultiplierFromFireDamage() { return igniteDamageMultiplierFromFire; }
+        @Override public double getIgniteDamageMultiplierFromFireDamage() { return igniteDamageMultiplierFromIncendiary; }
         @Override public double getShrapnelDamageValue()                 { return shrapnelDamageModifier; }
         @Override public double getShrapnelDamageMultiplier()            { return shrapnelDamageMultiplier; }
         @Override public double getStunChance()                          { return stunChance; }

@@ -1,11 +1,16 @@
 package net.projectzombie.crackshotenhanced.events.listener;
 
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
+import net.projectzombie.crackshotenhanced.entities.CSEEntity;
+import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.static_maps.ConnectedPlayers;
 import net.projectzombie.crackshotenhanced.entities.CSEPlayer;
+import net.projectzombie.crackshotenhanced.static_maps.EntityTimedEvents;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 import net.projectzombie.crackshotenhanced.main.Main;
+import org.bukkit.EntityEffect;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -24,19 +29,21 @@ public class OnHitListener implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onHitEvent(WeaponDamageEntityEvent event)
     {
+        if (!(event.getVictim() instanceof LivingEntity)) {
+            return;
+        }
+
         final String gunID = event.getDamager().getCustomName();
         final CSEPlayer player = ConnectedPlayers.get(event.getPlayer());
+        final CSELivingEntity<LivingEntity> entity = new CSELivingEntity<>((LivingEntity)event.getVictim());
         final CrackshotGun gun = Guns.get(gunID);
 
-        if (gun != null && event.getVictim() instanceof LivingEntity)
-        {
-            final double damage = calculateDamageOnHit(player, gun, (LivingEntity)event.getVictim(), event.isHeadshot());
+        if (gun != null) {
+            final double damage = calculateDamageOnHit(player, gun, entity, event.isHeadshot());
             Main.getPlugin().getLogger().info("Setting damage: " + damage);
             event.setDamage(damage);
-        }
-        else
-        {
-            Main.getPlugin().getLogger().info("Can not find gun with ID: " + gunID);
+        } else {
+            Main.info("Can not find gun with ID: " + gunID);
         }
     }
 
@@ -53,7 +60,7 @@ public class OnHitListener implements Listener {
      */
     private double calculateDamageOnHit(final CSEPlayer damager,
                                         final CrackshotGun gun,
-                                        final LivingEntity victim,
+                                        final CSELivingEntity<LivingEntity> victim,
                                         final boolean headshot)
     {
         double toReturn = gun.getTotalDamageOnHit();
@@ -63,6 +70,13 @@ public class OnHitListener implements Listener {
         if (gun.isCrit()) {
             toReturn += gun.getTotalDamageOnHit();
         }
+        if (gun.isStun()) {
+            EntityTimedEvents.add(victim, gun.getAttributes().getStunSet());
+        }
+        if (gun.isIgnite()) {
+            EntityTimedEvents.add(victim, gun.getAttributes().getIgniteSet());
+        }
+        EntityTimedEvents.add(victim, gun.getAttributes().getBleedout());
         return toReturn;
     }
 }

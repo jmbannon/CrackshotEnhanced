@@ -6,6 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.GunUtils;
+import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 
 import org.bukkit.ChatColor;

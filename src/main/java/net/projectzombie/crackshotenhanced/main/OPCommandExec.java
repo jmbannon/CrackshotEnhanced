@@ -24,11 +24,8 @@ public class OPCommandExec implements CommandExecutor
         if (!cs.isOp())
             return true;
 
-        Main.info(cmd.getName());
-        Main.info("" + args.length);
         if (cmd.getName().equalsIgnoreCase("cse") && args.length > 0)
         {
-            Arrays.stream(args).forEach(s -> Main.info(s));
             if (args[0].equalsIgnoreCase("yaml"))
                 YAMLGenerator.generateDefaultWeapons();
             else

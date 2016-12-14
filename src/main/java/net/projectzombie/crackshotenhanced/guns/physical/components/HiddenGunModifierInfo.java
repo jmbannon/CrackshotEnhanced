@@ -8,6 +8,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.components;
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 /**
  *
@@ -51,22 +52,17 @@ public class HiddenGunModifierInfo extends HiddenLoreInfo
         }
     }
     
-    public int getID()
+    public final int getID()
     {
         return super.getInfoInt(ID_IDX);
     }
     
-    public GunModifier getGunModifier()
-    {
-        if (isValid())
-            return getGunModifierType().getGunModifier(getID());
-        else
-            return null;
+    public GunModifier getGunModifier() {
+        return this.isValid() ? getGunModifierType().getGunModifier(this.getID()) : null;
     }
     
     @Override
-    public boolean isValid()
-    {
+    public boolean isValid() {
         return super.isValid()
             && super.getLength() == LENGTH
             && getGunModifierType() != null

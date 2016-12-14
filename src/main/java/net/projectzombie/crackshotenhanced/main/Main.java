@@ -27,13 +27,9 @@ public class Main extends JavaPlugin {
     private OnHitListener onHitListener;
     private PlayerMovementListener playerMovement;
 
-    static public Plugin getPlugin() {
-        return PLUGIN;
-    }
-
-    static public void info(final String info) {
-        PLUGIN.getLogger().info(info);
-    }
+    static public Plugin getPlugin() { return PLUGIN; }
+    static public void info(final String info) { PLUGIN.getLogger().info(info); }
+    static public void warning(final String warning) { PLUGIN.getLogger().warning(warning); }
 
     @Override
     public void onEnable()

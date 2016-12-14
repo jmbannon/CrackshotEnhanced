@@ -76,42 +76,25 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
         return gunID;
     }
 
-    public ProjectileAttachments.ProjectileAttachment getAttachmentOneMod() {
-        return attatchments[0];
-    }
-    public ProjectileAttachments.ProjectileAttachment getAttachmentTwoMod() {
-        return attatchments[1];
-    }
-    public ProjectileAttachments.ProjectileAttachment getAttachmentThreeMod() {
-        return attatchments[2];
-    }
-    public Bolts.Bolt getBoltMod() {
-        return bolt;
-    }
-    public Barrels.Barrel getBarrelMod() {
-        return barrel;
-    }
-    public FireModes.FireMode getFireModeMod() {
-        return firemode;
-    }
-    public Magazines.Magazine getMagazineMod() {
-        return magazine;
-    }
-    public Sights.Sight getScopeMod() {
-        return sight;
-    }
-    public Stocks.Stock getStockMod() {
-        return stock;
-    }
-    public Attributes getAttributes() {
-        return attributes;
-    }
-    public String getCSWeaponName() {
-        return csUniqueID;
-    }
-    public String getUniqueID() {
-        return uniqueID;
-    }
+    // -------------------------------------------------------------------------
+    //  Modifiers
+    // -------------------------------------------------------------------------
+
+    public ProjectileAttachments.ProjectileAttachment getAttachmentOneMod() { return attatchments[0]; }
+    public ProjectileAttachments.ProjectileAttachment getAttachmentTwoMod() { return attatchments[1]; }
+    public ProjectileAttachments.ProjectileAttachment getAttachmentThreeMod() { return attatchments[2]; }
+    public Bolts.Bolt getBoltMod() { return bolt; }
+    public Barrels.Barrel getBarrelMod() { return barrel; }
+    public FireModes.FireMode getFireModeMod() { return firemode; }
+    public Magazines.Magazine getMagazineMod() { return magazine; }
+    public Sights.Sight getScopeMod() { return sight; }
+    public Stocks.Stock getStockMod() { return stock; }
+
+
+
+    public Attributes getAttributes() { return attributes; }
+    public String getCSWeaponName() { return csUniqueID; }
+    public String getUniqueID() { return uniqueID; }
 
     public GunModifier[] getGunModifiers() { return new GunModifier[]{attatchments[0], attatchments[1], attatchments[2],
             barrel, bolt, firemode, magazine, sight, stock}; }
@@ -124,17 +107,24 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
                 .sum();
     }
 
-    public double getTotalHeadshotDamage() {
-        return attributes.getHeadshotDamage().getTotal();
-    }
+    // -------------------------------------------------------------------------
+    //  Chance modifiers
+    // -------------------------------------------------------------------------
 
-    public boolean isCrit() {
-        return attributes.getCritical().rollDice();
-    }
+    public boolean isIgnite() { return attributes.getIgniteSet().rollDice(); }
+    public boolean isStun() { return attributes.getStunSet().rollDice(); }
+    public boolean isCrit() { return attributes.getCritical().rollDice(); }
 
-    public double getTotalCritDamage() {
-        return attributes.getCritical().getTotalDamageOnCrit();
-    }
+    // -------------------------------------------------------------------------
+    //  Chance modifier Effects
+    // -------------------------------------------------------------------------
+
+    /** @return Total headshot damage on hit. */
+    public double getTotalHeadshotDamage() { return attributes.getHeadshotDamage().getTotal(); }
+
+    /** @return Total critical damage on hit. */
+    public double getTotalCritDamage() { return attributes.getCritical().getTotalDamageOnCrit(); }
+
 
     @Override
     public String toString() {
@@ -197,15 +187,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
     }
 
     public CrackshotGun getModifiedGun(final GunModifierItemStack item) {
-        if (item.isValid())
-            return getModifiedGun(item.getGunModifier(), item.getGunModifierType());
-        else
-            return null;
-    }
-
-    public CrackshotGun getModifiedGun(final GunModifier modifier,
-                                       final GunModifierType type) {
-        return Guns.get(new GunID(this, modifier, type));
+        return Guns.get(new GunID(this, item.getGunModifier(), item.getGunModifierType()));
     }
 
     public ArrayList<String> getStats() {

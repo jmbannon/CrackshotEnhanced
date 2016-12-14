@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.static_maps;
 
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.weps.GunID;
+import net.projectzombie.crackshotenhanced.main.Main;
 
 import java.util.*;
 
@@ -40,7 +41,7 @@ public class Guns
             {
                 final CrackshotGun gun = new CrackshotGun(gunID);
                 guns.put(gunID.getUniqueID(), gun);
-                System.out.println("Total guns in hash map: " + guns.size());
+                Main.info("Total guns in hash map: " + guns.size());
                 return gun;
             }
         }
