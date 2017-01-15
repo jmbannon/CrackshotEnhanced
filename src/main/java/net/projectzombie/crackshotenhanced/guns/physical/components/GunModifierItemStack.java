@@ -6,8 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.physical.components;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
-import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -24,19 +23,19 @@ public class GunModifierItemStack extends GunModifierLore
         super(hasLore(item) ? item.getItemMeta().getLore() : null);
     }
     
-    public GunModifierItemStack(final GunModifierType type,
+    public GunModifierItemStack(final CraftableType type,
                                 final int id)
     {
         super(type, id);
     }
     
-    public ItemStack toItem()
+    public ItemStack toItemStack()
     {
         if (!this.isValid())
             return null;
         
         final GunModifier mod = super.getGunModifier();
-        final GunModifierType type = super.getGunModifierType();
+        final CraftableType type = super.getGunModifierType();
         final Material material = type.getMaterial();
         final int itemStackAmount = 1;
         final boolean noItalics = false;

@@ -5,9 +5,10 @@
  */
 package net.projectzombie.crackshotenhanced.guns.components.skeleton;
 
-import net.projectzombie.crackshotenhanced.guns.components.QualityModifierValue;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
+import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -36,6 +37,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
     static private ModifierMap buildDefaultValues() {
         final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
+        defaultValues.put("Price", 0);
+        defaultValues.put("Color", "GREEN");
         defaultValues.put("Initial Bullet Spread", 1.5);
         defaultValues.put("Delay Between Shots", 4);
         defaultValues.put("Durability Max", 100);
@@ -67,6 +70,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             return new GunSkeleton(
                     uniqueID,
                     values.getString("Display Name"),
+                    values.getInt("Price"),
+                    values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
                     SkeletonTypes.getInstance().get(values.getString("Weapon Type")),
                     ModifierSets.getInstance().get(values.getString("Modifier Set")),
@@ -96,7 +101,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         }
     }
     
-    static public class GunSkeleton extends QualityModifierValue
+    static public class GunSkeleton extends QualityGunModifier
     {   
         private final SkeletonTypes.SkeletonType weaponType;
         private final double bulletSpread;
@@ -126,6 +131,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
         private GunSkeleton(final int uniqueID,
                             final String skeletonName,
+                            final int price,
+                            final String color,
                             final Qualities.Quality quality,
                             final SkeletonTypes.SkeletonType weaponType,
                             final ModifierSets.ModifierSet set,
@@ -149,7 +156,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                             final String particle_shoot,
                             final String sounds_reloading)
         {
-            super(uniqueID, skeletonName, quality);
+            super(uniqueID, skeletonName, price, color, quality, CraftableType.SKELETON);
             this.weaponType = weaponType;
             this.itemID = materialID;
             this.itemData = materialData;
@@ -174,7 +181,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         
         public GunSkeleton(final GunSkeleton skele)
         {
-            super(skele.getIndex(), skele.getName(), skele.getQuality());
+            super(skele.getIndex(), skele.getName(), skele.price(), skele.getColor().toString(), skele.getQuality(),
+                    CraftableType.SKELETON);
             this.weaponType = skele.weaponType;
             this.itemID = skele.itemID;
             this.itemData = skele.itemData;
@@ -237,7 +245,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                 return null;
 
             CrackshotGun guns[] = new CrackshotGun[combinationCount];
-            final ProjectileAttachments.ProjectileAttachment nullAtt = ProjectileAttachments.getInstance().getNullValue();
+            final ProjectileAttachments.ProjectileAttachment nullAtt = ProjectileAttachments.getSlotOneInstance().getNullValue();
             final Stocks.Stock nullStock = Stocks.getInstance().getNullValue();
 
             for (Barrels.Barrel barrel : modSet.getBarrels())
@@ -279,6 +287,31 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             }
 
             return containsMod;
+        }
+
+        /**
+         * Creates a CrackshotGun ItemStack by randomly choosing one of this GunSkeleton's FireModes and having
+         * the other GunModifiers be their null values.
+         * @return Bare CrackshotGun ItemStack with a random FireMode.
+         */
+        @Override
+        public ItemStack toItemStack() {
+            final int randomFireModeIndex = Constants.RANDOM.nextInt(modSet.getFireModes().size());
+            final FireModes.FireMode randomFireMode = modSet.getFireModes().get(randomFireModeIndex);
+            return new CrackshotGun(this,
+                    ProjectileAttachments.getSlotOneInstance().getNullValue(),
+                    ProjectileAttachments.getSlotTwoInstance().getNullValue(),
+                    ProjectileAttachments.getSlotThreeInstance().getNullValue(),
+                    Barrels.getInstance().getNullValue(),
+                    Bolts.getInstance().getNullValue(),
+                    randomFireMode,
+                    Magazines.getInstance().getNullValue(),
+                    Sights.getInstance().getNullValue(),
+                    Stocks.getInstance().getNullValue()).toItemStack();
+        }
+
+        public GunSkeleton getNullModifier() {
+            return null;
         }
     }
 }

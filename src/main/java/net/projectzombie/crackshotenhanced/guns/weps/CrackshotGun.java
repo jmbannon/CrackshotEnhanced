@@ -4,7 +4,6 @@ import net.projectzombie.crackshotenhanced.guns.attributes.Attributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.DamageOnHit;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;

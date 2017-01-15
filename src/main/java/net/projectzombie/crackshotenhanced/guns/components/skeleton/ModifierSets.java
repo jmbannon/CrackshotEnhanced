@@ -30,7 +30,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
 
     static private ModifierMap buildDefaultValues() {
         final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
-        defaultValues.put("Attachments", ProjectileAttachments.getInstance().getNullValue().getName());
+        defaultValues.put("Attachments", ProjectileAttachments.getSlotOneInstance().getNullValue().getName());
         defaultValues.put("Barrels", Barrels.getInstance().getNullValue().getName());
         defaultValues.put("Bolts", Bolts.getInstance().getNullValue().getName());
         defaultValues.put("FireModes", FireModes.getInstance().getNullValue().getName());
@@ -54,7 +54,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
             return new ModifierSet(
                     uniqueID,
                     values.getString("Set Name"),
-                    ProjectileAttachments.getInstance().get(values.getStringList("Attachments"), true),
+                    ProjectileAttachments.getSlotOneInstance().get(values.getStringList("Attachments"), true),
                     Barrels.getInstance().get(values.getStringList("Barrels"), true),
                     Bolts.getInstance().get(values.getStringList("Bolts"), true),
                     FireModes.getInstance().get(values.getStringList("FireModes"), false),

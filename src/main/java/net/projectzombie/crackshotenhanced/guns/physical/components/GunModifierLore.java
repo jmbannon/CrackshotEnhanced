@@ -8,13 +8,12 @@ package net.projectzombie.crackshotenhanced.guns.physical.components;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.*;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.ChatColor;
 
 /**
@@ -29,7 +28,7 @@ public class GunModifierLore extends HiddenGunModifierInfo
     private static final ChatColor LINE_INFO_COLOR = ChatColor.RED;
     private static final String STATS_LINE = LINE_COLOR + "----- " + LINE_INFO_COLOR + "Stats" + LINE_COLOR + " ------------------";
 
-    public GunModifierLore(final GunModifierType type,
+    public GunModifierLore(final CraftableType type,
                            final int id)
     {
         super(type, id);

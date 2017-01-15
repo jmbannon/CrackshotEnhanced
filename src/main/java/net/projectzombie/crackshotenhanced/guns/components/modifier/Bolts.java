@@ -6,6 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Bolts.Bolt;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -47,8 +48,6 @@ public class Bolts extends ModifierConfig<Bolt>
             return new Bolt(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -72,20 +71,18 @@ public class Bolts extends ModifierConfig<Bolt>
 
         private Bolt(final int uniqueID,
                      final String displayName,
-                     final String material,
-                     final int materialByte,
                      final int price,
                      final String color,
                      final Qualities.Quality quality,
                       final double durationMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color, quality);
+            super(uniqueID, displayName, price, color, quality, CraftableType.BOLT);
             this.durationMultiplier = durationMultiplier;
         }
 
         private Bolt()
         {
-            this(0, null, null, 0, 0, null, null, 0);
+            this(0, null, 0, null, null, 0);
         }
 
         public double getBoltDurationMultiplier()           { return durationMultiplier; }

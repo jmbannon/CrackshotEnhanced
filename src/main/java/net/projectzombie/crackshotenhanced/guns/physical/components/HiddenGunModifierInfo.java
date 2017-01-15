@@ -7,8 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.physical.components;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
-import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 
 /**
  *
@@ -25,7 +24,7 @@ public class HiddenGunModifierInfo extends HiddenLoreInfo
      * @param type
      * @param id Index in CSV
      */
-    public HiddenGunModifierInfo(final GunModifierType type,
+    public HiddenGunModifierInfo(final CraftableType type,
                                  final int id)
     {
         super(new String[]
@@ -40,11 +39,11 @@ public class HiddenGunModifierInfo extends HiddenLoreInfo
         super(encodedString);
     }
     
-    public GunModifierType getGunModifierType()
+    public CraftableType getGunModifierType()
     {
         try
         {
-            return GunModifierType.valueOf(super.getInfoStr(TYPE_IDX));
+            return CraftableType.valueOf(super.getInfoStr(TYPE_IDX));
         } 
         catch (IllegalArgumentException ex)
         {

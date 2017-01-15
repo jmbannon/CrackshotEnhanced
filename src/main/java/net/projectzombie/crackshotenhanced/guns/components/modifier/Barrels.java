@@ -9,6 +9,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.Barrels.Barr
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.SilencerSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -63,8 +64,6 @@ public class Barrels extends ModifierConfig<Barrel>
             return new Barrel(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -122,8 +121,6 @@ public class Barrels extends ModifierConfig<Barrel>
 
         private Barrel(final int     uniqueID,
                         final String  displayName,
-                        final String material,
-                        final int    materialByte,
                         final int    price,
                         final String color,
                         final Qualities.Quality quality,
@@ -142,7 +139,7 @@ public class Barrels extends ModifierConfig<Barrel>
                         final int    projectileRangeValue,
                         final double projectileRangeMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color, quality);
+            super(uniqueID, displayName, price, color, quality, CraftableType.BARREL);
             this.isSilencer = isSilencer;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.baseDamageValue = baseDamageValue;
@@ -161,7 +158,7 @@ public class Barrels extends ModifierConfig<Barrel>
 
         public Barrel()
         {
-            this(0, null, null, 0, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(0, null, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public boolean isSilencer()                { return isSilencer; }

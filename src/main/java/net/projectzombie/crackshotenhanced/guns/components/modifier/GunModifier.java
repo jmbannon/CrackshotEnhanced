@@ -5,11 +5,13 @@
  */
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
+import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.utilities.GunUtils;
-import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemStack;
 
 
 /**
@@ -22,17 +24,18 @@ public abstract class GunModifier extends ModifierValue
 
     private final int price;
     private final ChatColor color;
+    private final CraftableType type;
     
     public GunModifier(final int uniqueID,
                        final String name,
-                       final String material,
-                       final int materialData,
                        final int price,
-                       final String color)
+                       final String color,
+                       final CraftableType type)
     {
         super(uniqueID, name);
         this.price = price;
         this.color = GunUtils.matchChatColor(color);
+        this.type = type;
     }
     
     /**
@@ -87,4 +90,7 @@ public abstract class GunModifier extends ModifierValue
                 return ChatColor.DARK_RED + "n/a"; 
         }
     }
+
+    /** Converts the gun modifier to an ItemStack. */
+    public ItemStack toItemStack() { return new GunModifierItemStack(this.type, this.getIndex()).toItemStack(); }
 }

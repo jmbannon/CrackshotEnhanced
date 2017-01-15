@@ -7,15 +7,12 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.FireModes.FireMode;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.FireModeSet;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
 import static net.projectzombie.crackshotenhanced.main.Main.getPlugin;
 
-/**
- *
- * @author jbannon
- */
 public class FireModes extends ModifierConfig<FireMode>
 {
     static private FireModes singleton = null;
@@ -50,8 +47,6 @@ public class FireModes extends ModifierConfig<FireMode>
             return new FireMode(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     values.getBoolean("Burst Fire"),
@@ -79,15 +74,13 @@ public class FireModes extends ModifierConfig<FireMode>
 
         private FireMode(final int uniqueID,
                           final String displayName,
-                          final String material,
-                          final int materialByte,
                           final int price,
                           final String color,
                           final boolean isBurstFire,
                           final int shotsPerBurst,
                           final boolean isAutomatic) 
         {
-            super(uniqueID, displayName, material, materialByte, price, color);
+            super(uniqueID, displayName, price, color, CraftableType.FIREMODE);
             this.isBurstFire = isBurstFire;
             this.shotsPerBurst = shotsPerBurst;
             this.isAutomatic = isAutomatic;
@@ -95,7 +88,7 @@ public class FireModes extends ModifierConfig<FireMode>
 
         private FireMode()
         {
-            this(0, null, null, 0, 0, null, false, 0, false);
+            this(0, null, 0, null, false, 0, false);
         }
         
         @Override public boolean  isBurstFire()       { return isBurstFire; }

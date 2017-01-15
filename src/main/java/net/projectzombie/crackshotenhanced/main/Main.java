@@ -82,7 +82,7 @@ public class Main extends JavaPlugin {
     private boolean initializeGuns()
     {
         return isInitialized("Qualities", Qualities.getInstance().size())
-           && isInitialized("Attachments", ProjectileAttachments.getInstance().size())
+           && isInitialized("Attachments", ProjectileAttachments.getSlotOneInstance().size())
            && isInitialized("Barrels", Barrels.getInstance().size())
            && isInitialized("Bolts", Bolts.getInstance().size())
            && isInitialized("FireModes", FireModes.getInstance().size())

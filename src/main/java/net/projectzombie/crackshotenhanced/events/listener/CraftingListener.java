@@ -10,7 +10,6 @@ import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
-import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -23,7 +22,7 @@ import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
 
-import static net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType.*;
+import static net.projectzombie.crackshotenhanced.guns.crafting.CraftableType.*;
 
 /**
  *

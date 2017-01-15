@@ -8,7 +8,7 @@ package net.projectzombie.crackshotenhanced.main;
 import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
 import net.projectzombie.crackshotenhanced.events.listener.ShootListener;
@@ -18,7 +18,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import static net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType.*;
+import static net.projectzombie.crackshotenhanced.guns.crafting.CraftableType.*;
 
 /**
  *
@@ -55,7 +55,7 @@ public class GunSmithCommandExec implements CommandExecutor
             if (args[1].equalsIgnoreCase("attachment1")
                     || args[1].equalsIgnoreCase("attachment2")
                     || args[1].equalsIgnoreCase("attachment3"))
-                listModifierNames(sender, ProjectileAttachments.getInstance().getAll());
+                listModifierNames(sender, ProjectileAttachments.getSlotOneInstance().getAll());
             else if (args[1].equalsIgnoreCase("barrel"))
                 listModifierNames(sender, Barrels.getInstance().getAll());
             else if (args[1].equalsIgnoreCase("bolt"))
@@ -126,10 +126,10 @@ public class GunSmithCommandExec implements CommandExecutor
         return true;
     }
     
-    private ItemStack getModItem(final GunModifierType type,
+    private ItemStack getModItem(final CraftableType type,
                                  final int index)
     {
-        return new GunModifierItemStack(type, index).toItem();
+        return new GunModifierItemStack(type, index).toItemStack();
     }
     
     public void listCommands(final Player sender)

@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by jb on 11/12/16.
@@ -134,12 +135,15 @@ abstract public class ModifierConfig<T extends ModifierValue> {
 
     public abstract T buildModule(final int uniqueID, final ModifierMap values);
 
-    /**
-     * @return Returns all initialized CSVValues.
-     */
+    /** @return All initialized CSVValues. */
     public ArrayList<T> getAll()
     {
         return readValues;
+    }
+
+    /** @return All initialized CSVValues as a Stream. */
+    public Stream<T> getStream() {
+        return readValues.stream();
     }
 
     /**

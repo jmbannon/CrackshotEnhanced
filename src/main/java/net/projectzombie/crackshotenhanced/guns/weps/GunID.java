@@ -17,10 +17,9 @@
  */
 package net.projectzombie.crackshotenhanced.guns.weps;
 
-import net.projectzombie.crackshotenhanced.guns.crafting.GunModifierType;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
-import net.projectzombie.crackshotenhanced.main.Main;
 
 /**
  *
@@ -91,18 +90,18 @@ public class GunID
     
     public GunID(final CrackshotGun gun,
                  final GunModifier modifier,
-                 final GunModifierType type)
+                 final CraftableType type)
     {
         this(gun,
-            type.equals(GunModifierType.SLOT_ONE_ATTACHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentOneMod(),
-            type.equals(GunModifierType.SLOT_TWO_ATTATCHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentTwoMod(),
-            type.equals(GunModifierType.SLOT_THREE_ATTATCHMENT) ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentThreeMod(),
-            type.equals(GunModifierType.BARREL)                 ? (Barrels.Barrel)modifier      : gun.getBarrelMod(),
-            type.equals(GunModifierType.BOLT)                   ? (Bolts.Bolt)modifier        : gun.getBoltMod(),
-            type.equals(GunModifierType.FIREMODE)               ? (FireModes.FireMode)modifier    : gun.getFireModeMod(),
-            type.equals(GunModifierType.MAGAZINE)               ? (Magazines.Magazine)modifier    : gun.getMagazineMod(),
-            type.equals(GunModifierType.SIGHT)                  ? (Sights.Sight)modifier       : gun.getScopeMod(),
-            type.equals(GunModifierType.STOCK)                  ? (Stocks.Stock)modifier       : gun.getStockMod());
+            type.equals(CraftableType.SLOT_ONE_ATTACHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentOneMod(),
+            type.equals(CraftableType.SLOT_TWO_ATTATCHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentTwoMod(),
+            type.equals(CraftableType.SLOT_THREE_ATTATCHMENT) ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentThreeMod(),
+            type.equals(CraftableType.BARREL)                 ? (Barrels.Barrel)modifier      : gun.getBarrelMod(),
+            type.equals(CraftableType.BOLT)                   ? (Bolts.Bolt)modifier        : gun.getBoltMod(),
+            type.equals(CraftableType.FIREMODE)               ? (FireModes.FireMode)modifier    : gun.getFireModeMod(),
+            type.equals(CraftableType.MAGAZINE)               ? (Magazines.Magazine)modifier    : gun.getMagazineMod(),
+            type.equals(CraftableType.SIGHT)                  ? (Sights.Sight)modifier       : gun.getScopeMod(),
+            type.equals(CraftableType.STOCK)                  ? (Stocks.Stock)modifier       : gun.getStockMod());
     }
     
     public GunID(final String ID)
@@ -149,9 +148,9 @@ public class GunID
     @Override public String toString() { return this.uniqueID; }
     
     public GunSkeletons.GunSkeleton getSkeleton()       { return GunSkeletons.getInstance().get(skeletonIndex); }
-    public ProjectileAttachments.ProjectileAttachment getAttatchmentOne()   { return ProjectileAttachments.getInstance().get(attatchmentOneIndex); }
-    public ProjectileAttachments.ProjectileAttachment getAttatchmentTwo()   { return ProjectileAttachments.getInstance().get(attatchmentTwoIndex); }
-    public ProjectileAttachments.ProjectileAttachment getAttatchmentThree() { return ProjectileAttachments.getInstance().get(attatchmentThreeIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentOne()   { return ProjectileAttachments.getSlotOneInstance().get(attatchmentOneIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentTwo()   { return ProjectileAttachments.getSlotOneInstance().get(attatchmentTwoIndex); }
+    public ProjectileAttachments.ProjectileAttachment getAttatchmentThree() { return ProjectileAttachments.getSlotOneInstance().get(attatchmentThreeIndex); }
     public Barrels.Barrel getBarrel()                { return Barrels.getInstance().get(barrelIndex); }
     public Bolts.Bolt getBolt()                    { return Bolts.getInstance().get(boltIndex); }
     public FireModes.FireMode getFireMode()            { return FireModes.getInstance().get(firemodeTypeIndex); }
@@ -191,9 +190,9 @@ public class GunID
                 && csIDXs[3] < FireModes.getInstance().size()
                 && csIDXs[4] < Magazines.getInstance().size()
                 && csIDXs[5] < Sights.getInstance().size()
-                && attIDXs[0] < ProjectileAttachments.getInstance().size()
-                && attIDXs[1] < ProjectileAttachments.getInstance().size()
-                && attIDXs[2] < ProjectileAttachments.getInstance().size()
+                && attIDXs[0] < ProjectileAttachments.getSlotOneInstance().size()
+                && attIDXs[1] < ProjectileAttachments.getSlotOneInstance().size()
+                && attIDXs[2] < ProjectileAttachments.getSlotOneInstance().size()
                 && attIDXs[3] < Stocks.getInstance().size();
     }
     

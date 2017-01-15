@@ -8,16 +8,12 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Stocks.Stock;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MotionSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.BulletSpreadSet;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
-
-/**
- *
- * @author jesse
- */
 public class Stocks extends ModifierConfig<Stock>
 {
     static private Stocks singleton = null;
@@ -54,8 +50,6 @@ public class Stocks extends ModifierConfig<Stock>
             return new Stock(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -92,8 +86,6 @@ public class Stocks extends ModifierConfig<Stock>
 
         private Stock(final int uniqueID,
                       final String displayName,
-                      final String material,
-                      final int materialData,
                       final int price,
                       final String color,
                       final Qualities.Quality quality,
@@ -105,7 +97,7 @@ public class Stocks extends ModifierConfig<Stock>
                       final double standingBulletSpreadMultiplier,
                       final double runningBulletSpreadMultiplier)
         {
-            super(uniqueID, displayName, material, materialData, price, color, quality);
+            super(uniqueID, displayName, price, color, quality, CraftableType.STOCK);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
             this.runningSpeedMultiplier = runningSpeedMultiplier;
             this.crouchingBulletSpreadMultiplier = crouchingBulletSpreadMultiplier;
@@ -113,7 +105,7 @@ public class Stocks extends ModifierConfig<Stock>
             this.runningBulletSpreadMultiplier = runningBulletSpreadMultiplier;
         }
 
-        private Stock() { this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0); }
+        private Stock() { this(0, null, 0, null, null, 0, 0, 0, 0, 0); }
         @Override public Stock getNullModifier() { return new Stock(); }
         
         @Override public double getBulletSpreadMultiplier()          { return bulletSpreadMultiplier; }

@@ -5,14 +5,6 @@
  */
 package net.projectzombie.crackshotenhanced.guns.utilities;
 
-import net.projectzombie.crackshotenhanced.main.Main;
-
-import java.util.Arrays;
-
-/**
- *
- * @author jb
- */
 public abstract class HiddenLoreInfo
 {
     public static final String VERIFY = "PZ";

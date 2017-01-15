@@ -14,6 +14,7 @@ import net.projectzombie.crackshotenhanced.guns.attributes.aoe.FlameAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.PoisonAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.RadiationAttributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.aoe.ShockAttributes;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -98,8 +99,6 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
             return new AOEAttachment(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -203,8 +202,6 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
         
         private AOEAttachment(final int uniqueID,
                               final String displayname,
-                              final String materialName,
-                              final int materialByte,
                               final int price,
                               final String color,
                               final Qualities.Quality quality,
@@ -253,7 +250,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
                               final double explosiveAOEDamageValue,
                               final double explosiveAOEDamageMultiplier)
         {        
-            super(uniqueID, displayname, materialName, materialByte, price, color, quality);
+            super(uniqueID, displayname, price, color, quality, CraftableType.SLOT_ONE_ATTACHMENT);
             this.electricAOERadiusValue                 = electricAOERadiusValue;
             this.electricAOERadiusMultiplier            = electricAOERadiusMultiplier;
             this.electricAOEDurationValue               = electricAOEDurationValue;
@@ -298,7 +295,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
          */
         private AOEAttachment()
         {
-            this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            this(0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0);
         }

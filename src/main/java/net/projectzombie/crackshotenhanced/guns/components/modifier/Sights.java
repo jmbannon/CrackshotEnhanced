@@ -8,15 +8,12 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Sights.Sight;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.SightSet;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.BulletSpreadSet;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
-/**
- *
- * @author jbannon
- */
 public class Sights extends ModifierConfig<Sight>
 {
     static private Sights singleton = null;
@@ -51,8 +48,6 @@ public class Sights extends ModifierConfig<Sight>
             return new Sight(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -83,8 +78,6 @@ public class Sights extends ModifierConfig<Sight>
         
         private Sight(final int uniqueID,
                       final String displayName,
-                      final String material,
-                      final int materialByte,
                       final int price,
                       final String color,
                       final Qualities.Quality quality,
@@ -92,7 +85,7 @@ public class Sights extends ModifierConfig<Sight>
                       final double bulletSpreadModifier,
                       final double zoomBulletSpreadModifier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color, quality);
+            super(uniqueID, displayName, price, color, quality, CraftableType.SIGHT);
             this.zoomAmount = crackshotZoomAmount;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.zoomBulletSpreadMultiplier = zoomBulletSpreadModifier;
@@ -100,7 +93,7 @@ public class Sights extends ModifierConfig<Sight>
 
         private Sight()
         {
-            this(0, null, null, 0, 0, null, null, 0, 0, 0);
+            this(0, null, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getZoomAmount()                    { return zoomAmount;   }

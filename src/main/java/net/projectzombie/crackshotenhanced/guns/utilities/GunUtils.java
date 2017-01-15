@@ -10,10 +10,6 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 
-/**
- *
- * @author jbannon
- */
 public class GunUtils
 {
     /**

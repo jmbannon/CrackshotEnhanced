@@ -7,15 +7,12 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.Magazines.Magazine;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MagazineSet;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
-/**
- *
- * @author jesse
- */
 public class Magazines extends ModifierConfig<Magazine>
 {
     static private Magazines singleton = null;
@@ -50,8 +47,6 @@ public class Magazines extends ModifierConfig<Magazine>
             return new Magazine(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
@@ -79,8 +74,6 @@ public class Magazines extends ModifierConfig<Magazine>
 
         private Magazine(final int uniqueID,
                          final String displayName,
-                         final String material,
-                         final int materialByte,
                          final int price,
                          final String color,
                          final Qualities.Quality quality,
@@ -88,7 +81,7 @@ public class Magazines extends ModifierConfig<Magazine>
                          final double magazineMultiplier,
                          final double reloadSpeedMultiplier)
         {
-            super(uniqueID, displayName, material, materialByte, price, color, quality);
+            super(uniqueID, displayName, price, color, quality, CraftableType.MAGAZINE);
             this.magazineBoost = magazineBoost;
             this.magazineMultiplier = magazineMultiplier;
             this.reloadSpeedMultiplier = reloadSpeedMultiplier;
@@ -96,7 +89,7 @@ public class Magazines extends ModifierConfig<Magazine>
 
         private Magazine()
         {
-            this(0, null, null, 0, 0, null, null, 0, 0, 0);
+            this(0, null, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getMagazineSizeModifier()          { return magazineBoost; }

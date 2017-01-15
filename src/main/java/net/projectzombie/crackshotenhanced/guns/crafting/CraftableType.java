@@ -18,7 +18,7 @@ import org.bukkit.material.MaterialData;
  * [2,]  6    7    8
  * 
  */
-public enum GunModifierType
+public enum CraftableType
 {   
     // TODO: CHANGE MATERIAL TYPE
     SLOT_ONE_ATTACHMENT(0, Material.PRISMARINE_SHARD, 0),
@@ -26,6 +26,7 @@ public enum GunModifierType
     BOLT(2, Material.SUGAR, 0),
     FIREMODE(2, Material.EGG, 0),
     BARREL(3, Material.QUARTZ, 0),
+    SKELETON(4, null, 0),
     STOCK(5, Material.BLAZE_ROD, 0),
     SLOT_TWO_ATTATCHMENT(6, Material.PRISMARINE_CRYSTALS, 0),
     MAGAZINE(7, Material.LEATHER, 0),
@@ -35,9 +36,9 @@ public enum GunModifierType
     private final Material material;
     private final int materialData;
  
-    GunModifierType(final int matrixIndex,
-                    final Material material,
-                    final int materialData)
+    CraftableType(final int matrixIndex,
+                  final Material material,
+                  final int materialData)
     {
         this.matrixIndex = matrixIndex;
         this.material = material;
@@ -70,7 +71,7 @@ public enum GunModifierType
             || this.equals(SLOT_TWO_ATTATCHMENT)
             || this.equals(SLOT_THREE_ATTATCHMENT))
         {
-            return ProjectileAttachments.getInstance().get(uniqueID);
+            return ProjectileAttachments.getSlotOneInstance().get(uniqueID);
         }
         else if (this.equals(BARREL)) return Barrels.getInstance().get(uniqueID);
         else if (this.equals(BOLT)) return Bolts.getInstance().get(uniqueID);

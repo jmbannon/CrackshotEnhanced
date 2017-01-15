@@ -7,6 +7,7 @@ package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.ProjectileAttachments.ProjectileAttachment;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
@@ -19,17 +20,44 @@ import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
 {
     static private ProjectileAttachments slotOneSingleton = null;
+    static private ProjectileAttachments slotTwoSingleton = null;
+    static private ProjectileAttachments slotThreeSingleton = null;
             
-    static public ProjectileAttachments getInstance()
+    static public ProjectileAttachments getSlotOneInstance()
     {
-        if (slotOneSingleton == null)
-            slotOneSingleton = new ProjectileAttachments();
+        if (slotOneSingleton == null) {
+            final String ymlName = "SlotOneAttachments.yml";
+            final String moduleName = "SlotOneAttachments";
+            slotOneSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_ONE_ATTACHMENT);
+        }
         return slotOneSingleton;
     }
 
+    static public ProjectileAttachments getSlotTwoInstance()
+    {
+        if (slotTwoSingleton == null) {
+            final String ymlName = "SlotTwoAttachments.yml";
+            final String moduleName = "SlotTwoAttachments";
+            slotTwoSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_TWO_ATTATCHMENT);
+        }
+        return slotTwoSingleton;
+    }
 
-    static private ModifierMap buildDefaultValues() {
-        final ModifierMap defaultValues = new ModifierMap(MODULE_NAME);
+    static public ProjectileAttachments getSlotThreeInstance()
+    {
+        if (slotThreeSingleton == null) {
+            final String ymlName = "SlotThreeAttachments.yml";
+            final String moduleName = "SlotThreeAttachments";
+            slotThreeSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_THREE_ATTATCHMENT);
+        }
+        return slotThreeSingleton;
+    }
+
+
+
+
+    static private ModifierMap buildDefaultValues(final String moduleName) {
+        final ModifierMap defaultValues = new ModifierMap(moduleName);
         defaultValues.put("Material", 4);
         defaultValues.put("Material Data", 0);
         defaultValues.put("Price", 0);
@@ -60,23 +88,29 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         return defaultValues;
     }
 
-    static private final String YML_NAME = "Attachments.yml";
-    static private final String MODULE_NAME = "Attachments";
-    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
-    static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
-    private ProjectileAttachments() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
+    static private final String[] NECESSARY_VALUES = new String[] { "Display Name", "Quality" };
+    private final CraftableType type;
+
+    private ProjectileAttachments(final String yamlName,
+                                  final String moduleName,
+                                  final CraftableType type) {
+        super(yamlName, moduleName, NECESSARY_VALUES, buildDefaultValues(moduleName));
+        assert(type == CraftableType.SLOT_ONE_ATTACHMENT
+                || type == CraftableType.SLOT_TWO_ATTATCHMENT
+                || type == CraftableType.SLOT_THREE_ATTATCHMENT);
+        this.type = type;
+    }
 
     public ProjectileAttachment buildModule(final int uniqueID, final ModifierMap values) {
         try {
             return new ProjectileAttachment(
                     uniqueID,
                     values.getString("Display Name"),
-                    values.getString("Material"),
-                    values.getInt("Material Data"),
                     values.getInt("Price"),
                     values.getString("Color"),
                     Qualities.getInstance().get(values.getString("Quality")),
+                    this.type,
                     values.getDouble("Bulletspread Multiplier"),
                     values.getDouble("Damage Modifier"),
                     values.getDouble("Damage Multiplier"),
@@ -151,11 +185,10 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
 
         private ProjectileAttachment(final int uniqueID,
                                      final String displayname,
-                                     final String materialName,
-                                     final int materialByte,
                                      final int price,
                                      final String color,
                                      final Qualities.Quality quality,
+                                     final CraftableType type,
                                      final double bulletSpreadMultiplier,
                                      final double damageModifier,
                                      final double damageMultiplier,
@@ -180,7 +213,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                                      final double stunChance,
                                      final double stunDuration)
         {        
-            super(uniqueID, displayname, materialName, materialByte, price, color, quality);
+            super(uniqueID, displayname, price, color, quality, type);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
             this.damageModifier = damageModifier;
             this.damageMultiplier = damageMultiplier;
@@ -211,7 +244,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
          */
         private ProjectileAttachment()
         {
-            this(0, null, null, 0, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(0, null, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public double getDamageValue()                         { return damageModifier; }

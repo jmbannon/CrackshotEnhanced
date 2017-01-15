@@ -19,6 +19,7 @@ package net.projectzombie.crackshotenhanced.guns.utilities;
 
 import com.shampaggon.crackshot.CSUtility;
 import java.text.DecimalFormat;
+import java.util.Random;
 
 /**
  *
@@ -28,6 +29,7 @@ public class Constants
 {
     static public final double TPS = 19.00;
     static public final double DEFAULT_PLAYER_SPEED = 0.2;
+    static public final Random RANDOM = new Random();
 
     static public final DecimalFormat FORMATTER = new DecimalFormat("#0.00");
     public static CSUtility CRACKSHOT = new CSUtility();

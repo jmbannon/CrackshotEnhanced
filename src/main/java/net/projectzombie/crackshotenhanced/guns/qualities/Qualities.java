@@ -106,5 +106,10 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
                     return ChatColor.DARK_RED + "n/a";
             }
         }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof Quality && ((Quality)obj).getIndex() == this.getIndex();
+        }
     }
 }
