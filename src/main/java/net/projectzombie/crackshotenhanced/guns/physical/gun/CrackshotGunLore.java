@@ -3,29 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.physical.weps;
+package net.projectzombie.crackshotenhanced.guns.physical.gun;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalLore;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.utilities.ItemStackUtils;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
-import net.projectzombie.crackshotenhanced.guns.weps.GunID;
+import net.projectzombie.crackshotenhanced.guns.gun.GunID;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import net.projectzombie.crackshotenhanced.main.Main;
 import org.bukkit.ChatColor;
+import org.bukkit.inventory.ItemFlag;
 
-/**
- *
- * @author Jesse Bannon
- * 
- * Class that represents the lore for a CrackshotGun.
- * 
- */
-public class CrackshotGunLore extends HiddenGunInfo
+/** Class that represents the lore for a CrackshotGun. */
+public class CrackshotGunLore extends HiddenGunInfo implements PhysicalLore
 {
     /** Color of titles within lore. */
     public static final ChatColor
@@ -93,7 +89,7 @@ public class CrackshotGunLore extends HiddenGunInfo
     
     /** Lore to be set in an ItemStack. */
     private final List<String> lore;
-    
+
     /**
      * Initializes CrackshotGunLore from an ItemMeta's
      * lore which is a List<String>.
@@ -110,8 +106,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      * Creates a pre-shot gun's lore from a GunID.
      * @param id Unique GunID to store within the lore.
      */
-    public CrackshotGunLore(final GunID id)
-    {
+    public CrackshotGunLore(final GunID id) {
         super(id);
         this.lore = new ArrayList<>();
     }
@@ -120,8 +115,7 @@ public class CrackshotGunLore extends HiddenGunInfo
      * Returns the lore.
      * @return Lore.
      */
-    public List<String> getLore()
-    {
+    public List<String> getLore() {
         return lore;
     }
     
@@ -140,26 +134,47 @@ public class CrackshotGunLore extends HiddenGunInfo
         this.setConditionLore(this.getGun().getCondition(dur));
         this.setStatLineHiddenInfo();
     }
-    
+
+    public List<String> generateLore(final int durability) {
+        if (this.isPostShot())
+            this.toPostShotLore(durability);
+        else // this.isPreShot()
+            this.toPreShotLore();
+        return this.getLore();
+    }
+
+    public boolean shoot() {
+        if (this.isPostShot()) {
+            this.decrementDurability();
+            return true;
+        } else if (this.isPreShot()) {
+            this.toPostShotLore(this.getGun().getInitialDurability());
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public List<String> generateLore() {
+        return this.generateLore(this.getGun().getInitialDurability());
+    }
+
     public void decrementDurability()
     {
         this.setDurability(super.getDurability() - 1);
     }
-    
-    /**
-     * @return PostShot lore with Build value STOCK and an initial durability.
-     */
-    public CrackshotGunLore toPostShotLore()
-    {
-        return this.toPostShotLore(this.getGun().getInitialDurability());
-    }
-    
+
+    // ---------------------------------------------------------------------------------------------------
+    // PRIVATE FUNCTIONS
+    // ---------------------------------------------------------------------------------------------------
+
     /**
      * Creates an ItemStack lore (List<String>) for a Crackshot gun.
      * @param durability
-     * @return 
+     * @return
      */
-    public CrackshotGunLore toPostShotLore(final int durability)
+    private CrackshotGunLore toPostShotLore(final int durability)
     {
         final CrackshotGun gun = super.getGun();
 
@@ -171,27 +186,23 @@ public class CrackshotGunLore extends HiddenGunInfo
         this.setDurability(durability);
         this.setGunModifierInfo(gun);
         lore.add(LORE_END_INFO);
-        
+
         return this;
     }
-    
+
     /**
-     * 
+     *
      * @return Lore that contains a stat line with HiddenInfo appended to it,
      * followed by PRESHOT_VER in a new line.
      */
-    public CrackshotGunLore toPreShotLore()
+    private CrackshotGunLore toPreShotLore()
     {
         lore.clear();
         setStatLineHiddenInfo();
         lore.add(PRESHOT_VER);
         return this;
     }
-    
-    // ---------------------------------------------------------------------------------------------------
-    // PRIVATE FUNCTIONS
-    // ---------------------------------------------------------------------------------------------------
-    
+
     /**
      * Sets each GunModifier's in the lore if the GunModifier is not null.
      * @param gun CrackshotGun to add GunModifier info into lore.
@@ -285,15 +296,6 @@ public class CrackshotGunLore extends HiddenGunInfo
     // STATIC FUNCTIONS
     // ---------------------------------------------------------------------------------------------------
 
-    /**
-     * @param lore Lore to check.
-     * @return Returns true if lore contains at least one line.
-     */
-    static
-    private boolean hasLoreContents(List<String> lore)
-    {
-        return lore != null && lore.size() > 0;
-    }
 
     /**
      * If lore contains more than one line it returns the HiddenLore contents.
@@ -305,7 +307,7 @@ public class CrackshotGunLore extends HiddenGunInfo
     static
     private String extractHiddenInfo(final List<String> lore)
     {
-        if (hasLoreContents(lore))
+        if (ItemStackUtils.hasLoreContents(lore))
             return lore.get(STAT_LINE_HIDDENINFO_IDX).replace(LINE_STATS, "");
         else
             return null;

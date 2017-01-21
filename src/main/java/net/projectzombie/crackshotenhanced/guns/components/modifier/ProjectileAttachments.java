@@ -38,7 +38,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         if (slotTwoSingleton == null) {
             final String ymlName = "SlotTwoAttachments.yml";
             final String moduleName = "SlotTwoAttachments";
-            slotTwoSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_TWO_ATTATCHMENT);
+            slotTwoSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_TWO_ATTACHMENT);
         }
         return slotTwoSingleton;
     }
@@ -48,7 +48,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         if (slotThreeSingleton == null) {
             final String ymlName = "SlotThreeAttachments.yml";
             final String moduleName = "SlotThreeAttachments";
-            slotThreeSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_THREE_ATTATCHMENT);
+            slotThreeSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_THREE_ATTACHMENT);
         }
         return slotThreeSingleton;
     }
@@ -97,8 +97,8 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                                   final CraftableType type) {
         super(yamlName, moduleName, NECESSARY_VALUES, buildDefaultValues(moduleName));
         assert(type == CraftableType.SLOT_ONE_ATTACHMENT
-                || type == CraftableType.SLOT_TWO_ATTATCHMENT
-                || type == CraftableType.SLOT_THREE_ATTATCHMENT);
+                || type == CraftableType.SLOT_TWO_ATTACHMENT
+                || type == CraftableType.SLOT_THREE_ATTACHMENT);
         this.type = type;
     }
 

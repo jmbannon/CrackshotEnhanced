@@ -6,10 +6,10 @@
 package net.projectzombie.crackshotenhanced.guns.yaml_gen;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.FireModes;
-import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunLore;
+import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunLore;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import org.bukkit.ChatColor;
 
 import java.util.List;
@@ -136,10 +136,7 @@ public class GunGenerator extends CrackshotGun
     
     public String getItemLore()
     {
-        final List<String> lore = new CrackshotGunLore(super.getGunID())
-                                        .toPreShotLore()
-                                        .getLore();
-        
+        final List<String> lore = new CrackshotGunLore(super.getGunID()).generateLore();
         final StringBuilder stb = new StringBuilder();
         
         for (int i = 0; i < lore.size() - 1; i++)

@@ -1,12 +1,15 @@
-package net.projectzombie.crackshotenhanced.guns.weps;
+package net.projectzombie.crackshotenhanced.guns.gun;
 
 import net.projectzombie.crackshotenhanced.guns.attributes.Attributes;
 import net.projectzombie.crackshotenhanced.guns.attributes.modifier.DamageOnHit;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
-import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.modifier.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -15,7 +18,7 @@ import java.util.Random;
 /**
  * Created by jb on 11/25/16.
  */
-public class CrackshotGun extends GunSkeletons.GunSkeleton {
+public class CrackshotGun extends GunSkeletons.GunSkeleton implements PhysicalItemStack {
     private static final Random RAND = new Random();
 
     private final String uniqueID;
@@ -203,4 +206,9 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton {
     }
 
     public boolean canZoom() { return attributes.getSightSet().getZoomAmount() > 0; }
+
+    @Override
+    public ItemStack toItemStack() {
+        return new CrackshotGunItemStack(this).toItemStack();
+    }
 }

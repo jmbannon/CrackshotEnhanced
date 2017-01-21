@@ -6,10 +6,10 @@
 package net.projectzombie.crackshotenhanced.events.listener;
 
 
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
-import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.physical.modifier.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
-import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunItemStack;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -155,9 +155,9 @@ public class CraftingListener implements Listener
                 else if (c == 'D') modRecipe = modRecipe.setIngredient('D', BARREL.getMaterialData());
                 else if (c == 'E') modRecipe = modRecipe.setIngredient('E', skele.getMaterialData());
                 else if (c == 'F') modRecipe = modRecipe.setIngredient('F', STOCK.getMaterialData());
-                else if (c == 'G') modRecipe = modRecipe.setIngredient('G', SLOT_TWO_ATTATCHMENT.getMaterialData());
+                else if (c == 'G') modRecipe = modRecipe.setIngredient('G', SLOT_TWO_ATTACHMENT.getMaterialData());
                 else if (c == 'H') modRecipe = modRecipe.setIngredient('H', MAGAZINE.getMaterialData());
-                else if (c == 'I') modRecipe = modRecipe.setIngredient('I', SLOT_THREE_ATTATCHMENT.getMaterialData()); 
+                else if (c == 'I') modRecipe = modRecipe.setIngredient('I', SLOT_THREE_ATTACHMENT.getMaterialData());
             }
                     
             Bukkit.getServer().addRecipe(modRecipe);        

@@ -3,24 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.physical.components;
+package net.projectzombie.crackshotenhanced.guns.physical.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
+import net.projectzombie.crackshotenhanced.guns.utilities.ItemStackUtils;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-/**
- *
- * @author jb
- */
-public class GunModifierItemStack extends GunModifierLore
+public class GunModifierItemStack extends GunModifierLore implements PhysicalItemStack
 {
 
     public GunModifierItemStack(final ItemStack item)
     {
-        super(hasLore(item) ? item.getItemMeta().getLore() : null);
+        super(ItemStackUtils.hasLore(item) ? item.getItemMeta().getLore() : null);
     }
     
     public GunModifierItemStack(final CraftableType type,
@@ -28,9 +27,14 @@ public class GunModifierItemStack extends GunModifierLore
     {
         super(type, id);
     }
-    
+
+    @Override
     public ItemStack toItemStack()
     {
+        if (this.getGunModifierType().equals(CraftableType.SKELETON)) {
+            return GunSkeletons.getInstance().get(this.getID()).toItemStack();
+        }
+
         if (!this.isValid())
             return null;
         
@@ -52,13 +56,6 @@ public class GunModifierItemStack extends GunModifierLore
         }
         return null;
     }
-    
-    static private boolean hasLore(final ItemStack item)
-    {
-        return item.hasItemMeta()
-            && item.getItemMeta().hasLore();
-    }
 
-    
-    
+
 }

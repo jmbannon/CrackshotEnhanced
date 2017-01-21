@@ -8,10 +8,14 @@ package net.projectzombie.crackshotenhanced.main;
 import java.util.ArrayList;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
-import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.physical.crate.GunCrateItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.modifier.GunModifierItemStack;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.events.listener.ShootListener;
+import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
+import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,10 +24,6 @@ import org.bukkit.inventory.ItemStack;
 
 import static net.projectzombie.crackshotenhanced.guns.crafting.CraftableType.*;
 
-/**
- *
- * @author jbannon
- */
 public class GunSmithCommandExec implements CommandExecutor
 {
 
@@ -42,32 +42,30 @@ public class GunSmithCommandExec implements CommandExecutor
             if (gun == null)
                 sender.sendMessage("You must have a gun in hand to view its stats.");
             else
-                gun.getStats().forEach(s -> sender.sendMessage(s));
+                gun.getStats().forEach(sender::sendMessage);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("components")) {
             final CrackshotGun gun = ShootListener.getGun(sender);
             if (gun == null)
                 sender.sendMessage("You must have a gun in hand to view its stats.");
             else
-                gun.getComponentStats().forEach(s -> sender.sendMessage(s));
+                gun.getComponentStats().forEach(sender::sendMessage);
         } else if (args.length == 1 && args[0].equalsIgnoreCase("list")) {
             listModifierTypes(sender);
         } else if (args.length == 2 && args[0].equalsIgnoreCase("list")) {
-            if (args[1].equalsIgnoreCase("attachment1")
-                    || args[1].equalsIgnoreCase("attachment2")
-                    || args[1].equalsIgnoreCase("attachment3"))
-                listModifierNames(sender, ProjectileAttachments.getSlotOneInstance().getAll());
-            else if (args[1].equalsIgnoreCase("barrel"))
-                listModifierNames(sender, Barrels.getInstance().getAll());
-            else if (args[1].equalsIgnoreCase("bolt"))
-                listModifierNames(sender, Bolts.getInstance().getAll());
-            else if (args[1].equalsIgnoreCase("firemode"))
-                listModifierNames(sender, FireModes.getInstance().getAll());
-            else if (args[1].equalsIgnoreCase("magazine"))
-                listModifierNames(sender, Magazines.getInstance().getAll());
-            else if (args[1].equalsIgnoreCase("sight"))
-                listModifierNames(sender, Sights.getInstance().getAll());
-            else if (args[1].equalsIgnoreCase("stock"))
-                listModifierNames(sender, Stocks.getInstance().getAll());
+            switch(args[1]) {
+                case "attachment1": listModifierNames(sender, ProjectileAttachments.getSlotOneInstance().getAll()); break;
+                case "attachment2": listModifierNames(sender, ProjectileAttachments.getSlotTwoInstance().getAll()); break;
+                case "attachment3": listModifierNames(sender, ProjectileAttachments.getSlotThreeInstance().getAll()); break;
+                case "barrel": listModifierNames(sender, Barrels.getInstance().getAll()); break;
+                case "bolt": listModifierNames(sender, Bolts.getInstance().getAll()); break;
+                case "firemode": listModifierNames(sender, FireModes.getInstance().getAll()); break;
+                case "magazine": listModifierNames(sender, Magazines.getInstance().getAll()); break;
+                case "sight": listModifierNames(sender, Sights.getInstance().getAll()); break;
+                case "stock": listModifierNames(sender, Stocks.getInstance().getAll()); break;
+                case "skeleton": listModifierNames(sender, GunSkeletons.getInstance().getAll()); break;
+                case "quality": listModifierNames(sender, Qualities.getInstance().getAll()); break;
+                default: break;
+            }
         }
         else if (args.length == 3 && args[0].equalsIgnoreCase("get"))
         {
@@ -87,27 +85,21 @@ public class GunSmithCommandExec implements CommandExecutor
                 sender.sendMessage("Must specify a valid index.");
                 return true;
             }
-            
-            if (args[1].equalsIgnoreCase("attachment1"))
-                modItem = getModItem(SLOT_ONE_ATTACHMENT, index);
-            else if (args[1].equalsIgnoreCase("attachment2"))
-                modItem = getModItem(SLOT_TWO_ATTATCHMENT, index);
-            else if (args[1].equalsIgnoreCase("attachment3"))
-                modItem = getModItem(SLOT_THREE_ATTATCHMENT, index);
-            else if (args[1].equalsIgnoreCase("barrel"))
-                modItem = getModItem(BARREL, index);
-            else if (args[1].equalsIgnoreCase("bolt"))
-                modItem = getModItem(BOLT, index);
-            else if (args[1].equalsIgnoreCase("firemode"))
-                modItem = getModItem(FIREMODE, index);
-            else if (args[1].equalsIgnoreCase("magazine"))
-                modItem = getModItem(MAGAZINE, index);
-            else if (args[1].equalsIgnoreCase("sight"))
-                modItem = getModItem(SIGHT, index);
-            else if (args[1].equalsIgnoreCase("stock"))
-                modItem = getModItem(STOCK, index);
-            else
-                modItem = null;
+
+            switch(args[1]) {
+                case "attachment1": modItem = getModItem(SLOT_ONE_ATTACHMENT, index); break;
+                case "attachment2": modItem = getModItem(SLOT_TWO_ATTACHMENT, index); break;
+                case "attachment3": modItem = getModItem(SLOT_THREE_ATTACHMENT, index); break;
+                case "barrel": modItem = getModItem(BARREL, index);break;
+                case "bolt": modItem = getModItem(BOLT, index); break;
+                case "firemode": modItem = getModItem(FIREMODE, index); break;
+                case "magazine": modItem = getModItem(MAGAZINE, index); break;
+                case "sight": modItem = getModItem(SIGHT, index); break;
+                case "stock": modItem = getModItem(STOCK, index); break;
+                case "skeleton": modItem = getModItem(SKELETON, index); break;
+                case "quality": modItem = Qualities.getInstance().get(index).toItemStack(); break;
+                default: modItem = null;
+            }
             
             if (modItem != null)
             {
@@ -150,23 +142,15 @@ public class GunSmithCommandExec implements CommandExecutor
         sender.sendMessage("Magazine");
         sender.sendMessage("Sight");
         sender.sendMessage("Stock");
-    }
-    
-    public void listModifierNames(final Player sender,
-                                  final GunModifier[] mods)
-    {
-        for (int i = 0; i < mods.length; i++)
-        {
-            sender.sendMessage(i + " " + mods[i].getName());
-        }
+        sender.sendMessage("Skeleton");
+        sender.sendMessage("Quality");
     }
 
     public void listModifierNames(final Player sender,
-                                  final ArrayList<? extends GunModifier> mods)
+                                  final ArrayList<? extends ModifierValue> modifierValues)
     {
-        for (int i = 0; i < mods.size(); i++)
-        {
-            sender.sendMessage(i + " " + mods.get(i).getName());
+        for (int i = 0; i < modifierValues.size(); i++) {
+            sender.sendMessage(i + " " + modifierValues.get(i).getName());
         }
     }
     

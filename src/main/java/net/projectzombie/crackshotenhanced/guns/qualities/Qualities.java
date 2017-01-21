@@ -1,15 +1,17 @@
 package net.projectzombie.crackshotenhanced.guns.qualities;
 
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.crate.GunCrateItemStack;
+import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 import net.projectzombie.crackshotenhanced.guns.utilities.GunUtils;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
 
-/**
- * Created by jb on 11/17/16.
- */
 public class Qualities extends ModifierConfig<Qualities.Quality> {
 
 
@@ -18,8 +20,9 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
     static private Qualities singleton = null;
     static public Qualities getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Qualities();
+        }
         return singleton;
     }
 
@@ -56,13 +59,29 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
 
     private double getProbabilitySum() { return super.getAll().stream().mapToDouble(Quality::getSetProbability).sum(); }
 
+    /** @return Quality with respect to all Qualities' probabilities. */
+    public Quality getRandomQuality() {
+        final double roll = Constants.RANDOM.nextDouble() * this.getProbabilitySum();
+        double lowerRange = 0;
+        double upperRange = 0;
+        for (int i = 0; i < this.size(); i++) {
+            upperRange += this.get(i).getProbability();
+            if (roll >= lowerRange && roll < upperRange) {
+                return this.get(i);
+            } else {
+                lowerRange += this.get(i).getProbability();
+            }
+        }
+        return null;
+    }
+
     @Override
     public Qualities.Quality getNullValue()
     {
         return null;
     }
 
-    public class Quality extends ModifierValue {
+    public class Quality extends ModifierValue implements PhysicalItemStack {
 
         private final ChatColor color;
         private final double probability;
@@ -111,5 +130,16 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
         public boolean equals(Object obj) {
             return obj instanceof Quality && ((Quality)obj).getIndex() == this.getIndex();
         }
+
+        @Override
+        public ItemStack toItemStack() {
+            return new GunCrateItemStack(this).toItemStack();
+        }
+
+        @Override
+        public void serializeInfoToYaml(final YamlConfiguration yml) {
+            PhysicalItemStack.writeItemStackConfigurationSection(yml, this.getName(), new GunCrateItemStack(this).toItemStack());
+        }
+
     }
 }

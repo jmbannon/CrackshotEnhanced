@@ -6,6 +6,7 @@
 package net.projectzombie.crackshotenhanced.guns.crafting;
 
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
+import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import org.bukkit.Material;
 import org.bukkit.material.MaterialData;
 
@@ -28,9 +29,9 @@ public enum CraftableType
     BARREL(3, Material.QUARTZ, 0),
     SKELETON(4, null, 0),
     STOCK(5, Material.BLAZE_ROD, 0),
-    SLOT_TWO_ATTATCHMENT(6, Material.PRISMARINE_CRYSTALS, 0),
+    SLOT_TWO_ATTACHMENT(6, Material.PRISMARINE_CRYSTALS, 0),
     MAGAZINE(7, Material.LEATHER, 0),
-    SLOT_THREE_ATTATCHMENT(8, Material.RABBIT_HIDE, 0);
+    SLOT_THREE_ATTACHMENT(8, Material.RABBIT_HIDE, 0);
 
     private final int matrixIndex;
     private final Material material;
@@ -67,18 +68,18 @@ public enum CraftableType
     
     public GunModifier getGunModifier(final int uniqueID)
     {
-        if (this.equals(SLOT_ONE_ATTACHMENT)
-            || this.equals(SLOT_TWO_ATTATCHMENT)
-            || this.equals(SLOT_THREE_ATTATCHMENT))
-        {
-            return ProjectileAttachments.getSlotOneInstance().get(uniqueID);
+        switch(this) {
+            case SLOT_ONE_ATTACHMENT: return ProjectileAttachments.getSlotOneInstance().get(uniqueID);
+            case SLOT_TWO_ATTACHMENT: return ProjectileAttachments.getSlotOneInstance().get(uniqueID);
+            case SLOT_THREE_ATTACHMENT: return ProjectileAttachments.getSlotOneInstance().get(uniqueID);
+            case BARREL: return Barrels.getInstance().get(uniqueID);
+            case BOLT: return Bolts.getInstance().get(uniqueID);
+            case FIREMODE: return FireModes.getInstance().get(uniqueID);
+            case MAGAZINE: return Magazines.getInstance().get(uniqueID);
+            case SIGHT: return Sights.getInstance().get(uniqueID);
+            case STOCK: return Stocks.getInstance().get(uniqueID);
+            case SKELETON: return GunSkeletons.getInstance().get(uniqueID);
+            default: return null;
         }
-        else if (this.equals(BARREL)) return Barrels.getInstance().get(uniqueID);
-        else if (this.equals(BOLT)) return Bolts.getInstance().get(uniqueID);
-        else if (this.equals(FIREMODE)) return FireModes.getInstance().get(uniqueID);
-        else if (this.equals(MAGAZINE)) return Magazines.getInstance().get(uniqueID);
-        else if (this.equals(SIGHT)) return Sights.getInstance().get(uniqueID);
-        else if (this.equals(STOCK)) return Stocks.getInstance().get(uniqueID);
-        else return null;
     }
 }

@@ -5,7 +5,7 @@
  */
 package net.projectzombie.crackshotenhanced.guns.yaml_gen;
 
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import java.io.File;
 import java.io.IOException;

@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.physical.weps;
+package net.projectzombie.crackshotenhanced.guns.physical.gun;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
-import net.projectzombie.crackshotenhanced.guns.weps.GunID;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.GunID;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 
 /**

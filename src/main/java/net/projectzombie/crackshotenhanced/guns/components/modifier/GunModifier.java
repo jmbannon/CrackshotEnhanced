@@ -6,11 +6,13 @@
 package net.projectzombie.crackshotenhanced.guns.components.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
-import net.projectzombie.crackshotenhanced.guns.physical.components.GunModifierItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
+import net.projectzombie.crackshotenhanced.guns.physical.modifier.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.utilities.GunUtils;
 import net.projectzombie.crackshotenhanced.yaml.ModifierValue;
 
 import org.bukkit.ChatColor;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 
@@ -18,7 +20,7 @@ import org.bukkit.inventory.ItemStack;
  *
  * @author jesse
  */
-public abstract class GunModifier extends ModifierValue
+public abstract class GunModifier extends ModifierValue implements PhysicalItemStack
 {
     private static final String DEFAULT_COLOR = ChatColor.GREEN.toString();
 
@@ -92,5 +94,11 @@ public abstract class GunModifier extends ModifierValue
     }
 
     /** Converts the gun modifier to an ItemStack. */
+    @Override
     public ItemStack toItemStack() { return new GunModifierItemStack(this.type, this.getIndex()).toItemStack(); }
+
+    @Override
+    public void serializeInfoToYaml(final YamlConfiguration yaml) {
+        PhysicalItemStack.writeItemStackConfigurationSection(yaml, this.getName(), this.toItemStack());
+    }
 }

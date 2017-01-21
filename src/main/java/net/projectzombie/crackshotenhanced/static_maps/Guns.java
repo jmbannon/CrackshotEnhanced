@@ -5,8 +5,8 @@
  */
 package net.projectzombie.crackshotenhanced.static_maps;
 
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
-import net.projectzombie.crackshotenhanced.guns.weps.GunID;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.GunID;
 import net.projectzombie.crackshotenhanced.main.Main;
 
 import java.util.*;

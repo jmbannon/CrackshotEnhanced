@@ -15,7 +15,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-package net.projectzombie.crackshotenhanced.guns.weps;
+package net.projectzombie.crackshotenhanced.guns.gun;
 
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
@@ -94,8 +94,8 @@ public class GunID
     {
         this(gun,
             type.equals(CraftableType.SLOT_ONE_ATTACHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentOneMod(),
-            type.equals(CraftableType.SLOT_TWO_ATTATCHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentTwoMod(),
-            type.equals(CraftableType.SLOT_THREE_ATTATCHMENT) ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentThreeMod(),
+            type.equals(CraftableType.SLOT_TWO_ATTACHMENT)   ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentTwoMod(),
+            type.equals(CraftableType.SLOT_THREE_ATTACHMENT) ? (ProjectileAttachments.ProjectileAttachment)modifier : gun.getAttachmentThreeMod(),
             type.equals(CraftableType.BARREL)                 ? (Barrels.Barrel)modifier      : gun.getBarrelMod(),
             type.equals(CraftableType.BOLT)                   ? (Bolts.Bolt)modifier        : gun.getBoltMod(),
             type.equals(CraftableType.FIREMODE)               ? (FireModes.FireMode)modifier    : gun.getFireModeMod(),

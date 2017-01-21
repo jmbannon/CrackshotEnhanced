@@ -26,6 +26,7 @@ public class Main extends JavaPlugin {
     private CraftingListener recipes;
     private OnHitListener onHitListener;
     private PlayerMovementListener playerMovement;
+    private CrateOpenListener crateOpen;
 
     static public Plugin getPlugin() { return PLUGIN; }
     static public void info(final String info) { PLUGIN.getLogger().info(info); }
@@ -41,7 +42,10 @@ public class Main extends JavaPlugin {
 
         if (!initializeGuns())
             return;
-        
+
+        Qualities.getInstance().writeInfoYml();
+        GunSkeletons.getInstance().writeInfoYml();
+
         this.windowListener = new BlockBreakListener();
         this.OPexec = new OPCommandExec();
         this.getCommand("cse").setExecutor(OPexec);
@@ -53,6 +57,7 @@ public class Main extends JavaPlugin {
         this.onHitListener = new OnHitListener();
         this.recipes = new CraftingListener();
         this.playerMovement = new PlayerMovementListener();
+        this.crateOpen = new CrateOpenListener();
         
         this.getCommand("gunsmith").setExecutor(gunsmithExec);
         this.getCommand("gs").setExecutor(gunsmithExec);
@@ -62,6 +67,7 @@ public class Main extends JavaPlugin {
         this.getServer().getPluginManager().registerEvents(recipes, this);
         this.getServer().getPluginManager().registerEvents(onHitListener, this);
         this.getServer().getPluginManager().registerEvents(playerMovement, this);
+        this.getServer().getPluginManager().registerEvents(crateOpen, this);
         this.getServer().getPluginManager().registerEvents(PlayerConnect.getListener(), this);
         this.getServer().getScheduler().runTaskTimer(this, new CSEPlayerRunningSpeed(), 10L, 10L);
         this.getServer().getScheduler().runTaskTimer(this, new EntityTimedEventsPerTick(), 1L, 1L);

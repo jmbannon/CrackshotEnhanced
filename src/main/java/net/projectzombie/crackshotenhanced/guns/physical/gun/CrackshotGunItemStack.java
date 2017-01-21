@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.physical.weps;
+package net.projectzombie.crackshotenhanced.guns.physical.gun;
 
+import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.utilities.ItemStackUtils;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -18,7 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
  * Represents a CrackshotGun in the form of an ItemStack. To be used
  * in an event when a player is holding an ItemStack.
  */
-public class CrackshotGunItemStack extends CrackshotGunLore
+public class CrackshotGunItemStack extends CrackshotGunLore implements PhysicalItemStack
 {
     private final ItemStack gunItem;
     
@@ -30,8 +32,22 @@ public class CrackshotGunItemStack extends CrackshotGunLore
      */
     public CrackshotGunItemStack(final ItemStack item)
     {
-        super(hasLore(item) ? item.getItemMeta().getLore() : null);
+        super(ItemStackUtils.hasLore(item) ? item.getItemMeta().getLore() : null);
         this.gunItem = item;
+    }
+
+    public CrackshotGunItemStack(final CrackshotGun gun) {
+        super(gun.getGunID());
+        this.gunItem = gun.getBareItemStack();
+
+        final ItemMeta meta = gunItem.getItemMeta();
+
+        // Gets the ammo name from generating the Crackshot weapon
+        final String metaName = Constants.CRACKSHOT.generateWeapon(gun.getCSWeaponName()).getItemMeta().getDisplayName();
+        meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        meta.setLore(this.generateLore());
+        meta.setDisplayName(metaName);
+        this.gunItem.setItemMeta(meta);
     }
 
     /**
@@ -67,47 +83,35 @@ public class CrackshotGunItemStack extends CrackshotGunLore
         final ItemMeta newMeta = newGunItem.getItemMeta();
         final CrackshotGunLore newLore = new CrackshotGunLore(newMeta.getLore());
 
-        newLore.setGunID(newGun.getUniqueID());
-        if (this.isPostShot())
-            newLore.toPostShotLore(this.getDurability());
-        else // this.isPreShot()
-            newLore.toPreShotLore();
-        newMeta.setLore(newLore.getLore());
+        newLore.setGunID(newGun.getUniqueID());;
+        newMeta.setLore(newLore.generateLore());
         newMeta.setDisplayName(getModifiedName(newMeta));
         newGunItem.setItemMeta(newMeta);
         return newGunItem;
     }
 
+
+    @Override
     public boolean shoot() {
         final ItemMeta gunMeta = gunItem.getItemMeta();
-        if (this.isPostShot()) {
-            this.decrementDurability();
-        } else if (this.isPreShot()) {
+        if (this.isPreShot()) {
             gunMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            this.toPostShotLore();
-        } else {
-            return false;
         }
-        gunMeta.setLore(this.getLore());
-        gunItem.setItemMeta(gunMeta);
-        return true;
+        final boolean validShoot = super.shoot();
+        if (validShoot) {
+            gunMeta.setLore(this.getLore());
+            gunItem.setItemMeta(gunMeta);
+        }
+        return validShoot;
 
     }
 
     @Override public boolean isValid() {
-        return hasLore(gunItem) && super.isValid();
+        return ItemStackUtils.hasLore(gunItem) && super.isValid();
     }
-    
-    /**
-     * Returns true if the ItemStack contains lore.
-     * @param item ItemStack to check for lore.
-     * @return True if item has lore. False otherwise.
-     */
-    static private boolean hasLore(final ItemStack item)
-    {
-        return item != null
-            && item.hasItemMeta()
-            && item.getItemMeta().hasLore();
+
+    @Override public ItemStack toItemStack() {
+        return gunItem;
     }
     
 }

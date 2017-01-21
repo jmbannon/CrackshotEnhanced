@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package net.projectzombie.crackshotenhanced.guns.physical.components;
+package net.projectzombie.crackshotenhanced.guns.physical.modifier;
 
 import net.projectzombie.crackshotenhanced.guns.utilities.HiddenLoreInfo;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.GunModifier;

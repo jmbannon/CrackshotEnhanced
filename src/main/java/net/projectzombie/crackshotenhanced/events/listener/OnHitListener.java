@@ -1,16 +1,13 @@
 package net.projectzombie.crackshotenhanced.events.listener;
 
 import com.shampaggon.crackshot.events.WeaponDamageEntityEvent;
-import net.projectzombie.crackshotenhanced.entities.CSEEntity;
 import net.projectzombie.crackshotenhanced.entities.CSELivingEntity;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.static_maps.ConnectedPlayers;
 import net.projectzombie.crackshotenhanced.entities.CSEPlayer;
 import net.projectzombie.crackshotenhanced.static_maps.EntityTimedEvents;
 import net.projectzombie.crackshotenhanced.static_maps.Guns;
 import net.projectzombie.crackshotenhanced.main.Main;
-import org.bukkit.EntityEffect;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;

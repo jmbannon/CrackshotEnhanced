@@ -50,10 +50,7 @@ public class HiddenStringUtils {
 
 		return input.substring(0, start + SEQUENCE_HEADER.length()) + stringToColors(hiddenString) + input.substring(end, input.length());
 	}
-	
-	/**
-	 * Internal stuff.
-	 */
+
 	private static String quote(String input) {
 		if (input == null) return null;
 		return SEQUENCE_HEADER + input + SEQUENCE_FOOTER;

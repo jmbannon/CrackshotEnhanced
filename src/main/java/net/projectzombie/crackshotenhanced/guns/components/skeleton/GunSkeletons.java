@@ -9,7 +9,7 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
@@ -17,13 +17,9 @@ import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
+import org.omg.Messaging.SYNC_WITH_TRANSPORT;
 
-/**
- *
- * @author jbannon
- * Contains standard Crackshot guns with no modifiers (i.e. scopes, 
- * 
- */
+/** Contains standard Crackshot guns with no modifiers (i.e. scopes) */
 public class GunSkeletons extends ModifierConfig<GunSkeleton>
 {
     static private GunSkeletons singleton = null;
@@ -190,7 +186,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             this.maxDurability = skele.maxDurability;
             this.bulletSpread = skele.bulletSpread;
             this.damage = skele.damage;
-            this.recoilAmount = skele.recoilAmount;    
+            this.recoilAmount = skele.recoilAmount;
             this.soundShoot = skele.soundShoot;
             this.soundSilenced = skele.soundSilenced;
             this.particleShoot = skele.particleShoot;
@@ -298,6 +294,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         public ItemStack toItemStack() {
             final int randomFireModeIndex = Constants.RANDOM.nextInt(modSet.getFireModes().size());
             final FireModes.FireMode randomFireMode = modSet.getFireModes().get(randomFireModeIndex);
+            System.out.println(randomFireMode != null);
             return new CrackshotGun(this,
                     ProjectileAttachments.getSlotOneInstance().getNullValue(),
                     ProjectileAttachments.getSlotTwoInstance().getNullValue(),
@@ -307,7 +304,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     randomFireMode,
                     Magazines.getInstance().getNullValue(),
                     Sights.getInstance().getNullValue(),
-                    Stocks.getInstance().getNullValue()).toItemStack();
+                    Stocks.getInstance().getNullValue())
+                .toItemStack();
         }
 
         public GunSkeleton getNullModifier() {

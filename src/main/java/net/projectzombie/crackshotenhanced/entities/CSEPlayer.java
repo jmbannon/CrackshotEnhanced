@@ -5,9 +5,8 @@
  */
 package net.projectzombie.crackshotenhanced.entities;
 
-import net.projectzombie.crackshotenhanced.guns.physical.weps.CrackshotGunItemStack;
-import net.projectzombie.crackshotenhanced.guns.weps.CrackshotGun;
-import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunItemStack;
+import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.PlayerInventory;

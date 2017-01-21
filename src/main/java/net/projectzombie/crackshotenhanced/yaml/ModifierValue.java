@@ -5,6 +5,8 @@
  */
 package net.projectzombie.crackshotenhanced.yaml;
 
+import org.bukkit.configuration.file.YamlConfiguration;
+
 /**
  *
  * @author Jesse Bannon
@@ -36,4 +38,6 @@ public abstract class ModifierValue
     {
         return name;
     }
+
+    public void serializeInfoToYaml(final YamlConfiguration yml) { /* Do nothing. */ }
 }

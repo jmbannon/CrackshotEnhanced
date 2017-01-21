@@ -8,9 +8,6 @@ import java.io.File;
 import java.util.*;
 import java.util.stream.Stream;
 
-/**
- * Created by jb on 11/12/16.
- */
 abstract public class ModifierConfig<T extends ModifierValue> {
 
     static protected final String NULL_CONFIG_VALUE = "NULL";
@@ -38,6 +35,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         this.items = this.yml.getKeys(false);
         this.readValues = getModules();
         writeExampleYml();
+        //writeInfoYml();
     }
 
     public String getModuleName() { return moduleName; }
@@ -61,6 +59,22 @@ abstract public class ModifierConfig<T extends ModifierValue> {
                 defaultValues.writeDefaultToYaml(otherFields, fieldPath + "." + otherFields, exampleYml);
                 exampleYml.save(exampleFile);
             }
+        } catch (Exception e) {
+            Main.getPlugin().getLogger().warning("Failed to write example config for " + moduleName);
+        }
+    }
+
+    public void writeInfoYml() {
+        try {
+            final File infoFile = new File(Main.getPlugin().getDataFolder(), "info." + ymlName);
+            if (infoFile.exists()) {
+                infoFile.delete();
+                infoFile.createNewFile();
+            }
+
+            final YamlConfiguration infoYml = YamlConfiguration.loadConfiguration(infoFile);
+            this.getStream().filter(x -> x != null).forEach(x -> x.serializeInfoToYaml(infoYml));
+            infoYml.save(infoFile);
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Failed to write example config for " + moduleName);
         }
