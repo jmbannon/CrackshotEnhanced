@@ -29,8 +29,10 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
     static private AOEAttachments singleton = null;
     static public AOEAttachments getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new AOEAttachments();
+            singleton.postInitialize();
+        }
         return singleton;
     }
     
@@ -94,9 +96,10 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
 
     private AOEAttachments() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public AOEAttachment buildModule(final int uniqueID, final ModifierMap values) {
+    public AOEAttachment buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new AOEAttachment(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -200,7 +203,8 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
         private final double explosiveAOEDamageMultiplier;
 
         
-        private AOEAttachment(final int uniqueID,
+        private AOEAttachment(final String key,
+                              final int uniqueID,
                               final String displayname,
                               final int price,
                               final String color,
@@ -250,7 +254,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
                               final double explosiveAOEDamageValue,
                               final double explosiveAOEDamageMultiplier)
         {        
-            super(uniqueID, displayname, price, color, quality, CraftableType.SLOT_ONE_ATTACHMENT);
+            super(key, uniqueID, displayname, price, color, quality, CraftableType.SLOT_ONE_ATTACHMENT);
             this.electricAOERadiusValue                 = electricAOERadiusValue;
             this.electricAOERadiusMultiplier            = electricAOERadiusMultiplier;
             this.electricAOEDurationValue               = electricAOEDurationValue;
@@ -295,7 +299,7 @@ public class AOEAttachments extends ModifierConfig<AOEAttachment>
          */
         private AOEAttachment()
         {
-            this(0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            this(null, 0, null, 0, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                 0, 0, 0, 0);
         }

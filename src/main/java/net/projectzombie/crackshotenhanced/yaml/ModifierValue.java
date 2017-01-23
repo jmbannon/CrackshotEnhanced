@@ -13,12 +13,15 @@ import org.bukkit.configuration.file.YamlConfiguration;
  */
 public abstract class ModifierValue
 {
+    private final String key;
     private final String name;
     private final int index;
     
-    public ModifierValue(final int index,
+    public ModifierValue(final String key,
+                         final int index,
                          final String name)
     {
+        this.key = key;
         this.name = name;
         this.index = index;
     }
@@ -31,6 +34,10 @@ public abstract class ModifierValue
     public String getName()
     {
         return name;
+    }
+
+    public String getKey() {
+        return key;
     }
     
     @Override

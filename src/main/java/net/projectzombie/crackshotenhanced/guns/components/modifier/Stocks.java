@@ -19,8 +19,10 @@ public class Stocks extends ModifierConfig<Stock>
     static private Stocks singleton = null;
     static public Stocks getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Stocks();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -45,9 +47,10 @@ public class Stocks extends ModifierConfig<Stock>
 
     private Stocks() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Stock buildModule(final int uniqueID, final ModifierMap values) {
+    public Stock buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Stock(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -84,7 +87,8 @@ public class Stocks extends ModifierConfig<Stock>
         private final double runningBulletSpreadMultiplier;
 
 
-        private Stock(final int uniqueID,
+        private Stock(final String key,
+                      final int uniqueID,
                       final String displayName,
                       final int price,
                       final String color,
@@ -97,7 +101,7 @@ public class Stocks extends ModifierConfig<Stock>
                       final double standingBulletSpreadMultiplier,
                       final double runningBulletSpreadMultiplier)
         {
-            super(uniqueID, displayName, price, color, quality, CraftableType.STOCK);
+            super(key, uniqueID, displayName, price, color, quality, CraftableType.STOCK);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
             this.runningSpeedMultiplier = runningSpeedMultiplier;
             this.crouchingBulletSpreadMultiplier = crouchingBulletSpreadMultiplier;
@@ -105,7 +109,7 @@ public class Stocks extends ModifierConfig<Stock>
             this.runningBulletSpreadMultiplier = runningBulletSpreadMultiplier;
         }
 
-        private Stock() { this(0, null, 0, null, null, 0, 0, 0, 0, 0); }
+        private Stock() { this(null, 0, null, 0, null, null, 0, 0, 0, 0, 0); }
         @Override public Stock getNullModifier() { return new Stock(); }
         
         @Override public double getBulletSpreadMultiplier()          { return bulletSpreadMultiplier; }

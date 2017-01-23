@@ -51,7 +51,6 @@ public class GunCrateItemStack extends GunCrateLore implements PhysicalItemStack
     }
 
     public ItemStack openCrate() {
-        System.out.println(super.getQuality().toString());
         final ArrayList<QualityGunModifier> qualityList = new ArrayList<>();
         addQualitiesToArrayList(Barrels.getInstance(), qualityList);
         addQualitiesToArrayList(Bolts.getInstance(), qualityList);

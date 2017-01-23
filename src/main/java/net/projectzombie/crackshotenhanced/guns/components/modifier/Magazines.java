@@ -18,8 +18,10 @@ public class Magazines extends ModifierConfig<Magazine>
     static private Magazines singleton = null;
     static public Magazines getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Magazines();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -42,9 +44,10 @@ public class Magazines extends ModifierConfig<Magazine>
 
     private Magazines() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Magazine buildModule(final int uniqueID, final ModifierMap values) {
+    public Magazine buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Magazine(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -72,7 +75,8 @@ public class Magazines extends ModifierConfig<Magazine>
         private final double magazineMultiplier;
         private final double reloadSpeedMultiplier;
 
-        private Magazine(final int uniqueID,
+        private Magazine(final String key,
+                         final int uniqueID,
                          final String displayName,
                          final int price,
                          final String color,
@@ -81,7 +85,7 @@ public class Magazines extends ModifierConfig<Magazine>
                          final double magazineMultiplier,
                          final double reloadSpeedMultiplier)
         {
-            super(uniqueID, displayName, price, color, quality, CraftableType.MAGAZINE);
+            super(key, uniqueID, displayName, price, color, quality, CraftableType.MAGAZINE);
             this.magazineBoost = magazineBoost;
             this.magazineMultiplier = magazineMultiplier;
             this.reloadSpeedMultiplier = reloadSpeedMultiplier;
@@ -89,7 +93,7 @@ public class Magazines extends ModifierConfig<Magazine>
 
         private Magazine()
         {
-            this(0, null, 0, null, null, 0, 0, 0);
+            this(null, 0, null, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getMagazineSizeModifier()          { return magazineBoost; }

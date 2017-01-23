@@ -28,13 +28,14 @@ public abstract class GunModifier extends ModifierValue implements PhysicalItemS
     private final ChatColor color;
     private final CraftableType type;
     
-    public GunModifier(final int uniqueID,
+    public GunModifier(final String key,
+                       final int uniqueID,
                        final String name,
                        final int price,
                        final String color,
                        final CraftableType type)
     {
-        super(uniqueID, name);
+        super(key, uniqueID, name);
         this.price = price;
         this.color = GunUtils.matchChatColor(color);
         this.type = type;

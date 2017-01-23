@@ -24,8 +24,10 @@ public class Barrels extends ModifierConfig<Barrel>
     static private Barrels singleton = null;
     static public Barrels getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Barrels();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -59,9 +61,10 @@ public class Barrels extends ModifierConfig<Barrel>
 
     private Barrels() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Barrel buildModule(final int uniqueID, final ModifierMap values) {
+    public Barrel buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Barrel(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -119,7 +122,8 @@ public class Barrels extends ModifierConfig<Barrel>
         private final boolean isSilencer;
         
 
-        private Barrel(final int     uniqueID,
+        private Barrel(final String key,
+                       final int     uniqueID,
                         final String  displayName,
                         final int    price,
                         final String color,
@@ -139,7 +143,7 @@ public class Barrels extends ModifierConfig<Barrel>
                         final int    projectileRangeValue,
                         final double projectileRangeMultiplier)
         {
-            super(uniqueID, displayName, price, color, quality, CraftableType.BARREL);
+            super(key, uniqueID, displayName, price, color, quality, CraftableType.BARREL);
             this.isSilencer = isSilencer;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.baseDamageValue = baseDamageValue;
@@ -158,7 +162,7 @@ public class Barrels extends ModifierConfig<Barrel>
 
         public Barrel()
         {
-            this(0, null, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(null, 0, null, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public boolean isSilencer()                { return isSilencer; }

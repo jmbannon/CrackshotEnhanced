@@ -19,8 +19,10 @@ public class Sights extends ModifierConfig<Sight>
     static private Sights singleton = null;
     static public Sights getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Sights();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -43,9 +45,10 @@ public class Sights extends ModifierConfig<Sight>
 
     private Sights() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Sight buildModule(final int uniqueID, final ModifierMap values) {
+    public Sight buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Sight(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -76,7 +79,8 @@ public class Sights extends ModifierConfig<Sight>
         private final double bulletSpreadModifier;
         private final double zoomBulletSpreadMultiplier;
         
-        private Sight(final int uniqueID,
+        private Sight(final String key,
+                      final int uniqueID,
                       final String displayName,
                       final int price,
                       final String color,
@@ -85,7 +89,7 @@ public class Sights extends ModifierConfig<Sight>
                       final double bulletSpreadModifier,
                       final double zoomBulletSpreadModifier)
         {
-            super(uniqueID, displayName, price, color, quality, CraftableType.SIGHT);
+            super(key, uniqueID, displayName, price, color, quality, CraftableType.SIGHT);
             this.zoomAmount = crackshotZoomAmount;
             this.bulletSpreadModifier = bulletSpreadModifier;
             this.zoomBulletSpreadMultiplier = zoomBulletSpreadModifier;
@@ -93,7 +97,7 @@ public class Sights extends ModifierConfig<Sight>
 
         private Sight()
         {
-            this(0, null, 0, null, null, 0, 0, 0);
+            this(null, 0, null, 0, null, null, 0, 0, 0);
         }
 
         @Override public int getZoomAmount()                    { return zoomAmount;   }

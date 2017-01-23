@@ -7,14 +7,15 @@ abstract public class QualityGunModifier extends GunModifier {
 
     private final Qualities.Quality quality;
 
-    public QualityGunModifier(final int uniqueID,
+    public QualityGunModifier(final String key,
+                              final int uniqueID,
                               final String name,
                               final int price,
                               final String color,
                               final Qualities.Quality quality,
                               final CraftableType type)
     {
-        super(uniqueID, name, price, color, type);
+        super(key, uniqueID, name, price, color, type);
         this.quality = quality;
     }
 

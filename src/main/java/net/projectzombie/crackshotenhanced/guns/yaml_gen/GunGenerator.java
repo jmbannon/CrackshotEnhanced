@@ -10,6 +10,7 @@ import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunLore;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
+import net.projectzombie.crackshotenhanced.resources.sounds.SoundAliases;
 import org.bukkit.ChatColor;
 
 import java.util.List;
@@ -156,8 +157,9 @@ public class GunGenerator extends CrackshotGun
     
     public String getSoundsShoot()
     {
-        return (super.getBarrelMod().isSilencer()) ? 
+        final SoundAliases.SoundAlias sound = super.getBarrelMod().isSilencer() ?
                 super.getSilencedSound() : super.getShootSound();
+        return sound.getCrackShotConfigString();
     }
     
     public int getDelayBetweenShots()

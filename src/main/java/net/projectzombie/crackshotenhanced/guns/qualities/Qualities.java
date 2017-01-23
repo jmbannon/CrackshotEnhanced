@@ -22,6 +22,7 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
     {
         if (singleton == null) {
             singleton = new Qualities();
+            singleton.postInitialize();
         }
         return singleton;
     }
@@ -43,9 +44,10 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
 
     private Qualities() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Qualities.Quality buildModule(final int uniqueID, final ModifierMap values) {
+    public Qualities.Quality buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Qualities.Quality(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getString("Color"),
@@ -86,12 +88,13 @@ public class Qualities extends ModifierConfig<Qualities.Quality> {
         private final ChatColor color;
         private final double probability;
 
-        public Quality(final int index,
+        public Quality(final String key,
+                       final int index,
                        final String name,
                        final String color,
                        final double probability)
         {
-            super(index, name);
+            super(key, index, name);
             this.color = GunUtils.matchChatColor(color);
             this.probability = probability;
         }

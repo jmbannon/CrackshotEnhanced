@@ -9,6 +9,7 @@ import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.ProjectileSet;
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,8 +42,7 @@ public class YAMLGenerator extends GunGenerator
         for (GunSkeletons.GunSkeleton skele : GunSkeletons.getInstance().getAll())
         {
             gunsWritten += skele.getGunBaseSet().length;
-            for (CrackshotGun gun : skele.getGunBaseSet())
-                writeWeapon(gun);
+            Arrays.stream(skele.getGunBaseSet()).forEach(YAMLGenerator::writeWeapon);
         }
         
         Main.getPlugin().getLogger().info("Wrote " + gunsWritten + " Crackshot guns.");
@@ -180,7 +180,7 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Take_Ammo_On_Reload",         true);
         wepsYAML.set(path + "Reload_Bullets_Individually", super.reloadsBulletsIndividually());
         wepsYAML.set(path + "Sounds_Out_Of_Ammo",          "ITEM_BREAK-1-1-0");
-        wepsYAML.set(path + "Sounds_Reloading",            super.getReloadSound());
+        wepsYAML.set(path + "Sounds_Reloading",            super.getReloadSound().getCrackShotConfigString());
     }
     
     private void writeFirearmAction()
@@ -194,8 +194,8 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Open_Duration",     super.getOpenDuration());
         wepsYAML.set(path + "Close_Duration",    super.getCloseDuration());
         wepsYAML.set(path + "Close_Shoot_Delay", super.getCloseShootDelay());
-        wepsYAML.set(path + "Sound_Open",        action.getSoundOpen());
-        wepsYAML.set(path + "Sound_Close",       action.getSoundClose());
+        wepsYAML.set(path + "Sound_Open",        action.getSoundOpen().getCrackShotConfigString());
+        wepsYAML.set(path + "Sound_Close",       action.getSoundClose().getCrackShotConfigString());
     }
     
 

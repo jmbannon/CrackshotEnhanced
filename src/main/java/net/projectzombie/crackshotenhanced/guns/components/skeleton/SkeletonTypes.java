@@ -22,8 +22,10 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
     static private SkeletonTypes singleton = null;
     static public SkeletonTypes getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new SkeletonTypes();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -46,9 +48,10 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
 
     @Override public SkeletonType getNullValue() { return null; }
 
-    public SkeletonType buildModule(final int uniqueID, final ModifierMap values) {
+    public SkeletonType buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new SkeletonType(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     FirearmActions.getInstance().get(values.getString("Firearm Action Name")),
@@ -79,7 +82,8 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
         private final int projectileSpeed;
         private final int projectileRange;
         private final String inventoryControl;
-        private SkeletonType(final int index,
+        private SkeletonType(final String key,
+                             final int index,
                         final String displayName,
                         final FirearmActions.FirearmAction firearmAction,
                         final String ammoName,
@@ -90,7 +94,7 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
                         final int projectileRange,
                         final String inventoryControl)
         {
-            super(index, displayName);
+            super(key, index, displayName);
             this.firearmAction = firearmAction;
             this.ammoName = ammoName;
             this.ammoID = ammoID;

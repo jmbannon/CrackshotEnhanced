@@ -11,6 +11,7 @@ import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
 import net.projectzombie.crackshotenhanced.guns.utilities.Constants;
 import net.projectzombie.crackshotenhanced.guns.gun.CrackshotGun;
 import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.resources.sounds.SoundAliases;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons.GunSkeleton;
@@ -26,8 +27,10 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
     
     static public GunSkeletons getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new GunSkeletons();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -59,11 +62,10 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
 
     private GunSkeletons() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    @Override public GunSkeleton getNullValue() { return null; }
-
-    public GunSkeleton buildModule(final int uniqueID, final ModifierMap values) {
+    public GunSkeleton buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new GunSkeleton(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -85,10 +87,10 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     values.getDouble("Bullet Spread Crouching Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
-                    values.getString("Sound Shoot"),
-                    values.getString("Sound Silenced"),
+                    SoundAliases.getInstance().get(values.getString("Sound Shoot")),
+                    SoundAliases.getInstance().get(values.getString("Sound Silenced")),
                     values.getString("Particle Shoot"),
-                    values.getString("Sound Reload")
+                    SoundAliases.getInstance().get(values.getString("Sound Reload"))
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add skeleton " + values.getString("Display Name") + e.toString());
@@ -120,12 +122,13 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                 reloadAmount, 
                 reloadDuration;
 
-        private final String
+        private final SoundAliases.SoundAlias
                 soundShoot,
                 soundSilenced,
                 soundReload;
 
-        private GunSkeleton(final int uniqueID,
+        private GunSkeleton(final String key,
+                            final int uniqueID,
                             final String skeletonName,
                             final int price,
                             final String color,
@@ -147,12 +150,12 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                             final double standingBulletSpreadMultiplier,
                             final double runningBulletSpreadMultiplier,
 
-                            final String sounds_shoot,
-                            final String sounds_silenced,
+                            final SoundAliases.SoundAlias sounds_shoot,
+                            final SoundAliases.SoundAlias sounds_silenced,
                             final String particle_shoot,
-                            final String sounds_reloading)
+                            final SoundAliases.SoundAlias sounds_reloading)
         {
-            super(uniqueID, skeletonName, price, color, quality, CraftableType.SKELETON);
+            super(key, uniqueID, skeletonName, price, color, quality, CraftableType.SKELETON);
             this.weaponType = weaponType;
             this.itemID = materialID;
             this.itemData = materialData;
@@ -177,8 +180,13 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         
         public GunSkeleton(final GunSkeleton skele)
         {
-            super(skele.getIndex(), skele.getName(), skele.price(), skele.getColor().toString(), skele.getQuality(),
-                    CraftableType.SKELETON);
+            super(skele.getKey(),
+                  skele.getIndex(),
+                  skele.getName(),
+                  skele.price(),
+                  skele.getColor().name(),
+                  skele.getQuality(),
+                  CraftableType.SKELETON);
             this.weaponType = skele.weaponType;
             this.itemID = skele.itemID;
             this.itemData = skele.itemData;
@@ -212,8 +220,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         public int           getSkeletonMaxDurability()  { return maxDurability;  }
         public double        getSkeletonBaseDamage() { return damage;         }
         public int           getRecoil()         { return recoilAmount;   }
-        public String        getShootSound()     { return soundShoot;    }
-        public String        getSilencedSound()  { return soundSilenced; }
+
         public String        getShootParticle()  { return particleShoot; }
         public int           getSkeletonReloadAmount()   { return reloadAmount;   }
         public int           getSkeletonReloadDuration() { return reloadDuration; }
@@ -221,11 +228,14 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         public double        getSkeletonCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier;  }
         public double        getSkeletonStandingBulletSpreadMultiplier()  { return standingBulletSpreadMultiplier;  }
         public double        getSkeletonRunningBulletSpreadMultiplier()   { return runningBulletSpreadMultiplier;  }
-        public String        getReloadSound()    { return soundReload;   }
         public ItemStack     getBareItemStack()  { return new ItemStack(itemID, 1, (short)itemData); }
         public ModifierSets.ModifierSet getModifierSet()    { return modSet; }
         public boolean       reloadsBulletsIndividually() { return reloadBulletsIndividually; }
         public GunModifier[] getModifiers()      { return modSet.getModifiers(); }
+
+        public SoundAliases.SoundAlias       getShootSound()     { return soundShoot;    }
+        public SoundAliases.SoundAlias       getSilencedSound()  { return soundSilenced; }
+        public SoundAliases.SoundAlias       getReloadSound()    { return soundReload;   }
 
         /**
          * Builds the set of guns that contain no Attatchments or Stock. This

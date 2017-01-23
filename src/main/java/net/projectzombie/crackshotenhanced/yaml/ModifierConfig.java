@@ -15,30 +15,41 @@ abstract public class ModifierConfig<T extends ModifierValue> {
 
     private final File file;
     private final YamlConfiguration yml;
+
     private final String ymlName;
-    private final ModifierMap defaultValues;
-    private final Set<String> items;
-    private final ArrayList<T> readValues;
-    private final String[] necessaryValues;
     private final String moduleName;
+
+    private final ModifierMap defaultValues;
+    private final String[] necessaryValues;
+
+    private final Set<String> keys;
+    private final ArrayList<T> readValues;
 
     public ModifierConfig(final String ymlName,
                           final String moduleName,
                           final String[] necessaryValues,
                           final ModifierMap defaultValues) {
         this.ymlName = ymlName;
+        this.moduleName = moduleName;
+
         this.defaultValues = defaultValues;
+        this.necessaryValues = necessaryValues;
+
         this.file = new File(Main.getPlugin().getDataFolder(), ymlName);
         this.yml = YamlConfiguration.loadConfiguration(this.file);
-        this.moduleName = moduleName;
-        this.necessaryValues = necessaryValues;
-        this.items = this.yml.getKeys(false);
-        this.readValues = getModules();
-        writeExampleYml();
-        //writeInfoYml();
+        this.keys = this.yml.getKeys(false);
+
+        this.readValues = new ArrayList<>();
     }
 
+
     public String getModuleName() { return moduleName; }
+
+    public void postInitialize() {
+        buildModules();
+        writeExampleYml();
+        writeInfoYml();
+    }
 
     private void writeExampleYml() {
         try {
@@ -64,7 +75,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         }
     }
 
-    public void writeInfoYml() {
+    private void writeInfoYml() {
         try {
             final File infoFile = new File(Main.getPlugin().getDataFolder(), "info." + ymlName);
             if (infoFile.exists()) {
@@ -107,47 +118,40 @@ abstract public class ModifierConfig<T extends ModifierValue> {
         return stb.toString();
     }
 
-    private ArrayList<T> getModules() {
-        final ArrayList<T> toRet = new ArrayList<>();
+    private void buildModules() {
         int uniqueID = 0;
         if (getNullValue() != null) {
-            toRet.add(getNullValue());
+            readValues.add(getNullValue());
             ++uniqueID;
         }
-        for (String module: items) {
-            final ConfigurationSection moduleConfig = this.yml.getConfigurationSection(module);
-            final Set<String> values = moduleConfig.getKeys(false);
+        for (String key: keys) {
+            final ConfigurationSection valueConfig = this.yml.getConfigurationSection(key);
+            final Set<String> values = valueConfig.getKeys(false);
             final ModifierMap moduleValues = new ModifierMap(defaultValues);
-            for (String key: values) {
-                if (isValidKey(module, key)) {
-                    if (moduleConfig.isList(key)) {
-                        moduleValues.put(key, separateStringList(moduleConfig.getStringList(key)));
-                    } else {
-                        moduleValues.put(key, moduleConfig.getString(key));
-                    }
-                }
-            }
+            values.stream()
+                    .filter(x -> isValidKey(key, x))
+                    .forEach(x -> moduleValues.put(x, valueConfig.isList(x)
+                            ? separateStringList(valueConfig.getStringList(x)) : valueConfig.getString(x)));
 
             boolean hasNecessary = true;
             for (String necessary: necessaryValues) {
                 if (!moduleValues.contains(necessary)) {
-                    Main.getPlugin().getLogger().warning(module + " is missing value " + necessary);
+                    Main.getPlugin().getLogger().warning(key + " is missing value " + necessary);
                     hasNecessary = false;
                     break;
                 }
             }
 
             if (hasNecessary) {
-                final T toAdd = buildModule(uniqueID++, moduleValues);
+                final T toAdd = buildModule(key, uniqueID++, moduleValues);
                 if (toAdd != null) {
-                    toRet.add(toAdd);
+                    readValues.add(toAdd);
                 }
             }
         }
-        return toRet;
     }
 
-    public abstract T buildModule(final int uniqueID, final ModifierMap values);
+    public abstract T buildModule(final String key, final int uniqueID, final ModifierMap values);
 
     /** @return All initialized CSVValues. */
     public ArrayList<T> getAll()
@@ -164,7 +168,9 @@ abstract public class ModifierConfig<T extends ModifierValue> {
      * @return Returns the null value of the ModifierValue. More-so for gun modifiers to represent the empty
      * element in the set.
      */
-    public abstract T getNullValue();
+    public T getNullValue() {
+        return null;
+    }
 
     /**
      * @param uniqueID ID or index of the element.

@@ -29,6 +29,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
             final String ymlName = "SlotOneAttachments.yml";
             final String moduleName = "SlotOneAttachments";
             slotOneSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_ONE_ATTACHMENT);
+            slotOneSingleton.postInitialize();
         }
         return slotOneSingleton;
     }
@@ -39,6 +40,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
             final String ymlName = "SlotTwoAttachments.yml";
             final String moduleName = "SlotTwoAttachments";
             slotTwoSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_TWO_ATTACHMENT);
+            slotTwoSingleton.postInitialize();
         }
         return slotTwoSingleton;
     }
@@ -49,6 +51,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
             final String ymlName = "SlotThreeAttachments.yml";
             final String moduleName = "SlotThreeAttachments";
             slotThreeSingleton = new ProjectileAttachments(ymlName, moduleName, CraftableType.SLOT_THREE_ATTACHMENT);
+            slotThreeSingleton.postInitialize();
         }
         return slotThreeSingleton;
     }
@@ -102,9 +105,10 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         this.type = type;
     }
 
-    public ProjectileAttachment buildModule(final int uniqueID, final ModifierMap values) {
+    public ProjectileAttachment buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new ProjectileAttachment(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -183,7 +187,8 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
         private final double stunChance;
         private final double stunDuration;
 
-        private ProjectileAttachment(final int uniqueID,
+        private ProjectileAttachment(final String key,
+                                     final int uniqueID,
                                      final String displayname,
                                      final int price,
                                      final String color,
@@ -213,7 +218,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
                                      final double stunChance,
                                      final double stunDuration)
         {        
-            super(uniqueID, displayname, price, color, quality, type);
+            super(key, uniqueID, displayname, price, color, quality, type);
             this.bulletSpreadMultiplier = bulletSpreadMultiplier;
             this.damageModifier = damageModifier;
             this.damageMultiplier = damageMultiplier;
@@ -244,7 +249,7 @@ public class ProjectileAttachments extends ModifierConfig<ProjectileAttachment>
          */
         private ProjectileAttachment()
         {
-            this(0, null, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(null, 0, null, 0, null, null, null, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public double getDamageValue()                         { return damageModifier; }

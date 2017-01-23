@@ -23,8 +23,10 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
     static private ModifierSets singleton = null;
     static public ModifierSets getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new ModifierSets();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -49,9 +51,10 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
 
     @Override public ModifierSet getNullValue() { return null; }
 
-    public ModifierSet buildModule(final int uniqueID, final ModifierMap values) {
+    public ModifierSet buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new ModifierSet(
+                    key,
                     uniqueID,
                     values.getString("Set Name"),
                     ProjectileAttachments.getSlotOneInstance().get(values.getStringList("Attachments"), true),
@@ -79,7 +82,8 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
         private final ArrayList<Stocks.Stock> stocks;
         private final GunModifier[] modifiers;
 
-        private ModifierSet(final int index,
+        private ModifierSet(final String key,
+                            final int index,
                             final String name,
                             final ArrayList<ProjectileAttachments.ProjectileAttachment> attachments,
                             final ArrayList<Barrels.Barrel> barrels,
@@ -89,7 +93,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
                             final ArrayList<Sights.Sight> sights,
                             final ArrayList<Stocks.Stock> stocks)
         {
-            super(index, name);
+            super(key, index, name);
             this.attachments = attachments;
             this.barrels = barrels;
             this.bolts = bolts;

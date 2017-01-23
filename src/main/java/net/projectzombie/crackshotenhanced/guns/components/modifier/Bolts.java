@@ -21,8 +21,10 @@ public class Bolts extends ModifierConfig<Bolt>
     static private Bolts singleton = null;
     static public Bolts getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new Bolts();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -43,9 +45,10 @@ public class Bolts extends ModifierConfig<Bolt>
 
     private Bolts() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public Bolt buildModule(final int uniqueID, final ModifierMap values) {
+    public Bolt buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new Bolt(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -69,20 +72,21 @@ public class Bolts extends ModifierConfig<Bolt>
     {
         private final double durationMultiplier;
 
-        private Bolt(final int uniqueID,
+        private Bolt(final String key,
+                     final int uniqueID,
                      final String displayName,
                      final int price,
                      final String color,
                      final Qualities.Quality quality,
                       final double durationMultiplier)
         {
-            super(uniqueID, displayName, price, color, quality, CraftableType.BOLT);
+            super(key, uniqueID, displayName, price, color, quality, CraftableType.BOLT);
             this.durationMultiplier = durationMultiplier;
         }
 
         private Bolt()
         {
-            this(0, null, 0, null, null, 0);
+            this(null, 0, null, 0, null, null, 0);
         }
 
         public double getBoltDurationMultiplier()           { return durationMultiplier; }

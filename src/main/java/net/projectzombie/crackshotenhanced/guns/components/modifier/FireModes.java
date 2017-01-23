@@ -18,8 +18,10 @@ public class FireModes extends ModifierConfig<FireMode>
     static private FireModes singleton = null;
     static public FireModes getInstance()
     {
-        if (singleton == null)
+        if (singleton == null) {
             singleton = new FireModes();
+            singleton.postInitialize();
+        }
         return singleton;
     }
 
@@ -42,9 +44,10 @@ public class FireModes extends ModifierConfig<FireMode>
 
     private FireModes() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }
 
-    public FireMode buildModule(final int uniqueID, final ModifierMap values) {
+    public FireMode buildModule(final String key, final int uniqueID, final ModifierMap values) {
         try {
             return new FireMode(
+                    key,
                     uniqueID,
                     values.getString("Display Name"),
                     values.getInt("Price"),
@@ -72,7 +75,8 @@ public class FireModes extends ModifierConfig<FireMode>
         private final boolean isAutomatic;
         private final int shotsPerBurst;
 
-        private FireMode(final int uniqueID,
+        private FireMode(final String key,
+                         final int uniqueID,
                           final String displayName,
                           final int price,
                           final String color,
@@ -80,7 +84,7 @@ public class FireModes extends ModifierConfig<FireMode>
                           final int shotsPerBurst,
                           final boolean isAutomatic) 
         {
-            super(uniqueID, displayName, price, color, CraftableType.FIREMODE);
+            super(key, uniqueID, displayName, price, color, CraftableType.FIREMODE);
             this.isBurstFire = isBurstFire;
             this.shotsPerBurst = shotsPerBurst;
             this.isAutomatic = isAutomatic;
@@ -88,7 +92,7 @@ public class FireModes extends ModifierConfig<FireMode>
 
         private FireMode()
         {
-            this(0, null, 0, null, false, 0, false);
+            this(null, 0, null, 0, null, false, 0, false);
         }
         
         @Override public boolean  isBurstFire()       { return isBurstFire; }
