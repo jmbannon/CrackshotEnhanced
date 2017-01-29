@@ -71,7 +71,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
                 exampleYml.save(exampleFile);
             }
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Failed to write example config for " + moduleName);
+            Main.warning("Failed to write example config for " + moduleName);
         }
     }
 
@@ -87,7 +87,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
             this.getStream().filter(x -> x != null).forEach(x -> x.serializeInfoToYaml(infoYml));
             infoYml.save(infoFile);
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Failed to write example config for " + moduleName);
+            Main.warning("Failed to write example config for " + moduleName);
         }
     }
 
@@ -136,7 +136,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
             boolean hasNecessary = true;
             for (String necessary: necessaryValues) {
                 if (!moduleValues.contains(necessary)) {
-                    Main.getPlugin().getLogger().warning(key + " is missing value " + necessary);
+                    Main.warning(key + " is missing value " + necessary);
                     hasNecessary = false;
                     break;
                 }
@@ -146,6 +146,8 @@ abstract public class ModifierConfig<T extends ModifierValue> {
                 final T toAdd = buildModule(key, uniqueID++, moduleValues);
                 if (toAdd != null) {
                     readValues.add(toAdd);
+                } else {
+                    Main.warning("Attempted to build " + key + " from " + moduleName + " but it is invalid.");
                 }
             }
         }
@@ -198,6 +200,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
                 return temp;
             }
         }
+        Main.warning("Attempted to retrieve '" + name + "' from " + moduleName + " but it does not exist.");
         return null;
     }
 
@@ -221,7 +224,7 @@ abstract public class ModifierConfig<T extends ModifierValue> {
                             final boolean includeNull)
     {
         final ArrayList<T> matchValues = new ArrayList<>();
-        String tempName;
+        T tmpValue;
 
         if (includeNull)
             matchValues.add(getNullValue());
@@ -230,19 +233,9 @@ abstract public class ModifierConfig<T extends ModifierValue> {
             return matchValues;
 
         for (String name : names) {
-            for (T temp : readValues) {
-                if (temp == null) {
-                    if (name == null || name.isEmpty() || name.equalsIgnoreCase("null")) {
-                        matchValues.add(temp);
-                        break;
-                    }
-                } else {
-                    tempName = temp.getName();
-                    if (tempName != null && tempName.equalsIgnoreCase(name)) {
-                        matchValues.add(temp);
-                        break;
-                    }
-                }
+            tmpValue = this.get(name);
+            if (tmpValue != null) {
+                matchValues.add(tmpValue);
             }
         }
 

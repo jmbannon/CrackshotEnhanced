@@ -71,7 +71,7 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
 
     static public class FirearmAction extends ModifierValue
     {
-        private final String type;
+        private final String firearmActionType;
         private final SoundAliases.SoundAlias soundOpen;
         private final SoundAliases.SoundAlias soundClose;
 
@@ -82,7 +82,7 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
         private FirearmAction(final String key,
                               final int index,
                               final String displayName,
-                              final String type,
+                              final String firearmActionType,
                               final SoundAliases.SoundAlias soundOpen,
                               final SoundAliases.SoundAlias soundClose,
                               final int openDuration,
@@ -90,7 +90,7 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
                               final int closeShootDelay)
         {
             super(key, index, displayName);
-            this.type = type;
+            this.firearmActionType = firearmActionType;
             this.soundOpen = soundOpen;
             this.soundClose = soundClose;
             this.openDuration = openDuration;
@@ -108,15 +108,15 @@ public class FirearmActions extends ModifierConfig<FirearmAction>
         public int     getOpenDuration()      { return openDuration;      }
         public int     getCloseDuration()     { return closeDuration;     }
         public int     getCloseShootDelay()   { return closeShootDelay;   }
-        public String  getType()              { return type;              }
+        public String  getFirearmActionType() { return firearmActionType; }
         
         public int getActionDurationInTicks()
         {
-            if (type == null) {
+            if (firearmActionType == null) {
                 return 0;
-            } else if (type.equalsIgnoreCase("pump")
-                    || type.equalsIgnoreCase("bolt")
-                    || type.equalsIgnoreCase("lever")) {
+            } else if (firearmActionType.equalsIgnoreCase("pump")
+                    || firearmActionType.equalsIgnoreCase("bolt")
+                    || firearmActionType.equalsIgnoreCase("lever")) {
                 return openDuration + closeDuration + closeShootDelay;
             } else {
                 return 0;

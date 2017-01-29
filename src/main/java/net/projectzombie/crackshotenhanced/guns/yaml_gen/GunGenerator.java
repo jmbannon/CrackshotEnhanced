@@ -157,9 +157,12 @@ public class GunGenerator extends CrackshotGun
     
     public String getSoundsShoot()
     {
-        final SoundAliases.SoundAlias sound = super.getBarrelMod().isSilencer() ?
-                super.getSilencedSound() : super.getShootSound();
-        return sound.getCrackShotConfigString();
+        final SoundAliases.SoundAlias silencedSound = super.getSilencedSound();
+        if (super.getBarrelMod().isSilencer() && silencedSound != null) {
+            return silencedSound.getCrackShotConfigString();
+        } else {
+            return super.getShootSound().getCrackShotConfigString();
+        }
     }
     
     public int getDelayBetweenShots()

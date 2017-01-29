@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.resources.sounds.SoundAliases;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -38,11 +40,17 @@ public class YAMLGenerator extends GunGenerator
     {
         int gunsWritten = 0;
         loadCrackshotWeaponFile();
+        CrackshotGun[] skeleBase;
         
         for (GunSkeletons.GunSkeleton skele : GunSkeletons.getInstance().getAll())
         {
-            gunsWritten += skele.getGunBaseSet().length;
-            Arrays.stream(skele.getGunBaseSet()).forEach(YAMLGenerator::writeWeapon);
+            skeleBase = skele.getGunBaseSet();
+            if (skeleBase.length <= 0) {
+                Main.warning(skele.getName() + " has a base set of 0");
+                continue;
+            }
+            gunsWritten += skeleBase.length;
+            Arrays.stream(skeleBase).forEach(YAMLGenerator::writeWeapon);
         }
         
         Main.getPlugin().getLogger().info("Wrote " + gunsWritten + " Crackshot guns.");
@@ -141,7 +149,7 @@ public class YAMLGenerator extends GunGenerator
     {
         if (super.getScopeMod().getZoomAmount() <= 0) return;
         
-        final String path = super.getCSWeaponName() + ".Sight.";
+        final String path = super.getCSWeaponName() + ".Scope.";
         
         wepsYAML.set(path + "Enable",             true);
         wepsYAML.set(path + "Zoom_Amount",        super.getAttributes().getSightSet().getZoomAmount());
@@ -190,12 +198,18 @@ public class YAMLGenerator extends GunGenerator
         
         if (action == null || action.toString() == null) return;
 
-        wepsYAML.set(path + "Type",              action.toString());
+        wepsYAML.set(path + "Type",              action.getFirearmActionType());
         wepsYAML.set(path + "Open_Duration",     super.getOpenDuration());
         wepsYAML.set(path + "Close_Duration",    super.getCloseDuration());
         wepsYAML.set(path + "Close_Shoot_Delay", super.getCloseShootDelay());
-        wepsYAML.set(path + "Sound_Open",        action.getSoundOpen().getCrackShotConfigString());
-        wepsYAML.set(path + "Sound_Close",       action.getSoundClose().getCrackShotConfigString());
+
+        final SoundAliases.SoundAlias soundOpen = action.getSoundOpen();
+        final SoundAliases.SoundAlias soundClose = action.getSoundClose();
+
+        if (soundOpen != null)
+            wepsYAML.set(path + "Sound_Open", action.getSoundOpen().getCrackShotConfigString());
+        if (soundClose != null)
+            wepsYAML.set(path + "Sound_Close", action.getSoundClose().getCrackShotConfigString());
     }
     
 

@@ -66,7 +66,7 @@ public class CrackshotGunLore extends HiddenGunInfo implements PhysicalLore
     /** Line to appear at very end of lore providing where to find more info. */
     public static final String
         LORE_END_INFO = LINE_INFO_COLOR + "Get more info using "
-        + VALUE_COLOR + "/gunsmith info";
+        + VALUE_COLOR + "/gunsmith stats";
     
     
     /** Index where to set Stat line with appended HiddenInfo in lore. */

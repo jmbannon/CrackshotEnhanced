@@ -248,7 +248,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             int i = 0;
             
             if (combinationCount <= 0)
-                return null;
+                return new CrackshotGun[0];
 
             CrackshotGun guns[] = new CrackshotGun[combinationCount];
             final ProjectileAttachments.ProjectileAttachment nullAtt = ProjectileAttachments.getSlotOneInstance().getNullValue();

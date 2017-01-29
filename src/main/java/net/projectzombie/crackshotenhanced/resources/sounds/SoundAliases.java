@@ -43,10 +43,11 @@ public class SoundAliases extends ModifierConfig<SoundAliases.SoundAlias> {
                         values.getInt("Delay")
                 );
             } else {
+                Main.warning("Sound alias with key " + key + " does not exist");
                 return null;
             }
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add SoundAlias " + key + e.toString());
+            Main.warning("Cannot add SoundAlias " + key + e.toString());
             e.printStackTrace();
             return null;
         }

@@ -32,6 +32,7 @@ public class Main extends JavaPlugin {
     static public Plugin getPlugin() { return PLUGIN; }
     static public void info(final String info) { PLUGIN.getLogger().info(info); }
     static public void warning(final String warning) { PLUGIN.getLogger().warning(warning); }
+    static public void severe(final String severe) { PLUGIN.getLogger().severe(severe); }
 
     @Override
     public void onEnable()
@@ -107,12 +108,12 @@ public class Main extends JavaPlugin {
     {
         if (returned > 0)
         {
-            System.out.println("[Crackshot Enhanced] Initialized " + returned + " " + toInitialize);
+            Main.info("Initialized " + returned + " " + toInitialize);
             return true;
         }
         else
         {
-            System.out.println("[Crackshot Enhanced] FATAL: Could not size " + toInitialize + ". Disabling plugin.");
+            Main.severe("Could not size " + toInitialize + ". Disabling plugin.");
             return false;
         }
     }

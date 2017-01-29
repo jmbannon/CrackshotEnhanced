@@ -35,7 +35,6 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
         defaultValues.put("Attachments", ProjectileAttachments.getSlotOneInstance().getNullValue().getName());
         defaultValues.put("Barrels", Barrels.getInstance().getNullValue().getName());
         defaultValues.put("Bolts", Bolts.getInstance().getNullValue().getName());
-        defaultValues.put("FireModes", FireModes.getInstance().getNullValue().getName());
         defaultValues.put("Magazines", Magazines.getInstance().getNullValue().getName());
         defaultValues.put("Sights", Sights.getInstance().getNullValue().getName());
         defaultValues.put("Stocks", Stocks.getInstance().getNullValue().getName());
@@ -44,7 +43,7 @@ public class ModifierSets extends ModifierConfig<ModifierSet>
 
     static private final String YML_NAME = "ModifierSets.yml";
     static private final String MODULE_NAME = "ModifierSets";
-    static private final String[] NECESSARY_VALUES = new String[] { "Set Name" };
+    static private final String[] NECESSARY_VALUES = new String[] { "Set Name", "FireModes" };
     static private final ModifierMap DEFAULT_VALUES = buildDefaultValues();
 
     private ModifierSets() { super(YML_NAME, MODULE_NAME, NECESSARY_VALUES, DEFAULT_VALUES); }

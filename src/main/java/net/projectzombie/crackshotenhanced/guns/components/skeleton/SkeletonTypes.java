@@ -64,7 +64,7 @@ public class SkeletonTypes extends ModifierConfig<SkeletonType>
                     values.getString("Inventory Control")
             );
         } catch (Exception e) {
-            Main.getPlugin().getLogger().warning("Cannot add WeaponType " + values.getString("Display Name") + ": " + e.toString());
+            Main.warning("Cannot add WeaponType " + values.getString("Display Name") + ": " + e.toString());
             e.printStackTrace();
             return null;
         }
