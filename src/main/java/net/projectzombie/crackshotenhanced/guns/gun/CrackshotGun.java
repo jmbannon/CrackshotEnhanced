@@ -189,7 +189,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton implements PhysicalIt
     }
 
     public CrackshotGun getModifiedGun(final GunModifierItemStack item) {
-        return Guns.get(new GunID(this, item.getGunModifier(), item.getGunModifierType()));
+        return new CrackshotGun(new GunID(this, item.getGunModifier(), item.getGunModifierType()));
     }
 
     public ArrayList<String> getStats() {

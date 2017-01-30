@@ -11,11 +11,6 @@ import net.projectzombie.crackshotenhanced.main.Main;
 
 import java.util.*;
 
-
-/**
- *
- * @author jbannon
- */
 public class Guns
 {
     private static HashMap<String, CrackshotGun> guns = new HashMap<>();
@@ -41,7 +36,6 @@ public class Guns
             {
                 final CrackshotGun gun = new CrackshotGun(gunID);
                 guns.put(gunID.getUniqueID(), gun);
-                Main.info("Total guns in hash map: " + guns.size());
                 return gun;
             }
         }

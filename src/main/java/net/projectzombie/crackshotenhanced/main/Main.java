@@ -10,6 +10,7 @@ import net.projectzombie.crackshotenhanced.events.listener.CraftingListener;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.SkeletonTypes;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
+import net.projectzombie.crackshotenhanced.resources.sounds.GlobalConfiguration;
 import net.projectzombie.crackshotenhanced.resources.sounds.SoundAliases;
 import net.projectzombie.crackshotenhanced.windows.BlockBreakListener;
 import org.bukkit.plugin.Plugin;
@@ -86,7 +87,9 @@ public class Main extends JavaPlugin {
     
     private boolean initializeGuns()
     {
-        return isInitialized("SoundAlias", SoundAliases.getInstance().size())
+        final int soundAliasSize = SoundAliases.getInstance().size();
+        GlobalConfiguration.initialize();
+        return isInitialized("SoundAlias", soundAliasSize)
            && isInitialized("Qualities", Qualities.getInstance().size())
            && isInitialized("SlotOneAttachments", ProjectileAttachments.getSlotOneInstance().size())
            && isInitialized("SlotTwoAttachments", ProjectileAttachments.getSlotTwoInstance().size())

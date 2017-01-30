@@ -16,8 +16,8 @@ import java.util.logging.Logger;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.GunSkeletons;
 import net.projectzombie.crackshotenhanced.guns.components.skeleton.FirearmActions;
 import net.projectzombie.crackshotenhanced.main.Main;
+import net.projectzombie.crackshotenhanced.resources.sounds.GlobalConfiguration;
 import net.projectzombie.crackshotenhanced.resources.sounds.SoundAliases;
-import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -53,7 +53,7 @@ public class YAMLGenerator extends GunGenerator
             Arrays.stream(skeleBase).forEach(YAMLGenerator::writeWeapon);
         }
         
-        Main.getPlugin().getLogger().info("Wrote " + gunsWritten + " Crackshot guns.");
+        Main.info("Wrote " + gunsWritten + " Crackshot guns.");
         saveWeapons();
     }
     
@@ -70,7 +70,7 @@ public class YAMLGenerator extends GunGenerator
         gunGen.writeFirearmAction();
         gunGen.writeHeadshot();
         gunGen.writeAmmo();
-        gunGen.writeHitEvents();
+        //gunGen.writeHitEvents();
     }
     
     static
@@ -107,7 +107,7 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Item_Type",         super.getItemType());
         wepsYAML.set(path + "Item_Lore",         super.getItemLore());
         wepsYAML.set(path + "Inventory_Control", super.getInventoryControl());
-        wepsYAML.set(path + "Sounds_Acquired",   "BAT_TAKEOFF-1-1-0");
+        wepsYAML.set(path + "Sounds_Acquired",   GlobalConfiguration.config().getSoundAcquired().toString());
         wepsYAML.set(path + "Skip_Name_check",    false);
         wepsYAML.set(path + "Remove_Unused_Tag",  true);
     }
@@ -137,7 +137,7 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Delay_Between_Shots",             super.getDelayBetweenShots());
         wepsYAML.set(path + "Recoil_Amount",                   super.getRecoil());
         wepsYAML.set(path + "Projectile_Amount",               projectileSet.getTotalProjectileAmount());
-        wepsYAML.set(path + "Projectile_Type",                 "snowball");
+        wepsYAML.set(path + "Projectile_Type",                 GlobalConfiguration.config().getProjectileType());
         wepsYAML.set(path + "Projectile_Speed",                projectileSet.getProjectileSpeed());
         wepsYAML.set(path + "Projectile_Damage",               super.getAttributes().getBaseDamage().getValue());
         wepsYAML.set(path + "Removal_Or_Drag_Delay",           super.getWeaponType().getRemovalDragDelay()); // NOTE: UPDATE THIS WITH PROJECTILE RANGE
@@ -154,7 +154,7 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Enable",             true);
         wepsYAML.set(path + "Zoom_Amount",        super.getAttributes().getSightSet().getZoomAmount());
         wepsYAML.set(path + "Zoom_Bullet_Spread", super.getSkeletonBulletSpread()); /* TODO: FIX. */
-        wepsYAML.set(path + "Sounds_Toggle_Zoom", "NOTE_STICKS-1-2-0");
+        wepsYAML.set(path + "Sounds_Toggle_Zoom", GlobalConfiguration.config().getSoundToggleZoom().toString());
     }
     
     private void writeBurstfire()
@@ -187,7 +187,7 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Reload_Duration",             super.getAttributes().getGunMagazine().getTotalReloadDurationInTicks());
         wepsYAML.set(path + "Take_Ammo_On_Reload",         true);
         wepsYAML.set(path + "Reload_Bullets_Individually", super.reloadsBulletsIndividually());
-        wepsYAML.set(path + "Sounds_Out_Of_Ammo",          "ITEM_BREAK-1-1-0");
+        wepsYAML.set(path + "Sounds_Out_Of_Ammo",          GlobalConfiguration.config().getSoundOutOfAmmo().toString());
         wepsYAML.set(path + "Sounds_Reloading",            super.getReloadSound().getCrackShotConfigString());
     }
     
@@ -207,9 +207,9 @@ public class YAMLGenerator extends GunGenerator
         final SoundAliases.SoundAlias soundClose = action.getSoundClose();
 
         if (soundOpen != null)
-            wepsYAML.set(path + "Sound_Open", action.getSoundOpen().getCrackShotConfigString());
+            wepsYAML.set(path + "Sound_Open", action.getSoundOpen().toString());
         if (soundClose != null)
-            wepsYAML.set(path + "Sound_Close", action.getSoundClose().getCrackShotConfigString());
+            wepsYAML.set(path + "Sound_Close", action.getSoundClose().toString());
     }
     
 
@@ -218,8 +218,8 @@ public class YAMLGenerator extends GunGenerator
         final String path = super.getCSWeaponName() + ".Headshot.";
         
         wepsYAML.set(path + "Enable",        true);
-        wepsYAML.set(path + "Bonus_Damage",  super.getSkeletonBaseDamage() * 2);
-        wepsYAML.set(path + "Sounds_Victim", "VILLAGER_NO-1-1-0");
+        wepsYAML.set(path + "Bonus_Damage",  super.getSkeletonBaseDamage() * 2); // TODO: Fix
+        //wepsYAML.set(path + "Sounds_Victim", "VILLAGER_NO-1-1-0");             // TODO: Make headshot sound only on death
     }
     
     private void writeAmmo()
@@ -230,12 +230,12 @@ public class YAMLGenerator extends GunGenerator
         wepsYAML.set(path + "Ammo_Item_ID", super.getAmmoID());
     }
     
-    private void writeHitEvents()
-    {
-        final String path = super.getCSWeaponName() + ".Hit_Events.";
-        
-        wepsYAML.set(path + "Enable",        true);
-        wepsYAML.set(path + "Sounds_Victim", "VILLAGER_IDLE-1-1-0");
-    }
+//    private void writeHitEvents()
+//    {
+//        final String path = super.getCSWeaponName() + ".Hit_Events.";
+//
+//        wepsYAML.set(path + "Enable",        true);
+//        wepsYAML.set(path + "Sounds_Victim", "VILLAGER_IDLE-1-1-0");
+//    }
     
 }

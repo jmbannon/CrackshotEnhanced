@@ -82,6 +82,12 @@ public class SoundAliases extends ModifierConfig<SoundAliases.SoundAlias> {
         public int getPitch()  { return pitch;  }
         public int getDelay()  { return delay;  }
 
+        /** @return {@link Sound} enum name as a string of the given SoundAlias. */
+        @Override
+        public String getKey() {
+            return super.getKey();
+        }
+
         public String getCrackShotConfigString() {
             final StringBuilder stb = new StringBuilder();
             stb.append(this.getKey());
@@ -92,6 +98,11 @@ public class SoundAliases extends ModifierConfig<SoundAliases.SoundAlias> {
             stb.append('-');
             stb.append(delay);
             return stb.toString();
+        }
+
+        @Override
+        public String toString() {
+            return getCrackShotConfigString();
         }
     }
 
