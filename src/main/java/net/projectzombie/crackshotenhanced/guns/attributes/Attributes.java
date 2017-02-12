@@ -31,6 +31,7 @@ public class Attributes {
     private final SightSet sightSet;
     private final FireModeSet fireModeSet;
     private final SilencerSet silencerSet;
+    private final KnockbackSet knockbackSet;
 
     public Attributes(final GunSkeletons.GunSkeleton skeleton,
                       final GunModifier[] modifiers) {
@@ -49,35 +50,33 @@ public class Attributes {
                 skeleton.getWeaponType().getProjectileAmount());
         this.stun = new StunSet(modifiers);
         this.durability = new DurabilitySet(modifiers, skeleton.getSkeletonMaxDurability());
-        this.motion = new MotionSet(modifiers,
-                skeleton.getSkeletonRunningSpeedMultiplier(),
-                skeleton.getSkeletonCrouchingBulletSpreadMultiplier(),
-                skeleton.getSkeletonStandingBulletSpreadMultiplier(),
-                skeleton.getSkeletonRunningBulletSpreadMultiplier());
-        this.sightSet = new SightSet(modifiers);
-        this.fireModeSet = new FireModeSet(modifiers);
-        this.silencerSet = new SilencerSet(modifiers);
-        this.igniteSet = new IgniteSet(modifiers, incendiaryDamage.getTotal());
-    }
-
-    public Attributes(final GunModifier modifiers) {
-        this.bulletSpread = new BulletSpreadSet(modifiers);
-        this.baseDamage = new BaseDamageSet(modifiers);
-        this.headshot = new HeadshotDamageSet(modifiers);
-        this.shrapnel = new ShrapnelDamageSet(modifiers);
-        this.incendiaryDamage = new IncendiaryDamageSet(modifiers);
-        this.bleedout = new BleedoutSet(modifiers);
-        this.crit = new CritSet(modifiers);
-        this.mag = new MagazineSet(modifiers);
-        this.boltSet = new BoltSet(modifiers);
-        this.projectile = new ProjectileSet(modifiers);
-        this.stun = new StunSet(modifiers);
-        this.durability = new DurabilitySet(modifiers);
         this.motion = new MotionSet(modifiers);
         this.sightSet = new SightSet(modifiers);
         this.fireModeSet = new FireModeSet(modifiers);
         this.silencerSet = new SilencerSet(modifiers);
-        this.igniteSet = new IgniteSet(modifiers);
+        this.igniteSet = new IgniteSet(modifiers, incendiaryDamage.getTotal());
+        this.knockbackSet = new KnockbackSet(modifiers);
+    }
+
+    public Attributes(final GunModifier modifier) {
+        this.bulletSpread = new BulletSpreadSet(modifier);
+        this.baseDamage = new BaseDamageSet(modifier);
+        this.headshot = new HeadshotDamageSet(modifier);
+        this.shrapnel = new ShrapnelDamageSet(modifier);
+        this.incendiaryDamage = new IncendiaryDamageSet(modifier);
+        this.bleedout = new BleedoutSet(modifier);
+        this.crit = new CritSet(modifier);
+        this.mag = new MagazineSet(modifier);
+        this.boltSet = new BoltSet(modifier);
+        this.projectile = new ProjectileSet(modifier);
+        this.stun = new StunSet(modifier);
+        this.durability = new DurabilitySet(modifier);
+        this.motion = new MotionSet(modifier);
+        this.sightSet = new SightSet(modifier);
+        this.fireModeSet = new FireModeSet(modifier);
+        this.silencerSet = new SilencerSet(modifier);
+        this.igniteSet = new IgniteSet(modifier);
+        this.knockbackSet = new KnockbackSet(modifier);
     }
 
     public BulletSpreadSet getBulletSpread()      { return bulletSpread;  }
@@ -96,11 +95,12 @@ public class Attributes {
     public DurabilitySet getDurabilitySet()       { return durability;    }
     public SightSet getSightSet()                 { return sightSet;      }
     public FireModeSet getFireModeSet()           { return fireModeSet;   }
-    public SilencerSet getSilencerSet()           { return  silencerSet;  }
+    public SilencerSet getSilencerSet()           { return silencerSet;   }
+    public KnockbackSet getKnockbackSet()         { return knockbackSet;  }
 
     public AttributeSet[] getAll() {
         return new AttributeSet[] {fireModeSet, silencerSet, bulletSpread, baseDamage, headshot, bleedout, crit,
-                shrapnel, incendiaryDamage, mag, boltSet, projectile, stun, motion, durability, sightSet
+                shrapnel, incendiaryDamage, mag, boltSet, projectile, stun, motion, durability, sightSet, knockbackSet
         };
     }
 

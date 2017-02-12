@@ -65,7 +65,7 @@ public class CSEPlayer extends CSELivingEntity<Player>
     public void adjustRunningSpeed() {
         double lowestSpeedMultiplier = Double.MAX_VALUE;
         for (CrackshotGun gun : getWeaponsInHotbar()) {
-            lowestSpeedMultiplier = Math.min(lowestSpeedMultiplier, gun.getAttributes().getMotionSet().getTotalRunningSpeedMultiplier());
+            lowestSpeedMultiplier = Math.min(lowestSpeedMultiplier, gun.getAttributes().getMotionSet().getRunningSpeedMultiplier());
         }
         final double speedMultiplier = (lowestSpeedMultiplier == Double.MAX_VALUE) ? 1.0 : lowestSpeedMultiplier;
         this.setSpeed(speedMultiplier * DEFAULT_PLAYER_SPEED);

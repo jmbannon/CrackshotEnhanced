@@ -5,10 +5,6 @@
  */
 package net.projectzombie.crackshotenhanced.guns.attributes.modifier;
 
-/**
- *
- * @author jb
- */
 public interface ModifierAttributes
 {
     

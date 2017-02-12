@@ -45,18 +45,15 @@ public class SightSet extends AttributeSet<SightSet.SightAttributes>
     @Override
     public ArrayList<String> getGunStats(){
         final StatBuilder stats = new StatBuilder();
-        stats.addValueStat(zoomAmount, "zoom amount");
-        stats.addMultiplierStat(zoomBulletSpreadModifier, "bullet spread while zoomed");
+        stats.addValueStatIfValid(zoomAmount, "zoom amount");
+        stats.addMultiplierStatIfValid(zoomBulletSpreadModifier, "bullet spread while zoomed");
         return stats.toArrayList();
     }
     
     @Override
     public ArrayList<String> getIndividualStats()
     {
-        final StatBuilder stats = new StatBuilder();
-        stats.addValueStatIfValid(zoomAmount, "zoom amount");
-        stats.addMultiplierStatIfValid(zoomBulletSpreadModifier, "bullet spread while zoomed");
-        return stats.toArrayList();
+        return this.getGunStats();
     }
 
     @Override

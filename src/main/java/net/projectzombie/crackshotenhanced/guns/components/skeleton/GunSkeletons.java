@@ -5,6 +5,8 @@
  */
 package net.projectzombie.crackshotenhanced.guns.components.skeleton;
 
+import net.projectzombie.crackshotenhanced.guns.attributes.modifier.KnockbackSet;
+import net.projectzombie.crackshotenhanced.guns.attributes.skeleton.MotionSet;
 import net.projectzombie.crackshotenhanced.guns.components.modifier.*;
 import net.projectzombie.crackshotenhanced.guns.crafting.CraftableType;
 import net.projectzombie.crackshotenhanced.guns.qualities.Qualities;
@@ -50,6 +52,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         defaultValues.put("Bullet Spread Crouching Multiplier", 0.0);
         defaultValues.put("Bullet Spread Standing Multiplier", 0.0);
         defaultValues.put("Bullet Spread Running Multiplier", 0.0);
+        defaultValues.put("Knockback Multiplier", 0.0);
         defaultValues.put("Sound Silenced", "NULL");
         defaultValues.put("Particle Shoot", "NULL");
         return defaultValues;
@@ -87,6 +90,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                     values.getDouble("Bullet Spread Crouching Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
                     values.getDouble("Bullet Spread Standing Multiplier"),
+                    values.getDouble("Knockback Multiplier"),
+
                     SoundAliases.getInstance().get(values.getString("Sound Shoot")),
                     SoundAliases.getInstance().get(values.getString("Sound Silenced")),
                     values.getString("Particle Shoot"),
@@ -100,6 +105,8 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
     }
     
     static public class GunSkeleton extends QualityGunModifier
+        implements MotionSet.MotionAttributes,
+            KnockbackSet.KnockbackAttributes
     {   
         private final SkeletonTypes.SkeletonType weaponType;
         private final double bulletSpread;
@@ -112,6 +119,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         private final double crouchingBulletSpreadMultiplier;
         private final double standingBulletSpreadMultiplier;
         private final double runningBulletSpreadMultiplier;
+        private final double knockbackMultiplier;
 
         private final int
                 itemID, 
@@ -149,6 +157,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
                             final double crouchingBulletSpreadMultiplier,
                             final double standingBulletSpreadMultiplier,
                             final double runningBulletSpreadMultiplier,
+                            final double knockbackMultiplier,
 
                             final SoundAliases.SoundAlias sounds_shoot,
                             final SoundAliases.SoundAlias sounds_silenced,
@@ -176,6 +185,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             this.crouchingBulletSpreadMultiplier = crouchingBulletSpreadMultiplier;
             this.standingBulletSpreadMultiplier = standingBulletSpreadMultiplier;
             this.runningBulletSpreadMultiplier = runningBulletSpreadMultiplier;
+            this.knockbackMultiplier = knockbackMultiplier;
         }
         
         public GunSkeleton(final GunSkeleton skele)
@@ -207,6 +217,7 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
             this.crouchingBulletSpreadMultiplier = skele.crouchingBulletSpreadMultiplier;
             this.standingBulletSpreadMultiplier = skele.standingBulletSpreadMultiplier;
             this.runningBulletSpreadMultiplier = skele.runningBulletSpreadMultiplier;
+            this.knockbackMultiplier = skele.knockbackMultiplier;
         }
 
         public String        getFileName()       { return super.getName().toLowerCase(); }
@@ -224,10 +235,14 @@ public class GunSkeletons extends ModifierConfig<GunSkeleton>
         public String        getShootParticle()  { return particleShoot; }
         public int           getSkeletonReloadAmount()   { return reloadAmount;   }
         public int           getSkeletonReloadDuration() { return reloadDuration; }
-        public double        getSkeletonRunningSpeedMultiplier()          { return runningSpeedMultiplier;  }
-        public double        getSkeletonCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier;  }
-        public double        getSkeletonStandingBulletSpreadMultiplier()  { return standingBulletSpreadMultiplier;  }
-        public double        getSkeletonRunningBulletSpreadMultiplier()   { return runningBulletSpreadMultiplier;  }
+
+        @Override public double getSpeedMultiplier() { return runningSpeedMultiplier; }
+        @Override public double getCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier; }
+        @Override public double getStandingBulletSpreadMultiplier() { return standingBulletSpreadMultiplier; }
+        @Override public double getRunningBulletSpreadMultiplier() { return runningBulletSpreadMultiplier; }
+        @Override public double getKnockbackMultiplier()           { return knockbackMultiplier; }
+
+
         public ItemStack     getBareItemStack()  { return new ItemStack(itemID, 1, (short)itemData); }
         public ModifierSets.ModifierSet getModifierSet()    { return modSet; }
         public boolean       reloadsBulletsIndividually() { return reloadBulletsIndividually; }

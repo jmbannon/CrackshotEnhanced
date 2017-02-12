@@ -30,33 +30,22 @@ public class MotionSet extends AttributeSet<MotionSet.MotionAttributes>
 
     private static final double MIN_STANDING_BS_MULTIPLIER = 0.05;
     private static final double MIN_RUNNING_BS_MULTIPLIER = 0.05;
+    private static final double MIN_CROUCHING_BS_MULTIPLIER = 0.05;
 
-    private final double totalRunningSpeedMultiplier;
-    private final double totalCrouchingBulletSpreadMultiplier;
-    private final double totalStandingBulletSpreadMultiplier;
-    private final double totalMovingBulletSpreadMultiplier;
-
-    private final double speedMultiplier;
+    private final double runningSpeedMultiplier;
     private final double crouchingBulletSpreadMultiplier;
     private final double standingBulletSpreadMultiplier;
     private final double movingBulletSpreadMultiplier;
 
-    public MotionSet(final GunModifier[] gunMods,
-                    final double skeletonRunningSpeedMultiplier,
-                    final double skeletonCrouchingBulletSpreadMultiplier,
-                    final double skeletonStandingBulletSpreadMultiplier,
-                    final double skeletonMovingBulletSpreadMultiplier)
+
+    public MotionSet(final GunModifier[] gunMods)
     {
         super("Motion", gunMods, MotionAttributes.class);
-        this.speedMultiplier = super.getMultiplierSum(MotionAttributes::getSpeedMultiplier);
-        this.crouchingBulletSpreadMultiplier = super.getMultiplierSum(MotionAttributes::getCrouchingBulletSpreadMultiplier);
-        this.standingBulletSpreadMultiplier = super.getMultiplierSum(MotionAttributes::getStandingBulletSpreadMultiplier);
-        this.movingBulletSpreadMultiplier = super.getMultiplierSum(MotionAttributes::getRunningBulletSpreadMultiplier);
 
-        this.totalRunningSpeedMultiplier = Math.max(MIN_RUNNING_SPEED_MULTIPLIER, skeletonRunningSpeedMultiplier + speedMultiplier);
-        this.totalCrouchingBulletSpreadMultiplier = Math.max(MIN_STANDING_BS_MULTIPLIER, skeletonCrouchingBulletSpreadMultiplier + crouchingBulletSpreadMultiplier);
-        this.totalStandingBulletSpreadMultiplier = Math.max(skeletonStandingBulletSpreadMultiplier, skeletonStandingBulletSpreadMultiplier + standingBulletSpreadMultiplier);
-        this.totalMovingBulletSpreadMultiplier = Math.max(MIN_RUNNING_BS_MULTIPLIER, skeletonMovingBulletSpreadMultiplier + movingBulletSpreadMultiplier);
+        this.runningSpeedMultiplier = Math.max(MIN_RUNNING_SPEED_MULTIPLIER, super.getMultiplierSum(MotionAttributes::getSpeedMultiplier));
+        this.crouchingBulletSpreadMultiplier = Math.max(MIN_CROUCHING_BS_MULTIPLIER, super.getMultiplierSum(MotionAttributes::getCrouchingBulletSpreadMultiplier));
+        this.standingBulletSpreadMultiplier = Math.max(MIN_STANDING_BS_MULTIPLIER, super.getMultiplierSum(MotionAttributes::getStandingBulletSpreadMultiplier));
+        this.movingBulletSpreadMultiplier = Math.max(MIN_RUNNING_BS_MULTIPLIER, super.getMultiplierSum(MotionAttributes::getRunningBulletSpreadMultiplier));
     }
     
     public MotionSet(GunModifier mod)
@@ -65,33 +54,28 @@ public class MotionSet extends AttributeSet<MotionSet.MotionAttributes>
            This is a bit hacky - the total multipliers are actually just the 
            multipliers if we start them all at 0.
         */
-        this(new GunModifier[] { mod }, 0, 0, 0, 0);
+        this(new GunModifier[] { mod });
     }
     
-    public double getTotalRunningSpeedMultiplier()          { return totalRunningSpeedMultiplier;  }
-    public double getTotalCrouchingBulletSpreadMultiplier() { return totalCrouchingBulletSpreadMultiplier;  }
-    public double getTotalStandingBulletSpreadMultiplier()  { return totalStandingBulletSpreadMultiplier;  }
-    public double getTotalMovingBulletSpreadMultiplier()   { return totalMovingBulletSpreadMultiplier;  }
+    public double getRunningSpeedMultiplier()          { return runningSpeedMultiplier;  }
+    public double getCrouchingBulletSpreadMultiplier() { return crouchingBulletSpreadMultiplier;  }
+    public double getStandingBulletSpreadMultiplier()  { return standingBulletSpreadMultiplier;  }
+    public double getMovingBulletSpreadMultiplier()   { return movingBulletSpreadMultiplier;  }
 
     @Override
     public ArrayList<String> getGunStats()
     {
         final StatBuilder stats = new StatBuilder();
-        stats.addMultiplierStatIfValid(totalRunningSpeedMultiplier, "movement speed");
-        stats.addMultiplierStatIfValid(totalCrouchingBulletSpreadMultiplier, "bullet spread when crouching");
-        stats.addMultiplierStatIfValid(totalStandingBulletSpreadMultiplier, "bullet spread when standing");
-        stats.addMultiplierStatIfValid(totalMovingBulletSpreadMultiplier, "bullet spread when moving");
+        stats.addMultiplierStatIfValid(runningSpeedMultiplier, "movement speed");
+        stats.addMultiplierStatIfValid(crouchingBulletSpreadMultiplier, "bullet spread when crouching");
+        stats.addMultiplierStatIfValid(standingBulletSpreadMultiplier, "bullet spread when standing");
+        stats.addMultiplierStatIfValid(movingBulletSpreadMultiplier, "bullet spread when moving");
         return stats.toArrayList();
     }
     
     @Override
     public ArrayList<String> getIndividualStats()
     {
-        final StatBuilder stats = new StatBuilder();
-        stats.addMultiplierStatIfValid(speedMultiplier, "movement speed");
-        stats.addMultiplierStatIfValid(crouchingBulletSpreadMultiplier, "bullet spread when crouching");
-        stats.addMultiplierStatIfValid(standingBulletSpreadMultiplier, "bullet spread when standing");
-        stats.addMultiplierStatIfValid(movingBulletSpreadMultiplier, "bullet spread when moving");
-        return stats.toArrayList();
+        return this.getGunStats();
     }
 }

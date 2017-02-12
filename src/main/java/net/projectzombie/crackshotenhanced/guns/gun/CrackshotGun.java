@@ -8,7 +8,6 @@ import net.projectzombie.crackshotenhanced.guns.physical.PhysicalItemStack;
 import net.projectzombie.crackshotenhanced.guns.physical.gun.CrackshotGunItemStack;
 import net.projectzombie.crackshotenhanced.guns.physical.modifier.GunModifierItemStack;
 import net.projectzombie.crackshotenhanced.guns.qualities.Condition;
-import net.projectzombie.crackshotenhanced.static_maps.Guns;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -48,7 +47,7 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton implements PhysicalIt
         super(skeleton);
         this.gunID = new GunID(skeleton, attachmentOne, attachmentTwo, attachmentThree, barrel, bolt, firemodeType, magazine, sightType, stock);
 
-        final GunModifier[] modifiers = new GunModifier[]{attachmentOne, attachmentTwo, attachmentThree, barrel,
+        final GunModifier[] modifiers = new GunModifier[]{skeleton, attachmentOne, attachmentTwo, attachmentThree, barrel,
                 bolt, firemodeType, magazine, sightType, stock};
 
         this.attatchments = new ProjectileAttachments.ProjectileAttachment[]{attachmentOne, attachmentTwo, attachmentThree};
@@ -157,19 +156,19 @@ public class CrackshotGun extends GunSkeletons.GunSkeleton implements PhysicalIt
 
     /** @return BulletSpread when standing. */
     public double getStandingBulletSpread() {
-        final double standingMultiplier = attributes.getMotionSet().getTotalStandingBulletSpreadMultiplier();
+        final double standingMultiplier = attributes.getMotionSet().getStandingBulletSpreadMultiplier();
         return this.getBulletSpread(standingMultiplier);
     }
 
     /** @return BulletSpread when running. */
     public double getRunningBulletSpread() {
-        final double runningMultiplier = attributes.getMotionSet().getTotalMovingBulletSpreadMultiplier();
+        final double runningMultiplier = attributes.getMotionSet().getMovingBulletSpreadMultiplier();
         return this.getBulletSpread(runningMultiplier);
     }
 
     /** @return BulletSpread when crouching. */
     public double getCrouchingBulletSpread() {
-        final double crouchingMultiplier = attributes.getMotionSet().getTotalCrouchingBulletSpreadMultiplier();
+        final double crouchingMultiplier = attributes.getMotionSet().getCrouchingBulletSpreadMultiplier();
         return this.getBulletSpread(crouchingMultiplier);
     }
 

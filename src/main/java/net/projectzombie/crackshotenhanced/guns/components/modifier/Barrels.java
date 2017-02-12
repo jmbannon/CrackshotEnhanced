@@ -15,10 +15,6 @@ import net.projectzombie.crackshotenhanced.main.Main;
 import net.projectzombie.crackshotenhanced.yaml.ModifierConfig;
 import net.projectzombie.crackshotenhanced.yaml.ModifierMap;
 
-/**
- *
- * @author jesse
- */
 public class Barrels extends ModifierConfig<Barrel>
 {
     static private Barrels singleton = null;
@@ -51,6 +47,7 @@ public class Barrels extends ModifierConfig<Barrel>
         defaultValues.put("Projectile Speed Multiplier", 0.0);
         defaultValues.put("Projectile Range Modifier", 0);
         defaultValues.put("Projectile Range Multiplier", 0.0);
+        defaultValues.put("Knockback Multiplier", 0.0);
         return defaultValues;
     }
     
@@ -83,7 +80,8 @@ public class Barrels extends ModifierConfig<Barrel>
                     values.getInt("Projectile Additional Per Shot"),
                     values.getDouble("Projectile Speed Multiplier"),
                     values.getInt("Projectile Range Modifier"),
-                    values.getDouble("Projectile Range Multiplier")
+                    values.getDouble("Projectile Range Multiplier"),
+                    values.getDouble("Knockback Multiplier")
             );
         } catch (Exception e) {
             Main.getPlugin().getLogger().warning("Cannot add barrel " + values.getString("Display Name"));
@@ -104,7 +102,8 @@ public class Barrels extends ModifierConfig<Barrel>
             ProjectileSet.ProjectileAttributes,
             SilencerSet.SilencerAttributes,
             IncendiaryDamageSet.IncendiaryDamageAttributes,
-            ShrapnelDamageSet.ShrapnelDamageAttributes
+            ShrapnelDamageSet.ShrapnelDamageAttributes,
+            KnockbackSet.KnockbackAttributes
     {
         private final double bulletSpreadModifier;
         private final double baseDamageValue;
@@ -120,6 +119,7 @@ public class Barrels extends ModifierConfig<Barrel>
         private final int    projectileRangeValue;
         private final double projectileRangeMultiplier;
         private final boolean isSilencer;
+        private final double knockbackMultiplier;
         
 
         private Barrel(final String key,
@@ -141,7 +141,8 @@ public class Barrels extends ModifierConfig<Barrel>
                         final int    additionalProjectiles,
                         final double projectileSpeedMultiplier,
                         final int    projectileRangeValue,
-                        final double projectileRangeMultiplier)
+                        final double projectileRangeMultiplier,
+                        final double knockbackMultiplier)
         {
             super(key, uniqueID, displayName, price, color, quality, CraftableType.BARREL);
             this.isSilencer = isSilencer;
@@ -158,11 +159,12 @@ public class Barrels extends ModifierConfig<Barrel>
             this.projectileSpeedMultiplier = projectileSpeedMultiplier;
             this.projectileRangeValue = projectileRangeValue;
             this.projectileRangeMultiplier = projectileRangeMultiplier;
+            this.knockbackMultiplier = knockbackMultiplier;
         }
 
         public Barrel()
         {
-            this(null, 0, null, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+            this(null, 0, null, 0, null, Qualities.getInstance().getNullValue(), false, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
         }
 
         @Override public boolean isSilencer()                { return isSilencer; }
@@ -180,5 +182,6 @@ public class Barrels extends ModifierConfig<Barrel>
         @Override public double getIncendiaryDamageMultiplier()      { return incendiaryDamageMultiplier; }
         @Override public double getShrapnelDamageValue()       { return shrapnelDamageValue; }
         @Override public double getShrapnelDamageMultiplier()       { return shrapnelDamageMultiplier; }
+        @Override public double getKnockbackMultiplier()       { return knockbackMultiplier; }
     }
 }

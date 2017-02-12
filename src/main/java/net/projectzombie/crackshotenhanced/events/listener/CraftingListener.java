@@ -24,17 +24,17 @@ import org.bukkit.inventory.ShapedRecipe;
 
 import static net.projectzombie.crackshotenhanced.guns.crafting.CraftableType.*;
 
-/**
- *
- * @author Jesse Bannon
- */
 public class CraftingListener implements Listener
 {
-//    *  [,0] [,1] [,2]
-// * [0,]  0    1    2
-// * [1,]  3    4    5    =   9
-// * [2,]  6    7    8
-    
+    /**
+     * <pre>
+     * Indices of crafting matrix.
+     *     [,0] [,1] [,2]
+     * [0,]  0    1    2
+     * [1,]  3    4    5    =   9
+     * [2,]  6    7    8
+     * </pre>
+     */
     static private int CRAFT_MODIFIER_IDXS[] = new int[] { 0, 1, 2, 3, 5, 6, 7, 8 };
     static private int GUN_MATRIX_IDX = 4;
     

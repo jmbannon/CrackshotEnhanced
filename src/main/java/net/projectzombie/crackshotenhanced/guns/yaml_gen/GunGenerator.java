@@ -58,7 +58,7 @@ public class GunGenerator extends CrackshotGun
         {
             final int openDuration = action.getOpenDuration();
             double durationMultiplier = super.getAttributes().getGunBolt().getBoltDurationMultiplier();
-            
+
             int modifiedOpenDuration = (int)Math.round(openDuration * durationMultiplier);
             return Math.min(1, modifiedOpenDuration);
         }
@@ -98,7 +98,7 @@ public class GunGenerator extends CrackshotGun
         {
             final int closeShootDelay = action.getCloseShootDelay();
             final int modifiedCloseShootDelay = (int)Math.round(closeShootDelay * super.getBoltMod().getBoltDurationMultiplier());
-            
+
             return Math.min(1, modifiedCloseShootDelay);
         }
         else

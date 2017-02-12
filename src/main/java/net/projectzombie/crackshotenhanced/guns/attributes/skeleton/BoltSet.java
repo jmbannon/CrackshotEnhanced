@@ -14,10 +14,6 @@ import net.projectzombie.crackshotenhanced.guns.components.modifier.StatBuilder;
 
 import static net.projectzombie.crackshotenhanced.guns.utilities.Constants.TPS;
 
-/**
- *
- * @author jb
- */
 public class BoltSet extends AttributeSet<BoltSet.BoltAttributes>
 {
     public interface BoltAttributes extends SkeletonAttributes
