@@ -45,6 +45,18 @@ public class GunGenerator extends CrackshotGun
             return String.valueOf(weaponType.getAmmoID());
         }
     }
+
+    /**
+     * Multiplies the duration by the boltDurationMultiplier
+     * @param duration Duration of FirearmAction action
+     * @return Duration of the action
+     */
+    private int getFirearmActionDuration(final double duration) {
+        double durationMultiplier = super.getAttributes().getGunBolt().getBoltDurationMultiplier();
+
+        int modifiedOpenDuration = (int)Math.round(duration * durationMultiplier);
+        return Math.max(1, modifiedOpenDuration);
+    }
     
     /**
      * Gets the open duration in ticks. Takes the action's duration and multiplies
@@ -54,16 +66,7 @@ public class GunGenerator extends CrackshotGun
     public int getOpenDuration()
     {
         final FirearmActions.FirearmAction action = super.getWeaponType().getAction();
-        if (action != null)
-        {
-            final int openDuration = action.getOpenDuration();
-            double durationMultiplier = super.getAttributes().getGunBolt().getBoltDurationMultiplier();
-
-            int modifiedOpenDuration = (int)Math.round(openDuration * durationMultiplier);
-            return Math.min(1, modifiedOpenDuration);
-        }
-        else
-            return 0;
+        return (action != null) ? getFirearmActionDuration(action.getOpenDuration()) : 0;
     }
     
     /**
@@ -74,16 +77,7 @@ public class GunGenerator extends CrackshotGun
     public int getCloseDuration()
     {
         final FirearmActions.FirearmAction action = super.getWeaponType().getAction();
-        if (action != null)
-        {
-            final int closeDuration = action.getCloseDuration();
-            final int modifiedCloseDuration
-                    = (int)Math.round(closeDuration * super.getBoltMod().getBoltDurationMultiplier());
-            
-            return Math.min(1, modifiedCloseDuration);
-        }
-        else
-            return 0;
+        return (action != null) ? getFirearmActionDuration(action.getCloseDuration()) : 0;
     }
     
     /**
@@ -94,15 +88,7 @@ public class GunGenerator extends CrackshotGun
     public int getCloseShootDelay()
     {
         final FirearmActions.FirearmAction action = super.getWeaponType().getAction();
-        if (action != null)
-        {
-            final int closeShootDelay = action.getCloseShootDelay();
-            final int modifiedCloseShootDelay = (int)Math.round(closeShootDelay * super.getBoltMod().getBoltDurationMultiplier());
-
-            return Math.min(1, modifiedCloseShootDelay);
-        }
-        else
-            return 0;
+        return (action != null) ? getFirearmActionDuration(action.getCloseShootDelay()): 0;
     }
     
     public String getItemName()
