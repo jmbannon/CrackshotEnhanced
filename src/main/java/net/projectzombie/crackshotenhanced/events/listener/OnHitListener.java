@@ -14,6 +14,7 @@ import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.util.Vector;
 
 public class OnHitListener implements Listener {
@@ -36,23 +37,29 @@ public class OnHitListener implements Listener {
         final String gunID = event.getDamager().getCustomName();
         final CSEPlayer player = ConnectedPlayers.get(event.getPlayer());
         final CSELivingEntity<LivingEntity> entity = new CSELivingEntity<>(victim);
+
         final CrackshotGun gun = Guns.get(gunID);
+        if (gun == null) {
+            Main.severe("Can not find gun with ID: " + gunID);
+            return;
+        }
 
         // Cancel the event if you are shooting yourself
         if (player.getUniqueId().equals(entity.getUniqueId())) {
             event.setCancelled(true);
-        } else if (gun != null) {
-            final double damage;
+        } else {
             if (event.getDamager() instanceof Projectile) {
                 event.setCancelled(true);
-                damage = calculateProjectileDamageOnHit(player, gun, entity, event.isHeadshot());
+                final double damage = calculateProjectileDamageOnHit(player, gun, entity, event.isHeadshot());
+                if (player.isValid()) {
+                    victim.damage(damage, event.getPlayer());
+                } else {
+                    victim.damage(damage);
+                }
             } else {
-                damage = event.getDamage();
+                victim.damage(event.getDamage());
             }
-            victim.damage(damage);
-            Main.info("Setting damage: " + damage);
-        } else {
-            Main.info("Can not find gun with ID: " + gunID);
+
         }
     }
 
@@ -75,7 +82,7 @@ public class OnHitListener implements Listener {
                                                   final CSELivingEntity<LivingEntity> victim,
                                                   final boolean headshot)
     {
-        setKnockback(damager, victim, gun);
+        this.setKnockback(damager, victim, gun);
 
         double toReturn = gun.getTotalDamageOnHit();
         if (headshot) {
@@ -100,12 +107,15 @@ public class OnHitListener implements Listener {
                               CSELivingEntity<LivingEntity> victim,
                               final CrackshotGun gun) {
         final double scalar = gun.getAttributes().getKnockbackSet().getKnockbackVelocityVectorScalar();
-        Main.info("THE SCALAR IS " + scalar);
-        Location damagerLocation = damager.toBukkit().getLocation();
-        Location victimLocation = victim.toBukkit().getLocation();
 
-        Location velocityDirection = victimLocation.subtract(damagerLocation);
-        Vector velocityVector = velocityDirection.toVector().normalize().multiply(scalar);
-        victim.toBukkit().setVelocity(velocityVector);
+        // If the player is online
+        if (damager.isValid()) {
+            Location damagerLocation = damager.toBukkit().getLocation();
+            Location victimLocation = victim.toBukkit().getLocation();
+
+            Location velocityDirection = victimLocation.subtract(damagerLocation);
+            Vector velocityVector = velocityDirection.toVector().normalize().multiply(scalar);
+            victim.toBukkit().setVelocity(velocityVector);
+        }
     }
 }

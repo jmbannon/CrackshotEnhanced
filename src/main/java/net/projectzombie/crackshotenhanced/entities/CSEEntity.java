@@ -6,9 +6,6 @@ import org.bukkit.entity.Entity;
 
 import java.util.UUID;
 
-/**
- * Created by jb on 11/25/16.
- */
 public class CSEEntity<T extends Entity> {
 
 
@@ -29,6 +26,9 @@ public class CSEEntity<T extends Entity> {
     public UUID getUniqueId() {
         return entity.getUniqueId();
     }
+
+    /** @return True if the entity is not null. False otherwise. */
+    public boolean isValid() { return entity != null; }
 
     static private boolean isWater(final Block block)
     {
