@@ -36,10 +36,13 @@ public class CrateOpenListener implements Listener {
 
         final PlayerInventory inv = event.getPlayer().getInventory();
         final ItemStack item = inv.getItemInMainHand();
-
         final GunCrateItemStack gunCrate = new GunCrateItemStack(item);
         if (gunCrate.isValid()) {
-            inv.setItemInMainHand(gunCrate.openCrate());
+            if (item.getAmount() > 1) {
+                event.getPlayer().sendMessage("Can only open one crate at a time.");
+            } else {
+                inv.setItemInMainHand(gunCrate.openCrate());
+            }
         }
     }
 }

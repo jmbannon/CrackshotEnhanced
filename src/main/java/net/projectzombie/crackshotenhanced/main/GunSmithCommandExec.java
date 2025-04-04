@@ -63,7 +63,9 @@ public class GunSmithCommandExec implements CommandExecutor
                 case "sight": listModifierNames(sender, Sights.getInstance().getAll()); break;
                 case "stock": listModifierNames(sender, Stocks.getInstance().getAll()); break;
                 case "skeleton": listModifierNames(sender, GunSkeletons.getInstance().getAll()); break;
-                case "quality": listModifierNames(sender, Qualities.getInstance().getAll()); break;
+                case "quality":
+                case "crate":
+                    listModifierNames(sender, Qualities.getInstance().getAll()); break;
                 default: break;
             }
         }
@@ -98,6 +100,7 @@ public class GunSmithCommandExec implements CommandExecutor
                 case "stock": modItem = getModItem(STOCK, index); break;
                 case "skeleton": modItem = getModItem(SKELETON, index); break;
                 case "quality": modItem = Qualities.getInstance().get(index).toItemStack(); break;
+                case "crate" : modItem = new GunCrateItemStack(Qualities.getInstance().get(index)).toItemStack(); break;
                 default: modItem = null;
             }
             
